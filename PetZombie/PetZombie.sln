@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZombie", "PetZombie\PetZombie.csproj", "{6583747D-9BFA-4099-9D0A-181A9A9CF142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZombieAndroid", "PetZombieAndroid\PetZombieAndroid.csproj", "{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6583747D-9BFA-4099-9D0A-181A9A9CF142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6583747D-9BFA-4099-9D0A-181A9A9CF142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6583747D-9BFA-4099-9D0A-181A9A9CF142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6583747D-9BFA-4099-9D0A-181A9A9CF142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = PetZombie\PetZombie.csproj
+	EndGlobalSection
+EndGlobal

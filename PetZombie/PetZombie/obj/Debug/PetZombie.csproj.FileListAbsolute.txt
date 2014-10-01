@@ -1,0 +1,5 @@
+C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\PetZombie.dll
+C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
+C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\CocosSharp.dll
+C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\obj\Debug\PetZombie.dll
+C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
