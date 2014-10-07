@@ -8,17 +8,18 @@ using Android.Widget;
 using Android.OS;
 
 using CocosSharp;
+using Microsoft.Xna.Framework;
 
 namespace PetZombieAndroid
 {
 	[Activity (Label = "PetZombieAndroid", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Activity
+	public class MainActivity : AndroidGameActivity
 	{
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
-            var application = new CCApplication();
+			var application = new CCApplication();
             application.ApplicationDelegate = new PetZombie.PetZombieApplicationDelegate();
             SetContentView(application.AndroidContentView);
             application.StartGame();

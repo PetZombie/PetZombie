@@ -1,11 +1,11 @@
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\box2d.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\CocosSharp.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\ICSharpCode.SharpZipLib.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\Lidgren.Network.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.dll
-C:\Users\Admin\Documents\Projects\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.Net.dll
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\PetZombie.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\box2d.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\CocosSharp.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\ICSharpCode.SharpZipLib.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\Lidgren.Network.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.Net.dll
+C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Collections.Concurrent.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Collections.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.ComponentModel.Annotations.dll
@@ -26,16 +26,12 @@ C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Net.Requests.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.ObjectModel.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.dll
-C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.Emit.dll
-C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.Emit.ILGeneration.dll
-C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.Emit.Lightweight.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.Extensions.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Reflection.Primitives.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Resources.ResourceManager.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.Extensions.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.InteropServices.dll
-C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.InteropServices.WindowsRuntime.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.Numerics.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.Serialization.Json.dll
 C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\Facades\System.Runtime.Serialization.Primitives.dll

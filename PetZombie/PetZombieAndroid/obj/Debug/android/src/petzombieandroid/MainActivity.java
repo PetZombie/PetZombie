@@ -2,7 +2,7 @@ package petzombieandroid;
 
 
 public class MainActivity
-	extends android.app.Activity
+	extends microsoft.xna.framework.AndroidGameActivity
 	implements
 		mono.android.IGCUserPeer
 {
