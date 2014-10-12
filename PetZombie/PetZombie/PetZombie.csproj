@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -37,6 +37,14 @@
     <Compile Include="PetZombieApplicationDelegate.cs" />
     <Compile Include="TileMatchingGame.cs" />
     <Compile Include="GameStartLayer.cs" />
+    <Compile Include="Logic\IGame.cs" />
+    <Compile Include="Logic\Weapon.cs" />
+    <Compile Include="Logic\Block.cs" />
+    <Compile Include="Logic\GameCreator.cs" />
+    <Compile Include="Logic\ThreeInRowGame.cs" />
+    <Compile Include="Logic\Coordinates.cs" />
+    <Compile Include="Logic\Item.cs" />
+    <Compile Include="Logic\Soporific.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -47,4 +55,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
 </Project>
