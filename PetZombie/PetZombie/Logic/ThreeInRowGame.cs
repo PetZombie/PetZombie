@@ -5,7 +5,7 @@ namespace PetZombie
 {
 	public class ThreeInRowGame : IGame
 	{
-		List<Block> blocks;
+		List<List<Block>> blocks;
 		public int target;
 		public int stepsCount;
 		List<Weapon> weapons;
@@ -23,20 +23,17 @@ namespace PetZombie
 			return new List<Block> ();
 		}
 
-		public void MoveBlocks (Coordinates coord1, Coordinates coord2)
+		public void MoveBlocks (int row1, int column1, int row2, int column2)
 		{
-			Block block1 = blocks.Find (delegate (Block block) {
-				return block.Coordinates.x == coord1.x && block.Coordinates.y == coord1.y;
-			});
-			Block block2 = blocks.Find (delegate (Block block) {
-				return block.Coordinates.x == coord2.x && block.Coordinates.y == coord2.y;
-			});
-			if (block1 != null && block2 != null) {
+			try {
+				Block block1 = this.blocks [row1] [column1];
+				Block block2 = this.blocks [row2] [column2];
 				if (this.DeleteCheck ())
 					this.DeleteBlocks ();
+			} catch (Exception e) {
 			}
 		}
-			
+
 		private bool DeleteCheck ()
 		{
 			return false;
@@ -46,29 +43,15 @@ namespace PetZombie
 		{
 		}
 
-		public void UseWeapon (Coordinates weaponCoord, Coordinates blockCoord)
+		public void UseWeapon (Weapon weapon, int row, int column)
 		{
-			Weapon curWeapon = null;
-			foreach (Weapon weapon in this.weapons) 
-			{
-				if (weaponCoord.x >= weapon.Coordinates.x && weaponCoord.x <= weapon.Coordinates.x + weapon.Size) {
-					curWeapon = weapon;
-					break;
-				}
-			}
-			Block block = this.blocks.Find (delegate (Block b) {
-				return b.Coordinates.x == blockCoord.x && b.Coordinates.y == blockCoord.y;
-			});
-
-			if (curWeapon != null && block != null) 
-			{
+			try {
+				Block block = this.blocks [row] [column];
+				weapon.Use ();
+			} catch (Exception e) {
 			}
 		}
 
-		private void GetWeaponType(Coordinates weaponCoord)
-		{
-
-		}
 	}
 }
 

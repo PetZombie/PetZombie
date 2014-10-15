@@ -1,17 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\Soporific.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\ThreeInRowGame.cs">
     <Files>
-      <File FileName="PetZombie\Logic\Soporific.cs" Line="6" Column="25" />
-      <File FileName="PetZombie\Logic\Weapon.cs" Line="4" Column="2" />
-      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="63" Column="41" />
-      <File FileName="PetZombie\Logic\Block.cs" Line="13" Column="4" />
-      <File FileName="PetZombie\Logic\Item.cs" Line="7" Column="37" />
+      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="9" Column="21" />
+      <File FileName="PetZombie\Logic\Block.cs" Line="14" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid />
 </Properties>
