@@ -2,20 +2,18 @@
 
 namespace PetZombie
 {
-	public class Block: Item
+	public class Block
 	{
-        int size;
-		//Object color;
+		int colorType;
 
-		public Block (int x, int y, int size) : base (x, y)
-		{
-			this.size = size;
+		public int ColorType{
+			get { this.colorType; }
 		}
 
-		public Block(Coordinates coords, int size) : base (coords)
-        {
-            this.size = size;
-        }
+		public Block (int colorType)
+		{
+			this.colorType = colorType;
+		}
 	}
 }
 
