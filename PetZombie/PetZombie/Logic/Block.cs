@@ -4,25 +4,32 @@ namespace PetZombie
 {
 	public class Block
 	{
-		int colorType;
+		Colors color;
 		Position position;
 
 		public Position Position{
 			get {return this.position; }
 		}
 
-		public int ColorType{
-			get { return this.colorType; }
+		public Colors Color{
+			get { return this.color; }
+			set{this.color = value; }
 		}
 
-		public Block (int colorType)
+		public Block (Colors color)
 		{
-			this.colorType = colorType;
+			this.color = color;
 			this.position = new Position ();
 		}
 
 		public Block (Position position)
 		{
+			this.position = position;
+		}
+
+		public Block (Colors color, Position position)
+		{
+			this.color = color;
 			this.position = position;
 		}
 	}
