@@ -32,7 +32,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PetZombieApplicationDelegate.cs" />
     <Compile Include="TileMatchingGame.cs" />
