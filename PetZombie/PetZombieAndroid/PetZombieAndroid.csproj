@@ -86,4 +86,10 @@
       <Name>PetZombieUI</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Content\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\Content\green-block.png" />
+  </ItemGroup>
 </Project>

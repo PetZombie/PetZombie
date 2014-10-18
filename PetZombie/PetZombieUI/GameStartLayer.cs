@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using CocosSharp;
 
 namespace PetZombieUI
@@ -14,6 +14,8 @@ namespace PetZombieUI
 
 			Color = CCColor3B.Red;
 			Opacity = 255;
+
+            AddBlock();
 		}
 
 		protected override void AddedToScene()
@@ -22,7 +24,7 @@ namespace PetZombieUI
 
 			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
-			var label = new CCLabelTtf("Tap Screen to Go Bananas!", "arial", 22)
+            /*var label = new CCLabelTtf("Tap Screen to Go Bananas!", "arial", 22)
 			{
 				Position = VisibleBoundsWorldspace.Center,
 				Color = CCColor3B.Green,
@@ -32,7 +34,7 @@ namespace PetZombieUI
 				Dimensions = ContentSize
 			};
 
-			AddChild(label);
+			AddChild(label);*/
 		}
 
 		public static CCScene GameStartLayerScene(CCWindow mainWindow)
@@ -44,6 +46,13 @@ namespace PetZombieUI
 
 			return scene;
 		}
+
+        private void AddBlock()
+        {
+            var block = new CCSprite("green-block");
+            block.Position = VisibleBoundsWorldspace.Center;
+            AddChild(block);
+        }
 	}
 }
 
