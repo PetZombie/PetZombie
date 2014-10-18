@@ -21,3 +21,6 @@ E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\nor
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
