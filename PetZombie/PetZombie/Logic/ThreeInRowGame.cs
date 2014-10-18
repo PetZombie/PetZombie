@@ -34,12 +34,12 @@ namespace PetZombie
 			return newBlocks;
 		}
 
-		public void MoveBlocks(int row1, int column1, int row2, int column2)
+		public void MoveBlocks(Block block1, Block block2)
 		{
 			try
 			{
-				Block block1 = this.blocks[row1][column1];
-				Block block2 = this.blocks[row2][column2];
+				//Block block1 = this.blocks[row1][column1];
+				//Block block2 = this.blocks[row2][column2];
 				List<List<Block>> delBlocks = this.CheckDelete();
 				if (delBlocks.Count > 0)
 					this.DeleteBlocks(delBlocks);
@@ -49,9 +49,9 @@ namespace PetZombie
 			}
 		}
 
-		private List<Block> CheckDelete()
+		private List<List<Block>> CheckDelete()
 		{
-			List<List<Block>> delBlocks = new List<Block>();
+			List<List<Block>> delBlocks = new List<List<Block>>();
 			int n = this.blocks.Count;
 			int m;
 			List <Block> tmpRow, tmpColumn;

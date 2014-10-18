@@ -2,25 +2,12 @@
 
 namespace PetZombie
 {
-	abstract class Weapon : Item
+	public abstract class Weapon
 	{
-		int size;
 		public int count;
 
-		public int Size
+		public Weapon (int count=1)
 		{
-			get { return this.size; }
-		}
-
-		public Weapon (int x, int y, int size, int count=1) : base (x, y)
-		{
-			this.size = size;
-			this.count = count;
-		}
-
-		public Weapon (Coordinates coord, int size, int count=1) : base (coord)
-		{
-			this.size = size;
 			this.count = count;
 		}
 

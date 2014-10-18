@@ -42,6 +42,7 @@
     <Compile Include="Logic\GameCreator.cs" />
     <Compile Include="Logic\ThreeInRowGame.cs" />
     <Compile Include="Logic\Soporific.cs" />
+    <Compile Include="Logic\Position.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
