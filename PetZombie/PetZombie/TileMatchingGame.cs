@@ -6,6 +6,7 @@ namespace PetZombie
     {
         public TileMatchingGame()
         {
+            // Так должен был бы называться класс игры, который сейчас TreeInRowGame.
         }
     }
 }

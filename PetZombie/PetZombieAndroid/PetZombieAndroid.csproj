@@ -81,9 +81,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\PetZombie\PetZombie.csproj">
-      <Project>{6583747D-9BFA-4099-9D0A-181A9A9CF142}</Project>
-      <Name>PetZombie</Name>
+    <ProjectReference Include="..\PetZombieUI\PetZombieUI.csproj">
+      <Project>{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}</Project>
+      <Name>PetZombieUI</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

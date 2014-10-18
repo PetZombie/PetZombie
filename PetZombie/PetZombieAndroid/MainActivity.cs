@@ -20,7 +20,7 @@ namespace PetZombieAndroid
 			base.OnCreate (bundle);
 
 			var application = new CCApplication();
-            application.ApplicationDelegate = new PetZombie.PetZombieApplicationDelegate();
+            application.ApplicationDelegate = new PetZombieUI.AppDelegate();
             SetContentView(application.AndroidContentView);
             application.StartGame();
 		}

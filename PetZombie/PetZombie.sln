@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZombie", "PetZombie\PetZ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZombieAndroid", "PetZombieAndroid\PetZombieAndroid.csproj", "{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetZombieUI", "PetZombieUI\PetZombieUI.csproj", "{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A25C2D7C-0C65-4E9B-9ED1-AF00C8AF95DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E4F2FF-8BCD-4756-BAC4-C521C9627CE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = PetZombieAndroid\PetZombieAndroid.csproj

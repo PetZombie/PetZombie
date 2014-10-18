@@ -1,8 +1,8 @@
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\box2d.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\CocosSharp.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\ICSharpCode.SharpZipLib.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\Lidgren.Network.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.Net.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\box2d.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\CocosSharp.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\ICSharpCode.SharpZipLib.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\Lidgren.Network.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\packages\CocosSharp.PCL.Shared.1.0.1.0\lib\MonoAndroid10\MonoGame.Framework.Net.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombieUI.dll

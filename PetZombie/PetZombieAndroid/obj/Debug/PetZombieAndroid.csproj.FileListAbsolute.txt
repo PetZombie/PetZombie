@@ -67,3 +67,25 @@ E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombieAndroid\obj\De
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\drawable\icon.png
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\R.cs.flag
 E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\uploadflags.txt
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.dll.mdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.PetZombieAndroid.apk
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieAndroid.PetZombieAndroid-Signed.apk
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\box2d.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\CocosSharp.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\Lidgren.Network.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\MonoGame.Framework.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\MonoGame.Framework.Net.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.dll.mdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\PetZombieAndroid.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\PetZombieAndroid.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\android\bin\PetZombieAndroid.PetZombieAndroid.apk
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\layout\main.xml
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\values\strings.xml
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\drawable\icon.png
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\R.cs.flag
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\uploadflags.txt

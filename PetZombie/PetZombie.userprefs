@@ -1,14 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\Block.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieAndroid\MainActivity.cs">
     <Files>
-      <File FileName="PetZombie\Logic\Block.cs" Line="4" Column="2" />
-      <File FileName="PetZombie\Logic\Position.cs" Line="12" Column="4" />
+      <File FileName="PetZombieAndroid\MainActivity.cs" Line="11" Column="31" />
+      <File FileName="PetZombieUI\GameStartLayer.cs" Line="25" Column="34" />
+      <File FileName="PetZombieUI\PetZombieApplicationDelegate.cs" Line="16" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid />
 </Properties>

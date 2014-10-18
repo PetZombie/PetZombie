@@ -73,9 +73,9 @@ class MonoPackageManager_Resources {
 		"Lidgren.Network.dll",
 		"MonoGame.Framework.dll",
 		"MonoGame.Framework.Net.dll",
-		"PetZombie.dll",
+		"PetZombieUI.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_19";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_18";
 }
