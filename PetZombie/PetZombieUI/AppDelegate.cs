@@ -9,13 +9,15 @@ namespace PetZombieUI
 		public override void ApplicationDidFinishLaunching(CCApplication application, CCWindow mainWindow)
 		{
 			application.PreferMultiSampling = false;
-			application.ContentRootDirectory = "Content";
+            application.ContentSearchPaths.Add("Content");
+
+            Resolution.DeviceResolution = mainWindow.WindowSizeInPixels;
 
 			// Set display orientation.
 			mainWindow.SupportedDisplayOrientations = CCDisplayOrientation.Portrait;
 
 			// Initialize the scene.
-			var scene = GameStartLayer.GameStartLayerScene(mainWindow);
+            var scene = GameStartLayer.GameStartLayerScene(mainWindow);
 
 			// Run the initial scene.
 			mainWindow.RunWithScene(scene);

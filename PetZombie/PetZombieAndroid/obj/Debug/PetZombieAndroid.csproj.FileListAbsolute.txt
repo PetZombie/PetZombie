@@ -90,3 +90,5 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\o
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\drawable\icon.png
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\R.cs.flag
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\uploadflags.txt
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.pdb

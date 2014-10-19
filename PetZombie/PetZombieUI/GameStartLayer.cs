@@ -6,26 +6,42 @@ namespace PetZombieUI
 	public class GameStartLayer : CCLayerColor
 	{
         private const float marginPortion = 0.1f;
+        private float margin = Resolution.DeviceResolution.Width * marginPortion;
+        private float blockGridWidth;
+        private float blockWidth;
+        private CCSize blockSize;
+
+        private int rowsCount;
+        private int columnsCount;
 
         private GameStartLayer() : base()
 		{
-			var touchListener = new CCEventListenerTouchAllAtOnce();
-			//touchListener.OnTouchesEnded = (touches, ccevent) => Window.DefaultDirector.ReplaceScene(GameLayer.GameScene(Window));
+            blockGridWidth = Resolution.DeviceResolution.Width - margin;
+            blockWidth = blockGridWidth / 6;
+            blockSize = new CCSize(blockWidth, blockWidth);
 
-			AddEventListener(touchListener, this);
+            rowsCount = 9;
+            columnsCount = 6;
+
+            //var touchListener = new CCEventListenerTouchAllAtOnce();
+            //touchListener.OnTouchesEnded = (touches, ccevent) => Window.DefaultDirector.ReplaceScene(GameLayer.GameScene(Window));
+
+            //AddEventListener(touchListener, this);
+
+            var game = new PetZombie.ThreeInRowGame(rowsCount, columnsCount);
 
             Color = CCColor3B.Gray;
 			Opacity = 255;
 
             AddBackground();
-            AddBlock();
+            AddBlocks();
 		}
 
 		protected override void AddedToScene()
 		{
 			base.AddedToScene();
 
-			Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
+            Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
             /*var label = new CCLabelTtf("Tap Screen to Go Bananas!", "arial", 22)
 			{
@@ -58,14 +74,22 @@ namespace PetZombieUI
 
         private void AddBlocks()
         {
-
+            for (var x = margin / 2; x < columnsCount * blockWidth; x += blockWidth)
+            {
+                for (var y = margin / 2; y < rowsCount * blockWidth; y += blockWidth)
+                {
+                    AddBlock(new CCPoint(x, y));
+                }
+            }
         }
 
-        private void AddBlock()
+        private void AddBlock(CCPoint point)
         {
-            var block = new CCSprite("Images/green-block");
-            block.AnchorPoint = CCPoint.Zero;
-            AddChild(block);
+            var blockSprite = new CCSprite("Images/green-block");
+            blockSprite.AnchorPoint = CCPoint.Zero;
+            blockSprite.Position = point;
+            blockSprite.ScaleTo(blockSize);
+            AddChild(blockSprite);
         }
 	}
 }

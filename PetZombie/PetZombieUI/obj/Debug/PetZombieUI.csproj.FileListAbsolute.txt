@@ -2,8 +2,8 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\De
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombieUI.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\CocosSharp.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\MonoGame.Framework.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombie.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.csprojResolveAssemblyReference.cache
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.pdb
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombie.dll
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombie.pdb
