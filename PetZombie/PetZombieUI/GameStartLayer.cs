@@ -5,16 +5,19 @@ namespace PetZombieUI
 {
 	public class GameStartLayer : CCLayerColor
 	{
-		public GameStartLayer() : base()
+        private const float marginPortion = 0.1f;
+
+        private GameStartLayer() : base()
 		{
 			var touchListener = new CCEventListenerTouchAllAtOnce();
 			//touchListener.OnTouchesEnded = (touches, ccevent) => Window.DefaultDirector.ReplaceScene(GameLayer.GameScene(Window));
 
 			AddEventListener(touchListener, this);
 
-			Color = CCColor3B.Red;
+            Color = CCColor3B.Gray;
 			Opacity = 255;
 
+            AddBackground();
             AddBlock();
 		}
 
@@ -47,10 +50,21 @@ namespace PetZombieUI
 			return scene;
 		}
 
+        private void AddBackground()
+        {
+            var background = new CCSprite();
+            AddChild(background);
+        }
+
+        private void AddBlocks()
+        {
+
+        }
+
         private void AddBlock()
         {
-            var block = new CCSprite("green-block");
-            block.Position = VisibleBoundsWorldspace.Center;
+            var block = new CCSprite("Images/green-block");
+            block.AnchorPoint = CCPoint.Zero;
             AddChild(block);
         }
 	}

@@ -88,8 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Content\" />
+    <Folder Include="Assets\Content\Images\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\green-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\green-block.png" />
   </ItemGroup>
 </Project>
