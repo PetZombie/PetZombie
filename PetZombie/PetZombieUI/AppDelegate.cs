@@ -11,7 +11,8 @@ namespace PetZombieUI
 			application.PreferMultiSampling = false;
             application.ContentSearchPaths.Add("Content");
 
-            Resolution.DeviceResolution = mainWindow.WindowSizeInPixels;
+            Resolution.DesignResolution = mainWindow.DesignResolutionSize;
+            //mainWindow.SetDesignResolutionSize(480, 800, CCSceneResolutionPolicy.FixedHeight);
 
 			// Set display orientation.
 			mainWindow.SupportedDisplayOrientations = CCDisplayOrientation.Portrait;

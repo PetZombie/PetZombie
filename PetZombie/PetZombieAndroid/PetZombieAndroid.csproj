@@ -92,5 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\Images\green-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\blue-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\brain.png" />
+    <AndroidAsset Include="Assets\Content\Images\orange-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\red-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\violet-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\zombie-block.png" />
   </ItemGroup>
 </Project>

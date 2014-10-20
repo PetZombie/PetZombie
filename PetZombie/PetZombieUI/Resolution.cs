@@ -12,7 +12,7 @@ namespace PetZombieUI
             set;
         }*/
 
-        public static CCSize DeviceResolution
+        public static CCSize DesignResolution
         {
             get;
             set;

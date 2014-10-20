@@ -6,29 +6,32 @@ namespace PetZombieUI
 	public class GameStartLayer : CCLayerColor
 	{
         private const float marginPortion = 0.1f;
-        private float margin = Resolution.DeviceResolution.Width * marginPortion;
+        private float freeSpace = Resolution.DesignResolution.Width * marginPortion;
         private float blockGridWidth;
         private float blockWidth;
         private CCSize blockSize;
+        private float blockGridMargin;
 
         private int rowsCount;
         private int columnsCount;
 
+        CCEventListenerTouchOneByOne listener;
+
         private GameStartLayer() : base()
 		{
-            blockGridWidth = Resolution.DeviceResolution.Width - margin;
+            blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
             blockSize = new CCSize(blockWidth, blockWidth);
+            blockGridMargin = freeSpace / 2;
 
             rowsCount = 9;
             columnsCount = 6;
 
-            //var touchListener = new CCEventListenerTouchAllAtOnce();
-            //touchListener.OnTouchesEnded = (touches, ccevent) => Window.DefaultDirector.ReplaceScene(GameLayer.GameScene(Window));
-
-            //AddEventListener(touchListener, this);
-
             var game = new PetZombie.ThreeInRowGame(rowsCount, columnsCount);
+
+            listener = new CCEventListenerTouchOneByOne();
+            listener.IsSwallowTouches = true;
+            listener.OnTouchBegan = OnTouchBegan;
 
             Color = CCColor3B.Gray;
 			Opacity = 255;
@@ -42,18 +45,6 @@ namespace PetZombieUI
 			base.AddedToScene();
 
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
-
-            /*var label = new CCLabelTtf("Tap Screen to Go Bananas!", "arial", 22)
-			{
-				Position = VisibleBoundsWorldspace.Center,
-				Color = CCColor3B.Green,
-				HorizontalAlignment = CCTextAlignment.Center,
-				VerticalAlignment = CCVerticalTextAlignment.Center,
-				AnchorPoint = CCPoint.AnchorMiddle,
-				Dimensions = ContentSize
-			};
-
-			AddChild(label);*/
 		}
 
 		public static CCScene GameStartLayerScene(CCWindow mainWindow)
@@ -66,6 +57,21 @@ namespace PetZombieUI
 			return scene;
 		}
 
+        private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
+        {
+            var target = ccevent.CurrentTarget as CCSprite;
+            var location = target.ConvertToWorldspace(touch.Location);
+
+            //var size = 
+
+                /*if (ccevent.CurrentTarget.)
+            {
+
+            }*/
+
+            return false;
+        }
+
         private void AddBackground()
         {
             var background = new CCSprite();
@@ -74,22 +80,61 @@ namespace PetZombieUI
 
         private void AddBlocks()
         {
-            for (var x = margin / 2; x < columnsCount * blockWidth; x += blockWidth)
+            var blockGrid = new CCNode();
+            CCSprite block;
+
+            for (var i = 0; i < columnsCount; i++)
             {
-                for (var y = margin / 2; y < rowsCount * blockWidth; y += blockWidth)
+                for (var j = 0; j < rowsCount; j++)
                 {
-                    AddBlock(new CCPoint(x, y));
+                    var x = i * blockWidth;
+                    var y = j * blockWidth;
+                    block = CreateBlock(new CCPoint(x, y));
+                    blockGrid.AddChild(block);
+
+                    //AddEventListener(listener.Copy(), block);
                 }
             }
+
+            blockGrid.Position = new CCPoint(blockGridMargin, blockGridMargin);
+
+            AddChild(blockGrid);
         }
 
-        private void AddBlock(CCPoint point)
+        private CCSprite CreateBlock(CCPoint point)
         {
-            var blockSprite = new CCSprite("Images/green-block");
-            blockSprite.AnchorPoint = CCPoint.Zero;
-            blockSprite.Position = point;
-            blockSprite.ScaleTo(blockSize);
-            AddChild(blockSprite);
+            var randomNumber = CCRandom.Next(0, 6);
+            string fileName = "";
+
+            switch (randomNumber)
+            {
+                case 0:
+                    fileName = "Images/green-block";
+                    break;
+                case 1:
+                    fileName = "Images/red-block";
+                    break;
+                case 2:
+                    fileName = "Images/blue-block";
+                    break;
+                case 3:
+                    fileName = "Images/violet-block";
+                    break;
+                case 4:
+                    fileName = "Images/orange-block";
+                    break;
+                case 5:
+                    fileName = "Images/zombie-block";
+                    break;
+            }
+
+            var block = new CCSprite(fileName);
+
+            block.AnchorPoint = CCPoint.Zero;
+            block.Position = point;
+            block.ScaleTo(blockSize);
+
+            return block;
         }
 	}
 }

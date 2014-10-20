@@ -79,8 +79,10 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\b
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\MonoGame.Framework.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\MonoGame.Framework.Net.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombieUI.dll.mdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\PetZombieAndroid.csprojResolveAssemblyReference.cache
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\PetZombieAndroid.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\PetZombieAndroid.pdb
@@ -90,5 +92,3 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\o
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\res\drawable\icon.png
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\R.cs.flag
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Debug\uploadflags.txt
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.dll
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Debug\PetZombie.pdb
