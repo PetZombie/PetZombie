@@ -89,14 +89,14 @@
   <ItemGroup>
     <Folder Include="Assets\Content\" />
     <Folder Include="Assets\Content\Images\" />
+    <Folder Include="Assets\Content\Sounds\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\Images\green-block.png" />
-    <AndroidAsset Include="Assets\Content\Images\blue-block.png" />
-    <AndroidAsset Include="Assets\Content\Images\brain.png" />
-    <AndroidAsset Include="Assets\Content\Images\orange-block.png" />
-    <AndroidAsset Include="Assets\Content\Images\red-block.png" />
-    <AndroidAsset Include="Assets\Content\Images\violet-block.png" />
-    <AndroidAsset Include="Assets\Content\Images\zombie-block.png" />
+    <AndroidAsset Include="Assets\Content\Images\blue_ellipse_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\green_ellipse_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\orange_ellipse_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\red_ellipse_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\violet_ellipse_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\zombie_block.png" />
   </ItemGroup>
 </Project>
