@@ -6,3 +6,4 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\De
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Debug\PetZombie.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Debug\PetZombieUI.csprojResolveAssemblyReference.cache
