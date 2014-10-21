@@ -4,14 +4,18 @@ using CocosSharp;
 
 namespace PetZombieUI
 {
-    public class GameStartLayer : CCLayerColor
+    public class ThreeInRowGameLayer : CCLayerColor
     {
+        #region Fields
+
+        private PetZombie.ThreeInRowGame game;
 
         // Margin fields.
         private const float marginPortion = 0.1f;
         private float freeSpace = Resolution.DesignResolution.Width * marginPortion;
 
         // Block greed fields.
+        private CCNode blockGrid;
         private float blockGridWidth;
         private float blockGridMargin;
 
@@ -28,15 +32,19 @@ namespace PetZombieUI
         // Animation fields.
         private CCScaleBy scaleDown;
 
+        // Current proceccing block fields.
         private Block currentTouchedBlock;
+        private bool isCurrentTouchBlockMoved;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
 
-        private GameStartLayer() : base()
+        #endregion
+
+        private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
         {
-            this.rowsCount = 9;
-            this.columnsCount = 6;
+            this.rowsCount = rowsCount;
+            this.columnsCount = columnsCount;
 
             blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
@@ -45,7 +53,7 @@ namespace PetZombieUI
 
             blocks = new List<Block>(rowsCount*columnsCount);
 
-            var game = new PetZombie.ThreeInRowGame(rowsCount, columnsCount);
+            game = new PetZombie.ThreeInRowGame(rowsCount, columnsCount);
 
             scaleDown = new CCScaleBy(0.1f, 0.9f);
 
@@ -53,13 +61,13 @@ namespace PetZombieUI
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
-            //listener.OnTouchMoved = OnTouchMoved;
+            listener.OnTouchMoved = OnTouchMoved;
 
             Color = CCColor3B.Gray;
             Opacity = 255;
 
             AddBackground();
-            AddBlocks();
+            AddBlockGrid();
         }
 
         protected override void AddedToScene()
@@ -69,21 +77,24 @@ namespace PetZombieUI
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
         }
 
-        public static CCScene GameStartLayerScene(CCWindow mainWindow)
+        public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
         {
             var scene = new CCScene(mainWindow);
-            var layer = new GameStartLayer();
+            var layer = new ThreeInRowGameLayer(9, 6);
 
             scene.AddChild(layer);
 
             return scene;
         }
 
+        #region Touch handlers
+
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
             //var sprite = ccevent.CurrentTarget as CCSprite;
             //var location = touch.Location;
             //CCRect rect = new CCRect(sprite.PositionX, sprite.PositionY, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
+
             currentTouchedBlock = FindBlockAt(touch.Location);
 
             /*var sprite = ccevent.CurrentTarget as CCSprite;
@@ -111,33 +122,45 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
-            var sprite = ccevent.CurrentTarget as CCSprite;
-            var action = new CCMoveBy(1.0f, touch.Delta);
-            sprite.RunAction(action);
+            if (!isCurrentTouchBlockMoved)
+            {
+                //var sprite = ccevent.CurrentTarget as CCSprite;
+                var delta = new CCPoint(blockWidth, blockWidth);
+
+                var action1 = new CCMoveBy(0.1f, delta);
+
+                //var updatedBlocks = game.MoveBlocks(currentTouchedBlock, new Block("", new CCPoint(), new CCSize()));
+
+                currentTouchedBlock.Sprite.RunAction(action1);
+                currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+
+                isCurrentTouchBlockMoved = true;
+            }
         }
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
         {
+            if (!isCurrentTouchBlockMoved)
+            {
+                currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+            }
+            else isCurrentTouchBlockMoved = false;
 
-
-            //var sprite = ccevent.CurrentTarget as CCSprite;
-            //var block = FindBlockAt(touch.Location);
-
-            currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
             currentTouchedBlock = null;
         }
 
-
-
+        #endregion
+            
         private void AddBackground()
         {
             var background = new CCSprite();
+
             AddChild(background);
         }
 
-        private void AddBlocks()
+        private void AddBlockGrid()
         {
-            var blockGrid = new CCNode();
+            blockGrid = new CCNode();
             blockGrid.Position = new CCPoint(blockGridMargin, blockGridMargin);
 
             Block block;

@@ -1,16 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\GameStartLayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\ThreeInRowGameLayer.cs">
     <Files>
-      <File FileName="PetZombieUI\GameStartLayer.cs" Line="16" Column="39" />
+      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="143" Column="43" />
       <File FileName="PetZombieUI\AppDelegate.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\Converter.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\Block.cs" Line="1" Column="1" />
+      <File FileName="PetZombieUI\Block.cs" Line="42" Column="1" />
+      <File FileName="PetZombieUI\Converter.cs" Line="21" Column="10" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="HT3BJWL03591" />
+  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="HT3BJWL03591" AndroidDeviceId-Release="HT3BJWL03591" />
 </Properties>
