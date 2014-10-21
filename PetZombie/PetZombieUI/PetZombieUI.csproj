@@ -36,6 +36,8 @@
     <Compile Include="GameStartLayer.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Resolution.cs" />
+    <Compile Include="Converter.cs" />
+    <Compile Include="Block.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

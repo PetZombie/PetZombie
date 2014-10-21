@@ -1,10 +1,12 @@
 ﻿//using System;
+using System.Collections.Generic;
 using CocosSharp;
 
 namespace PetZombieUI
 {
     public class GameStartLayer : CCLayerColor
     {
+
         // Margin fields.
         private const float marginPortion = 0.1f;
         private float freeSpace = Resolution.DesignResolution.Width * marginPortion;
@@ -12,6 +14,8 @@ namespace PetZombieUI
         // Block greed fields.
         private float blockGridWidth;
         private float blockGridMargin;
+
+        private List<Block> blocks;
 
         // Block fields.
         private float blockWidth;
@@ -24,28 +28,32 @@ namespace PetZombieUI
         // Animation fields.
         private CCScaleBy scaleDown;
 
+        private Block currentTouchedBlock;
+
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
 
         private GameStartLayer() : base()
         {
+            this.rowsCount = 9;
+            this.columnsCount = 6;
+
             blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
             blockSize = new CCSize(blockWidth, blockWidth);
             blockGridMargin = freeSpace / 2;
 
-            rowsCount = 9;
-            columnsCount = 6;
+            blocks = new List<Block>(rowsCount*columnsCount);
 
             var game = new PetZombie.ThreeInRowGame(rowsCount, columnsCount);
+
+            scaleDown = new CCScaleBy(0.1f, 0.9f);
 
             listener = new CCEventListenerTouchOneByOne();
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
             //listener.OnTouchMoved = OnTouchMoved;
-
-            scaleDown = new CCScaleBy(0.1f, 0.9f);
 
             Color = CCColor3B.Gray;
             Opacity = 255;
@@ -73,18 +81,25 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            var sprite = ccevent.CurrentTarget as CCSprite;
-            var location = touch.Location;
-            CCRect rect = new CCRect(sprite.PositionX, sprite.PositionY, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
+            //var sprite = ccevent.CurrentTarget as CCSprite;
+            //var location = touch.Location;
+            //CCRect rect = new CCRect(sprite.PositionX, sprite.PositionY, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
+            currentTouchedBlock = FindBlockAt(touch.Location);
 
-            if (rect.ContainsPoint(location))
+            /*var sprite = ccevent.CurrentTarget as CCSprite;
+            var locationOnNode = sprite.ConvertToWorldspace(touch.Location);
+            var rect = new CCRect(0, 0, blockSize.Width, blockSize.Height);*/
+
+            if (currentTouchedBlock != null)
             {
                 //var action = new CCScaleBy(0.1f, scale);
 
                 PauseListeners(true);
 
-                if (sprite.ScaledContentSize == blockSize)
-                    sprite.RunAction(scaleDown);
+
+
+                //if (sprite.ScaledContentSize == blockSize)
+                currentTouchedBlock.Sprite.RunAction(scaleDown);
 
                 ResumeListeners(true);
 
@@ -94,19 +109,25 @@ namespace PetZombieUI
             return false;
         }
 
-        private void OnTouchMoved (CCTouch touch, CCEvent ccevent)
+        private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
             var sprite = ccevent.CurrentTarget as CCSprite;
-            var action = new CCMoveTo(1.0f, touch.Delta);
+            var action = new CCMoveBy(1.0f, touch.Delta);
             sprite.RunAction(action);
         }
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
         {
-            var sprite = ccevent.CurrentTarget as CCSprite;
 
-            sprite.RunAction(scaleDown.Reverse());
+
+            //var sprite = ccevent.CurrentTarget as CCSprite;
+            //var block = FindBlockAt(touch.Location);
+
+            currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+            currentTouchedBlock = null;
         }
+
+
 
         private void AddBackground()
         {
@@ -119,7 +140,7 @@ namespace PetZombieUI
             var blockGrid = new CCNode();
             blockGrid.Position = new CCPoint(blockGridMargin, blockGridMargin);
 
-            CCSprite block;
+            Block block;
 
             for (var i = 0; i < columnsCount; i++)
             {
@@ -127,17 +148,19 @@ namespace PetZombieUI
                 {
                     var x = blockWidth * 0.5f + i * blockWidth;
                     var y = blockWidth * 0.5f + j * blockWidth;
-                    block = CreateBlock(new CCPoint(x, y));
-                    blockGrid.AddChild(block);
 
-                    AddEventListener(listener.Copy(), block);
+                    block = CreateBlock(new CCPoint(x, y));
+                    blocks.Add(block);
+                    blockGrid.AddChild(block.Sprite);
+
+                    AddEventListener(listener.Copy(), block.Sprite);
                 }
             }
 
             AddChild(blockGrid);
         }
 
-        private CCSprite CreateBlock(CCPoint point)
+        private Block CreateBlock(CCPoint point)
         {
             var randomNumber = CCRandom.Next(0, 6);
             string fileName = "";
@@ -164,13 +187,30 @@ namespace PetZombieUI
                     break;
             }
 
-            var block = new CCSprite(fileName);
+            var block = new Block(fileName, point, blockSize);
+
+            /*var block = new CCSprite(fileName);
 
             block.AnchorPoint = new CCPoint(0.5f, 0.5f);
             block.Position = point;
-            block.ScaleTo(blockSize);
+            block.ScaleTo(blockSize);*/
 
             return block;
+        }
+
+        public Block FindBlockAt(CCPoint point)
+        {
+            var foundBlock = blocks.Find(
+                block => 
+            {
+                if (block.Rectangle.ContainsPoint(point))
+                    return true;
+
+                return false;
+            }
+            );
+
+            return foundBlock;
         }
     }
 }
