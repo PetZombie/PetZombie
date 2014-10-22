@@ -72,7 +72,7 @@ namespace PetZombie
 				//Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
 				//Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
 
-				if (AbilityToMove (block1, block2)) {
+				if (AbilityToReplace (block1, block2)) {
 
 					this.blocks [block1.Position.X] [block1.Position.Y].Type = block2.Type;
 					this.blocks [block2.Position.X] [block2.Position.Y].Type = block1.Type;
@@ -93,7 +93,7 @@ namespace PetZombie
 			}
 		}
 
-		private bool AbilityToMove (Block block1, Block block2)
+		private bool AbilityToReplace (Block block1, Block block2)
 		{
 			return ((Math.Abs (block1.Position.X - block2.Position.X) == 1 && (block1.Position.Y == block2.Position.Y))
 			|| (Math.Abs (block1.Position.Y - block2.Position.Y) == 1 && (block1.Position.X == block2.Position.X)));
