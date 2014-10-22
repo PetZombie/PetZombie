@@ -166,7 +166,7 @@ namespace PetZombie
 			}
 		}
 
-		public List<Block> GetNeighbors(Block block)
+        protected List<Block> GetNeighbors(Block block)
 		{
 			List<Block> neighbors = new List<Block> ();
 			int row = block.Position.X;

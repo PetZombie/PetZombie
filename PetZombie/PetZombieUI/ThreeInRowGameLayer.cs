@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
 using CocosSharp;
 
@@ -23,14 +23,8 @@ namespace PetZombieUI
         private float blockWidth;
         private CCSize blockSize;
 
-        // Animation fields.
-        private CCScaleBy scaleDown;
-        private bool isScaleDownDone;
-        private CCCallFuncN enableTouch;
-
         // Current proceccing block fields.
         private Block currentTouchedBlock;
-        private bool isCurrentTouchBlockMoved;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
@@ -45,8 +39,6 @@ namespace PetZombieUI
             blockGridMargin = freeSpace / 2;
 
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
-
-            scaleDown = new CCScaleBy(0.1f, 0.8f);
 
             listener = new CCEventListenerTouchOneByOne();
             listener.IsSwallowTouches = true;
@@ -84,14 +76,12 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock == null)
             {
-                currentTouchedBlock = FindBlockAt(touch.Location);
+                currentTouchedBlock = game.FindBlockAt(touch.Location);
 
                 if (currentTouchedBlock != null)
                 {
-                    var action = new CCSequence(scaleDown);
-
-                    //PauseListeners(true);
-                    currentTouchedBlock.Sprite.RunAction(action);
+                    var scaleDown = new CCScaleBy(0.1f, 0.8f);
+                    currentTouchedBlock.Sprite.RunAction(scaleDown);
 
                     return true;
                 }
@@ -102,15 +92,24 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
-            if (!isCurrentTouchBlockMoved && currentTouchedBlock != null)
+            if (currentTouchedBlock != null)
             {
-                var delta = new CCPoint(blockWidth, blockWidth);
-                var action1 = new CCMoveBy(0.1f, delta);
+                var moveToPosition = currentTouchedBlock.Sprite.Position + touch.Delta;
+                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, moveToPosition);
 
-                currentTouchedBlock.Sprite.RunAction(action1);
-                currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+                if (replacedBlock != null)
+                {
+                    var moveTo = new CCMoveTo(0.1f, replacedBlock.Sprite.Position);
 
-                isCurrentTouchBlockMoved = true;
+                    currentTouchedBlock.Sprite.RunAction(moveTo);
+                }
+
+                /*var delta = new CCPoint(blockWidth, blockWidth);
+                var action1 = new CCMoveBy(0.1f, delta);*/
+
+                //currentTouchedBlock.Sprite.RunAction(action1);
+                //currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+
             }
         }
 
@@ -118,15 +117,10 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock != null)
             {
-                if (!isCurrentTouchBlockMoved)
-                {
                     var scale = currentTouchedBlock.Size.Width / currentTouchedBlock.Sprite.ScaledContentSize.Width;
                     var scaleUp = new CCScaleBy(0.1f, scale);
 
                     currentTouchedBlock.Sprite.RunAction(scaleUp);
-                }
-                else
-                    isCurrentTouchBlockMoved = false;
 
                 currentTouchedBlock = null;
             }
@@ -157,20 +151,7 @@ namespace PetZombieUI
             AddChild(blockGrid);
         }
 
-        public Block FindBlockAt(CCPoint point)
-        {
-            var foundBlock = game.Blocks.Find(
-                block => 
-            {
-                if (block.Rectangle.ContainsPoint(point))
-                    return true;
 
-                return false;
-            }
-            );
-
-            return foundBlock;
-        }
     }
 }
 
