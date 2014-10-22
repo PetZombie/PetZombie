@@ -129,6 +129,7 @@ namespace PetZombieUI
 
                 var action1 = new CCMoveBy(0.1f, delta);
 
+
                 //var updatedBlocks = game.MoveBlocks(currentTouchedBlock, new Block("", new CCPoint(), new CCSize()));
 
                 currentTouchedBlock.Sprite.RunAction(action1);
