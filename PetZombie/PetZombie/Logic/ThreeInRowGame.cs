@@ -165,6 +165,11 @@ namespace PetZombie
 			} catch {
 			}
 		}
+
+		public List<Block> GetNeighbors(Block block)
+		{
+			return null;
+		}
 	}
 }
 
