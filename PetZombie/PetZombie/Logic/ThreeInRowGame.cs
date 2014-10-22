@@ -11,6 +11,11 @@ namespace PetZombie
 		List<Weapon> weapons;
 		Random random;
 
+		public List<List<Block>> Blocks
+		{
+			get { return this.blocks; }
+		}
+
 		public ThreeInRowGame (int rowsCount = 10, int columnsCount = 6, int target = 5, int steps = 25)
 		{
 			this.random = new Random ();
@@ -37,9 +42,9 @@ namespace PetZombie
 		private Block GenerateBlock (int x, int y)
 		{
 			int number = random.Next (0, 4);
-			Colors color = (Colors)Colors.ToObject (typeof(Colors), number);
+			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position(x, y);
-			Block block = new Block (color, position);
+			Block block = new Block (type, position);
 			return block;
 		}
 
@@ -56,8 +61,8 @@ namespace PetZombie
 				Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
 				Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
 
-				this.blocks [block1.Position.X] [block1.Position.Y].Color = existBlock2.Color;
-				this.blocks [block2.Position.X] [block2.Position.Y].Color = existBlock1.Color;
+				this.blocks [block1.Position.X] [block1.Position.Y].Type = existBlock2.Type;
+				this.blocks [block2.Position.X] [block2.Position.Y].Type = existBlock1.Type;
 
 				List<List<Block>> delBlocks = this.CheckDelete ();
 				if (delBlocks.Count > 0)
@@ -87,12 +92,12 @@ namespace PetZombie
 					int k = i + 1;
 					int l = j + 1;
 					while (k < n || l < m) {
-						if (k < n && this.blocks [k] [j].Color == this.blocks [i] [j].Color) {
+						if (k < n && this.blocks [k] [j].Type == this.blocks [i] [j].Type) {
 							tmpColumn.Add (this.blocks [k] [j]);
 							k++;
 						} else
 							k = n;
-						if (l < m && this.blocks [i] [l].Color == this.blocks [i] [j].Color) {
+						if (l < m && this.blocks [i] [l].Type == this.blocks [i] [j].Type) {
 							tmpRow.Add (this.blocks [i] [l]);
 							l++;
 						} else
