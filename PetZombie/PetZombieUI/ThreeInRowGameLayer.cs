@@ -80,27 +80,12 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            //var sprite = ccevent.CurrentTarget as CCSprite;
-            //var location = touch.Location;
-            //CCRect rect = new CCRect(sprite.PositionX, sprite.PositionY, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
-
             currentTouchedBlock = FindBlockAt(touch.Location);
-
-            /*var sprite = ccevent.CurrentTarget as CCSprite;
-            var locationOnNode = sprite.ConvertToWorldspace(touch.Location);
-            var rect = new CCRect(0, 0, blockSize.Width, blockSize.Height);*/
 
             if (currentTouchedBlock != null)
             {
-                //var action = new CCScaleBy(0.1f, scale);
-
                 PauseListeners(true);
-
-
-
-                //if (sprite.ScaledContentSize == blockSize)
                 currentTouchedBlock.Sprite.RunAction(scaleDown);
-
                 ResumeListeners(true);
 
                 return true;
@@ -113,13 +98,8 @@ namespace PetZombieUI
         {
             if (!isCurrentTouchBlockMoved && currentTouchedBlock != null)
             {
-                //var sprite = ccevent.CurrentTarget as CCSprite;
                 var delta = new CCPoint(blockWidth, blockWidth);
-
                 var action1 = new CCMoveBy(0.1f, delta);
-
-
-                //var updatedBlocks = game.MoveBlocks(currentTouchedBlock, new Block("", new CCPoint(), new CCSize()));
 
                 currentTouchedBlock.Sprite.RunAction(action1);
                 currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
