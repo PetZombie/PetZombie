@@ -29,9 +29,6 @@ namespace PetZombieUI
         {
             string fileName = "";
 
-            var x = size.Width*0.5f + size.Width*block.Position.X;
-            var y = size.Width*0.5f + size.Width*block.Position.Y;
-
             switch (block.Type)
             {
                 case PetZombie.BlockType.Blue:
@@ -52,8 +49,13 @@ namespace PetZombieUI
             }
 
             Sprite = new CCSprite(fileName);
+
+            var x = size.Width*Sprite.AnchorPoint.X + size.Width*block.Position.X;
+            var y = size.Width*Sprite.AnchorPoint.X + size.Width*block.Position.Y;
+
             Sprite.Position = new CCPoint(x, y);
             Sprite.ScaleTo(size);
+
             this.Size = size;
         }
 

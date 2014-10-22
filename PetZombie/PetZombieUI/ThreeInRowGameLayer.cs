@@ -25,6 +25,8 @@ namespace PetZombieUI
 
         // Animation fields.
         private CCScaleBy scaleDown;
+        private bool isScaleDownDone;
+        private CCCallFuncN enableTouch;
 
         // Current proceccing block fields.
         private Block currentTouchedBlock;
@@ -44,13 +46,13 @@ namespace PetZombieUI
 
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
 
-            scaleDown = new CCScaleBy(0.1f, 0.9f);
+            scaleDown = new CCScaleBy(0.1f, 0.8f);
 
             listener = new CCEventListenerTouchOneByOne();
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
-            listener.OnTouchMoved = OnTouchMoved;
+            //listener.OnTouchMoved = OnTouchMoved;
 
             Color = CCColor3B.Gray;
             Opacity = 255;
@@ -80,15 +82,19 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            currentTouchedBlock = FindBlockAt(touch.Location);
-
-            if (currentTouchedBlock != null)
+            if (currentTouchedBlock == null)
             {
-                PauseListeners(true);
-                currentTouchedBlock.Sprite.RunAction(scaleDown);
-                ResumeListeners(true);
+                currentTouchedBlock = FindBlockAt(touch.Location);
 
-                return true;
+                if (currentTouchedBlock != null)
+                {
+                    var action = new CCSequence(scaleDown);
+
+                    //PauseListeners(true);
+                    currentTouchedBlock.Sprite.RunAction(action);
+
+                    return true;
+                }
             }
 
             return false;
@@ -114,7 +120,10 @@ namespace PetZombieUI
             {
                 if (!isCurrentTouchBlockMoved)
                 {
-                    currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+                    var scale = currentTouchedBlock.Size.Width / currentTouchedBlock.Sprite.ScaledContentSize.Width;
+                    var scaleUp = new CCScaleBy(0.1f, scale);
+
+                    currentTouchedBlock.Sprite.RunAction(scaleUp);
                 }
                 else
                     isCurrentTouchBlockMoved = false;
