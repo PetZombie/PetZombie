@@ -7,11 +7,11 @@ namespace PetZombie
 		BlockType type;
 		Position position;
 
-		protected internal Position Position{
+        public Position Position{
 			get {return this.position; }
 		}
 
-		protected internal BlockType Type{
+        public BlockType Type{
 			get { return this.type; }
 			set{this.type = value; }
 		}

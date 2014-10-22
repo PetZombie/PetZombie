@@ -13,7 +13,7 @@ namespace PetZombie
 
 		public int Y
 		{
-			get{ return this.Y;}
+            get{ return this.y;}
 		}
 
 		public Position (int x, int y)
