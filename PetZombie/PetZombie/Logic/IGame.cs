@@ -10,7 +10,7 @@ namespace PetZombie
 		}
 
 		bool MoveBlocks (Block block1, Block block2);
-
+		List<Block> GetNeighbors (Block block);
 	}
 }
 

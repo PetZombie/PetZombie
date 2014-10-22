@@ -168,7 +168,18 @@ namespace PetZombie
 
 		public List<Block> GetNeighbors(Block block)
 		{
-			return null;
+			List<Block> neighbors = new List<Block> ();
+			int row = block.Position.X;
+			int column = block.Position.Y;
+			if (row - 1 >= 0)
+				neighbors.Add (this.blocks[row-1][column]);
+			if (row + 1 < this.blocks.Count)
+				neighbors.Add (this.blocks[row+1][column]);
+			if (column - 1 >= 0)
+				neighbors.Add (this.blocks[row][column-1]);
+			if (column + 1 < this.blocks[row].Count)
+				neighbors.Add (this.blocks[row][column+1]);
+			return neighbors;
 		}
 	}
 }
