@@ -54,8 +54,8 @@ namespace PetZombie
 		//Block block1 - первый блок для передвижения
 		//Block block2 - второй блок для передвижения
 		//
-		//Возвращает List<List<Block>> - матрица с подвинутыми блоками || null если переданные блоки не нашлись
-		public List<List<Block>> MoveBlocks (Block block1, Block block2)
+		//Возвращает bool - true, если блоки будут удалены, false - иначе
+		public bool MoveBlocks (Block block1, Block block2)
 		{
 			try {
 				Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
@@ -65,12 +65,14 @@ namespace PetZombie
 				this.blocks [block2.Position.X] [block2.Position.Y].Type = existBlock1.Type;
 
 				List<List<Block>> delBlocks = this.CheckDelete ();
-				if (delBlocks.Count > 0)
+				if (delBlocks.Count > 0){
 					this.DeleteBlocks (delBlocks);
+					return true;
+				}
 
-				return this.blocks;
+				return false;
 			} catch {
-				return null;
+				return false;
 			}
 		}
 
