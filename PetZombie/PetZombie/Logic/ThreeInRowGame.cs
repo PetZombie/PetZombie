@@ -11,8 +11,7 @@ namespace PetZombie
 		List<Weapon> weapons;
 		Random random;
 
-		public List<List<Block>> Blocks
-		{
+		public List<List<Block>> Blocks {
 			get { return this.blocks; }
 		}
 
@@ -43,7 +42,19 @@ namespace PetZombie
 		{
 			int number = random.Next (0, 4);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
-			Position position = new Position(x, y);
+			Position position = new Position (x, y);
+			Block block = new Block (type, position);
+			return block;
+		}
+
+		//Генерация блока
+		//
+		//Возвращает Block - новый случайный блок, с индексом [0,0]
+		private Block GenerateBlock ()
+		{
+			int number = random.Next (0, 4);
+			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
+			Position position = new Position ();
 			Block block = new Block (type, position);
 			return block;
 		}
@@ -58,22 +69,34 @@ namespace PetZombie
 		public bool MoveBlocks (Block block1, Block block2)
 		{
 			try {
-				Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
-				Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
+				//Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
+				//Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
 
-				this.blocks [block1.Position.X] [block1.Position.Y].Type = existBlock2.Type;
-				this.blocks [block2.Position.X] [block2.Position.Y].Type = existBlock1.Type;
+				if (AbilityToMove (block1, block2)) {
 
-				List<List<Block>> delBlocks = this.CheckDelete ();
-				if (delBlocks.Count > 0){
-					this.DeleteBlocks (delBlocks);
-					return true;
+					this.blocks [block1.Position.X] [block1.Position.Y].Type = block2.Type;
+					this.blocks [block2.Position.X] [block2.Position.Y].Type = block1.Type;
+
+					List<List<Block>> delBlocks = this.CheckDelete ();
+					if (delBlocks.Count > 0) {
+						this.DeleteBlocks (delBlocks);
+						return true;
+					} else {
+						this.blocks [block1.Position.X] [block1.Position.Y].Type = block1.Type;
+						this.blocks [block2.Position.X] [block2.Position.Y].Type = block2.Type;
+					}
 				}
 
 				return false;
 			} catch {
 				return false;
 			}
+		}
+
+		private bool AbilityToMove (Block block1, Block block2)
+		{
+			return ((Math.Abs (block1.Position.X - block2.Position.X) == 1 && (block1.Position.Y == block2.Position.Y))
+			|| (Math.Abs (block1.Position.Y - block2.Position.Y) == 1 && (block1.Position.X == block2.Position.X)));
 		}
 
 		private List<List<Block>> CheckDelete ()
@@ -117,8 +140,21 @@ namespace PetZombie
 
 		private void DeleteBlocks (List<List<Block>> blocks)
 		{
-			//если удалили строку, то все верхние в тех же столбцах падают вниз на 1 строку
-			// если удалили столбец, то все верхние в этом столбце блоки падают вниз на количество строк = удаленным блокам
+			foreach (List<Block> oneSet in blocks) {
+				foreach (Block block in oneSet) {
+					int row = block.Position.X;
+					while (row > 0) {
+						int prevRow = row - 1;
+						if (prevRow > 0)
+							this.blocks [row] [block.Position.Y].Type = this.blocks [prevRow] [block.Position.Y].Type;
+						else {
+							Block newBlock = this.GenerateBlock ();
+							this.blocks [row] [block.Position.Y].Type = newBlock.Type;
+						}
+						row--;
+					}
+				}
+			}
 		}
 
 		public void UseWeapon (Weapon weapon, Block block)
