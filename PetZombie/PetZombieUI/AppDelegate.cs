@@ -18,7 +18,7 @@ namespace PetZombieUI
 			mainWindow.SupportedDisplayOrientations = CCDisplayOrientation.Portrait;
 
 			// Initialize the scene.
-            var scene = GameStartLayer.GameStartLayerScene(mainWindow);
+            var scene = ThreeInRowGameLayer.ThreeInRowGameLayerScene(mainWindow);
 
 			// Run the initial scene.
 			mainWindow.RunWithScene(scene);

@@ -122,7 +122,7 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
-            if (!isCurrentTouchBlockMoved)
+            if (!isCurrentTouchBlockMoved && currentTouchedBlock != null)
             {
                 //var sprite = ccevent.CurrentTarget as CCSprite;
                 var delta = new CCPoint(blockWidth, blockWidth);
@@ -140,13 +140,17 @@ namespace PetZombieUI
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
         {
-            if (!isCurrentTouchBlockMoved)
+            if (currentTouchedBlock != null)
             {
-                currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
-            }
-            else isCurrentTouchBlockMoved = false;
+                if (!isCurrentTouchBlockMoved)
+                {
+                    currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
+                }
+                else
+                    isCurrentTouchBlockMoved = false;
 
-            currentTouchedBlock = null;
+                currentTouchedBlock = null;
+            }
         }
 
         #endregion

@@ -1,0 +1,4 @@
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Release\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Release\PetZombie.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.pdb

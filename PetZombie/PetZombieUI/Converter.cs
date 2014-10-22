@@ -14,6 +14,9 @@ namespace PetZombieUI
         {
             // Some code.
 
+                //var x = blockWidth * 0.5f + i * blockWidth;
+                //var y = blockWidth * 0.5f + j * blockWidth;
+
             return null;
         }
 
