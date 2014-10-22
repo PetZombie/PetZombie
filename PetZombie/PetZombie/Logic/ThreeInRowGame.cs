@@ -11,6 +11,10 @@ namespace PetZombie
 		List<Weapon> weapons;
 		Random random;
 
+		public List<List<Block>> Blocks {
+			get { return this.blocks; }
+		}
+
 		public ThreeInRowGame (int rowsCount = 10, int columnsCount = 6, int target = 5, int steps = 25)
 		{
 			this.random = new Random ();
@@ -37,9 +41,21 @@ namespace PetZombie
 		private Block GenerateBlock (int x, int y)
 		{
 			int number = random.Next (0, 4);
-			Colors color = (Colors)Colors.ToObject (typeof(Colors), number);
-			Position position = new Position(x, y);
-			Block block = new Block (color, position);
+			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
+			Position position = new Position (x, y);
+			Block block = new Block (type, position);
+			return block;
+		}
+
+		//Генерация блока
+		//
+		//Возвращает Block - новый случайный блок, с индексом [0,0]
+		private Block GenerateBlock ()
+		{
+			int number = random.Next (0, 4);
+			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
+			Position position = new Position ();
+			Block block = new Block (type, position);
 			return block;
 		}
 
@@ -49,24 +65,38 @@ namespace PetZombie
 		//Block block1 - первый блок для передвижения
 		//Block block2 - второй блок для передвижения
 		//
-		//Возвращает List<List<Block>> - матрица с подвинутыми блоками || null если переданные блоки не нашлись
-		public List<List<Block>> MoveBlocks (Block block1, Block block2)
+		//Возвращает bool - true, если блоки будут удалены, false - иначе
+		public bool MoveBlocks (Block block1, Block block2)
 		{
 			try {
-				Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
-				Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
+				//Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
+				//Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
 
-				this.blocks [block1.Position.X] [block1.Position.Y].Color = existBlock2.Color;
-				this.blocks [block2.Position.X] [block2.Position.Y].Color = existBlock1.Color;
+				if (AbilityToMove (block1, block2)) {
 
-				List<List<Block>> delBlocks = this.CheckDelete ();
-				if (delBlocks.Count > 0)
-					this.DeleteBlocks (delBlocks);
+					this.blocks [block1.Position.X] [block1.Position.Y].Type = block2.Type;
+					this.blocks [block2.Position.X] [block2.Position.Y].Type = block1.Type;
 
-				return this.blocks;
+					List<List<Block>> delBlocks = this.CheckDelete ();
+					if (delBlocks.Count > 0) {
+						this.DeleteBlocks (delBlocks);
+						return true;
+					} else {
+						this.blocks [block1.Position.X] [block1.Position.Y].Type = block1.Type;
+						this.blocks [block2.Position.X] [block2.Position.Y].Type = block2.Type;
+					}
+				}
+
+				return false;
 			} catch {
-				return null;
+				return false;
 			}
+		}
+
+		private bool AbilityToMove (Block block1, Block block2)
+		{
+			return ((Math.Abs (block1.Position.X - block2.Position.X) == 1 && (block1.Position.Y == block2.Position.Y))
+			|| (Math.Abs (block1.Position.Y - block2.Position.Y) == 1 && (block1.Position.X == block2.Position.X)));
 		}
 
 		private List<List<Block>> CheckDelete ()
@@ -87,12 +117,12 @@ namespace PetZombie
 					int k = i + 1;
 					int l = j + 1;
 					while (k < n || l < m) {
-						if (k < n && this.blocks [k] [j].Color == this.blocks [i] [j].Color) {
+						if (k < n && this.blocks [k] [j].Type == this.blocks [i] [j].Type) {
 							tmpColumn.Add (this.blocks [k] [j]);
 							k++;
 						} else
 							k = n;
-						if (l < m && this.blocks [i] [l].Color == this.blocks [i] [j].Color) {
+						if (l < m && this.blocks [i] [l].Type == this.blocks [i] [j].Type) {
 							tmpRow.Add (this.blocks [i] [l]);
 							l++;
 						} else
@@ -110,8 +140,21 @@ namespace PetZombie
 
 		private void DeleteBlocks (List<List<Block>> blocks)
 		{
-			//если удалили строку, то все верхние в тех же столбцах падают вниз на 1 строку
-			// если удалили столбец, то все верхние в этом столбце блоки падают вниз на количество строк = удаленным блокам
+			foreach (List<Block> oneSet in blocks) {
+				foreach (Block block in oneSet) {
+					int row = block.Position.X;
+					while (row > 0) {
+						int prevRow = row - 1;
+						if (prevRow > 0)
+							this.blocks [row] [block.Position.Y].Type = this.blocks [prevRow] [block.Position.Y].Type;
+						else {
+							Block newBlock = this.GenerateBlock ();
+							this.blocks [row] [block.Position.Y].Type = newBlock.Type;
+						}
+						row--;
+					}
+				}
+			}
 		}
 
 		public void UseWeapon (Weapon weapon, Block block)
