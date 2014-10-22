@@ -2,7 +2,7 @@
 
 namespace PetZombie
 {
-	protected internal class Block
+    public class Block
 	{
 		BlockType type;
 		Position position;
