@@ -10,12 +10,22 @@ namespace PetZombie
 		public int stepsCount;
 		List<Weapon> weapons;
 		Random random;
+		int points;
+		int level;
 
 		public List<List<Block>> Blocks {
 			get { return this.blocks; }
 		}
 
-		public ThreeInRowGame (int rowsCount = 10, int columnsCount = 6, int target = 5, int steps = 25)
+		public int Points {
+			get{ return this.points; }
+		}
+
+		public int Level{
+			get { return this.level; }
+		}
+
+		public ThreeInRowGame (int rowsCount, int columnsCount, int target, int steps, int level)
 		{
 			this.random = new Random ();
 			this.blocks = new List<List<Block>> ();
@@ -28,7 +38,10 @@ namespace PetZombie
 			}
 			this.target = target;
 			this.stepsCount = steps;
+			this.level = level;
+
 			this.weapons = new List<Weapon> ();
+			this.points = 0;
 		}
 
 		//Генерация блока
@@ -40,7 +53,7 @@ namespace PetZombie
 		//Возвращает Block - новый случайный блок
 		private Block GenerateBlock (int x, int y)
 		{
-			int number = random.Next (0, 4);
+			int number = random.Next (0, 6);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position (x, y);
 			Block block = new Block (type, position);
@@ -52,7 +65,7 @@ namespace PetZombie
 		//Возвращает Block - новый случайный блок, с индексом [0,0]
 		private Block GenerateBlock ()
 		{
-			int number = random.Next (0, 4);
+			int number = random.Next (0, 6);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position ();
 			Block block = new Block (type, position);
@@ -65,13 +78,11 @@ namespace PetZombie
 		//Block block1 - первый блок для передвижения
 		//Block block2 - второй блок для передвижения
 		//
-		//Возвращает bool - true, если блоки будут удалены, false - иначе
-		public bool MoveBlocks (Block block1, Block block2)
+		//Возвращает Tuple<List<Block>, List<Block>> - тьюпл из двух списков блоков. 
+		//Первый список - удаляемые блоки, второй - перемещаемые блоки.
+		public Tuple<List<Block>, List<Block>> MoveBlocks (Block block1, Block block2)
 		{
 			try {
-				//Block existBlock1 = this.blocks [block1.Position.X] [block1.Position.Y];
-				//Block existBlock2 = this.blocks [block2.Position.X] [block2.Position.X];
-
 				if (AbilityToReplace (block1, block2)) {
 
 					this.blocks [block1.Position.RowIndex] [block1.Position.ColumnIndex].Type = block2.Type;
@@ -79,26 +90,25 @@ namespace PetZombie
 
 					List<List<Block>> delBlocks = this.CheckDelete ();
 					if (delBlocks.Count > 0) {
-						this.DeleteBlocks (delBlocks);
-						return true;
+						return this.DeleteBlocks (delBlocks);
 					} else {
 						this.blocks [block1.Position.RowIndex] [block1.Position.ColumnIndex].Type = block1.Type;
 						this.blocks [block2.Position.RowIndex] [block2.Position.ColumnIndex].Type = block2.Type;
 					}
 				}
 
-				return false;
+				return null;
 			} catch {
-				return false;
+				return null;
 			}
 		}
 
 		private bool AbilityToReplace (Block block1, Block block2)
 		{
 			return ((Math.Abs (block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
-				(block1.Position.ColumnIndex == block2.Position.ColumnIndex))
-				|| (Math.Abs (block1.Position.ColumnIndex - block2.Position.ColumnIndex) == 1 &&
-					(block1.Position.RowIndex == block2.Position.RowIndex)));
+			(block1.Position.ColumnIndex == block2.Position.ColumnIndex))
+			|| (Math.Abs (block1.Position.ColumnIndex - block2.Position.ColumnIndex) == 1 &&
+			(block1.Position.RowIndex == block2.Position.RowIndex)));
 		}
 
 		private List<List<Block>> CheckDelete ()
@@ -140,10 +150,13 @@ namespace PetZombie
 			return delBlocks;
 		}
 
-		private void DeleteBlocks (List<List<Block>> blocks)
+		private Tuple<List<Block>, List<Block>> DeleteBlocks (List<List<Block>> blocks)
 		{
+			List<Block> delBlocks = new List<Block> ();
+			List<Block> movingBlocks = new List<Block> ();
 			foreach (List<Block> oneSet in blocks) {
 				foreach (Block block in oneSet) {
+					delBlocks.Add (block);
 					int row = block.Position.RowIndex;
 					while (row > 0) {
 						int prevRow = row - 1;
@@ -153,10 +166,13 @@ namespace PetZombie
 							Block newBlock = this.GenerateBlock ();
 							this.blocks [row] [block.Position.ColumnIndex].Type = newBlock.Type;
 						}
+						movingBlocks.Add (new Block(this.blocks [row] [block.Position.ColumnIndex].Type, this.blocks [row] [block.Position.ColumnIndex].Position));
 						row--;
 					}
+					points += 10;
 				}
 			}
+			return new Tuple<List<Block>, List<Block>> (delBlocks, movingBlocks);
 		}
 
 		public void UseWeapon (Weapon weapon, Block block)
@@ -168,19 +184,19 @@ namespace PetZombie
 			}
 		}
 
-        protected List<Block> GetNeighbors(Block block)
+		protected List<Block> GetNeighbors (Block block)
 		{
 			List<Block> neighbors = new List<Block> ();
 			int row = block.Position.RowIndex;
 			int column = block.Position.ColumnIndex;
 			if (row - 1 >= 0)
-				neighbors.Add (this.blocks[row-1][column]);
+				neighbors.Add (this.blocks [row - 1] [column]);
 			if (row + 1 < this.blocks.Count)
-				neighbors.Add (this.blocks[row+1][column]);
+				neighbors.Add (this.blocks [row + 1] [column]);
 			if (column - 1 >= 0)
-				neighbors.Add (this.blocks[row][column-1]);
-			if (column + 1 < this.blocks[row].Count)
-				neighbors.Add (this.blocks[row][column+1]);
+				neighbors.Add (this.blocks [row] [column - 1]);
+			if (column + 1 < this.blocks [row].Count)
+				neighbors.Add (this.blocks [row] [column + 1]);
 			return neighbors;
 		}
 	}
