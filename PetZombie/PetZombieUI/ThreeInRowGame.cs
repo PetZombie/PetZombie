@@ -15,7 +15,7 @@ namespace PetZombieUI
         }
 
         public ThreeInRowGame(int rowsCount, int columnsCount, CCSize blockSize) 
-            : base(rowsCount, columnsCount)
+            : base(rowsCount, columnsCount, 2, 2, 2)
         {
             Blocks = new List<PetZombieUI.Block>(rowsCount*columnsCount);
 

@@ -25,6 +25,9 @@ namespace PetZombieUI
 
         // Current proceccing block fields.
         private Block currentTouchedBlock;
+        private bool isCurrentTouchedBlockMoved;
+        private bool isReplacedTouchBlockMoved;
+        private CCPoint previousPosition;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
@@ -44,7 +47,7 @@ namespace PetZombieUI
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
-            listener.OnTouchMoved = OnTouchMoved;
+            //listener.OnTouchMoved = OnTouchMoved;
 
             Color = CCColor3B.Gray;
             Opacity = 255;
@@ -92,16 +95,28 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
-            if (currentTouchedBlock != null)
+            if (currentTouchedBlock != null && !isReplacedTouchBlockMoved)
             {
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
                 var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, currentTouchedBlock.Sprite.Position + priorityDirection);
 
                 if (replacedBlock != null)
                 {
-                    var moveTo = new CCMoveTo(0.1f, replacedBlock.Sprite.Position);
 
-                    currentTouchedBlock.Sprite.RunAction(moveTo);
+
+                    if (!isCurrentTouchedBlockMoved)
+                    {
+                        previousPosition = currentTouchedBlock.Sprite.Position;
+                        var moveTo1 = new CCMoveTo(0.1f, replacedBlock.Sprite.Position);
+                        currentTouchedBlock.Sprite.RunAction(moveTo1);
+                        isCurrentTouchedBlockMoved = true;
+                    }
+                    else
+                    {
+                        var moveTo2 = new CCMoveTo(0.1f, previousPosition);
+                        replacedBlock.Sprite.RunAction(moveTo2);
+                        isReplacedTouchBlockMoved = true;
+                    }
                 }
 
                 /*var delta = new CCPoint(blockWidth, blockWidth);
@@ -124,6 +139,8 @@ namespace PetZombieUI
                     currentTouchedBlock.Sprite.RunAction(scaleUp);
 
                 currentTouchedBlock = null;
+                isCurrentTouchedBlockMoved = false;
+                isReplacedTouchBlockMoved = false;
             }
         }
 
@@ -131,22 +148,37 @@ namespace PetZombieUI
 
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)
         {
-
-
+            float additionValue;
             var absX = Math.Abs(delta.X);
             var absY = Math.Abs(delta.Y);
 
             if (absX > absY)
-                return new CCPoint(delta.X, 0);
+            {
+                if (delta.X > 0)
+                    additionValue = block.Size.Width;
+                else
+                    additionValue = -block.Size.Width;
+
+                return new CCPoint(delta.X + additionValue, 0);
+            }
             else if (absY > absX)
-                return new CCPoint(0, delta.Y);
+            {
+                if (delta.Y > 0)
+                    additionValue = block.Size.Height;
+                else
+                    additionValue = -block.Size.Height;
+
+                return new CCPoint(0, delta.Y + additionValue);
+            }
 
             return new CCPoint();
         }
             
         private void AddBackground()
         {
-            var background = new CCSprite();
+            var background = new CCSprite("Images/background blur");
+            background.AnchorPoint = CCPoint.Zero;
+            background.ScaleTo(Resolution.DesignResolution);
 
             AddChild(background);
         }

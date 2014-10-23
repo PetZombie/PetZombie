@@ -98,5 +98,7 @@
     <AndroidAsset Include="Assets\Content\Images\red_ellipse_block.png" />
     <AndroidAsset Include="Assets\Content\Images\violet_ellipse_block.png" />
     <AndroidAsset Include="Assets\Content\Images\zombie_block.png" />
+    <AndroidAsset Include="Assets\Content\Images\background blur.png" />
+    <AndroidAsset Include="Assets\Content\Images\brain.png" />
   </ItemGroup>
 </Project>
