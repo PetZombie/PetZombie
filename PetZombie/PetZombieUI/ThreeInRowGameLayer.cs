@@ -44,7 +44,7 @@ namespace PetZombieUI
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
-            //listener.OnTouchMoved = OnTouchMoved;
+            listener.OnTouchMoved = OnTouchMoved;
 
             Color = CCColor3B.Gray;
             Opacity = 255;
@@ -94,8 +94,8 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock != null)
             {
-                var moveToPosition = currentTouchedBlock.Sprite.Position + touch.Delta;
-                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, moveToPosition);
+                var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
+                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, currentTouchedBlock.Sprite.Position + priorityDirection);
 
                 if (replacedBlock != null)
                 {
@@ -117,7 +117,8 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock != null)
             {
-                    var scale = currentTouchedBlock.Size.Width / currentTouchedBlock.Sprite.ScaledContentSize.Width;
+                    var scale = currentTouchedBlock.Size.Width / 
+                        currentTouchedBlock.Sprite.ScaledContentSize.Width;
                     var scaleUp = new CCScaleBy(0.1f, scale);
 
                     currentTouchedBlock.Sprite.RunAction(scaleUp);
@@ -127,6 +128,21 @@ namespace PetZombieUI
         }
 
         #endregion
+
+        private CCPoint GetPriorityDirection(Block block, CCPoint delta)
+        {
+
+
+            var absX = Math.Abs(delta.X);
+            var absY = Math.Abs(delta.Y);
+
+            if (absX > absY)
+                return new CCPoint(delta.X, 0);
+            else if (absY > absX)
+                return new CCPoint(0, delta.Y);
+
+            return new CCPoint();
+        }
             
         private void AddBackground()
         {

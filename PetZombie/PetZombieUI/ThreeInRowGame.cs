@@ -35,7 +35,7 @@ namespace PetZombieUI
 
             foreach (var neighbor in base.GetNeighbors(block))
             {
-                neighbors.Add(new PetZombieUI.Block(block, blockSize));
+                neighbors.Add(new PetZombieUI.Block(neighbor, blockSize));
             }
 
             return neighbors;
@@ -45,7 +45,7 @@ namespace PetZombieUI
         {
             foreach (var neighbor in GetNeighbors(block))
             {
-                if (neighbor.Rectangle.ContainsPoint(position))
+                if (neighbor.WorldRectangle.ContainsPoint(position))
                 {
                     return neighbor;
                 }
@@ -59,7 +59,7 @@ namespace PetZombieUI
             var foundBlock = Blocks.Find(
                 block => 
             {
-                if (block.Rectangle.ContainsPoint(point))
+                if (block.WorldRectangle.ContainsPoint(point))
                     return true;
 
                 return false;

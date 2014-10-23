@@ -11,11 +11,11 @@ namespace PetZombieUI
             private set;
         }
 
-        public CCRect Rectangle
+        public CCRect WorldRectangle
         {
             get 
             { 
-                return GetRectangle();
+                return GetWorldRectangle();
             }
         }
 
@@ -25,7 +25,7 @@ namespace PetZombieUI
             private set;
         }
 
-        public Block(PetZombie.Block block, CCSize size) : base(block.Position)
+        public Block(PetZombie.Block block, CCSize size) : base(block.Type, block.Position)
         {
             string fileName = "";
 
@@ -50,8 +50,8 @@ namespace PetZombieUI
 
             Sprite = new CCSprite(fileName);
 
-            var x = size.Width*Sprite.AnchorPoint.X + size.Width*block.Position.X;
-            var y = size.Width*Sprite.AnchorPoint.X + size.Width*block.Position.Y;
+            var x = size.Width*Sprite.AnchorPoint.X + size.Width*block.Position.ColumnIndex;
+            var y = size.Width*Sprite.AnchorPoint.Y + size.Width*block.Position.RowIndex;
 
             Sprite.Position = new CCPoint(x, y);
             Sprite.ScaleTo(size);
@@ -59,10 +59,10 @@ namespace PetZombieUI
             this.Size = size;
         }
 
-        private CCRect GetRectangle()
+        private CCRect GetWorldRectangle()
         {
-            var x = Sprite.PositionX - Size.Width*Sprite.AnchorPoint.X;
-            var y = Sprite.PositionY - Size.Height*Sprite.AnchorPoint.Y;
+            var x = Sprite.PositionWorldspace.X - Size.Width*Sprite.AnchorPoint.X;
+            var y = Sprite.PositionWorldspace.Y - Size.Height*Sprite.AnchorPoint.Y;
 
             return new CCRect(x, y, Size.Width, Size.Height);
         }
