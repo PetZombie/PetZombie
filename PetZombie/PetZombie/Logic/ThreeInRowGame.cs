@@ -74,16 +74,16 @@ namespace PetZombie
 
 				if (AbilityToReplace (block1, block2)) {
 
-					this.blocks [block1.Position.X] [block1.Position.Y].Type = block2.Type;
-					this.blocks [block2.Position.X] [block2.Position.Y].Type = block1.Type;
+					this.blocks [block1.Position.RowIndex] [block1.Position.ColumnIndex].Type = block2.Type;
+					this.blocks [block2.Position.RowIndex] [block2.Position.ColumnIndex].Type = block1.Type;
 
 					List<List<Block>> delBlocks = this.CheckDelete ();
 					if (delBlocks.Count > 0) {
 						this.DeleteBlocks (delBlocks);
 						return true;
 					} else {
-						this.blocks [block1.Position.X] [block1.Position.Y].Type = block1.Type;
-						this.blocks [block2.Position.X] [block2.Position.Y].Type = block2.Type;
+						this.blocks [block1.Position.RowIndex] [block1.Position.ColumnIndex].Type = block1.Type;
+						this.blocks [block2.Position.RowIndex] [block2.Position.ColumnIndex].Type = block2.Type;
 					}
 				}
 
@@ -95,8 +95,10 @@ namespace PetZombie
 
 		private bool AbilityToReplace (Block block1, Block block2)
 		{
-			return ((Math.Abs (block1.Position.X - block2.Position.X) == 1 && (block1.Position.Y == block2.Position.Y))
-			|| (Math.Abs (block1.Position.Y - block2.Position.Y) == 1 && (block1.Position.X == block2.Position.X)));
+			return ((Math.Abs (block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
+				(block1.Position.ColumnIndex == block2.Position.ColumnIndex))
+				|| (Math.Abs (block1.Position.ColumnIndex - block2.Position.ColumnIndex) == 1 &&
+					(block1.Position.RowIndex == block2.Position.RowIndex)));
 		}
 
 		private List<List<Block>> CheckDelete ()
@@ -142,14 +144,14 @@ namespace PetZombie
 		{
 			foreach (List<Block> oneSet in blocks) {
 				foreach (Block block in oneSet) {
-					int row = block.Position.X;
+					int row = block.Position.RowIndex;
 					while (row > 0) {
 						int prevRow = row - 1;
 						if (prevRow > 0)
-							this.blocks [row] [block.Position.Y].Type = this.blocks [prevRow] [block.Position.Y].Type;
+							this.blocks [row] [block.Position.ColumnIndex].Type = this.blocks [prevRow] [block.Position.ColumnIndex].Type;
 						else {
 							Block newBlock = this.GenerateBlock ();
-							this.blocks [row] [block.Position.Y].Type = newBlock.Type;
+							this.blocks [row] [block.Position.ColumnIndex].Type = newBlock.Type;
 						}
 						row--;
 					}
@@ -160,7 +162,7 @@ namespace PetZombie
 		public void UseWeapon (Weapon weapon, Block block)
 		{
 			try {
-				Block existBlock = this.blocks [block.Position.X] [block.Position.Y];
+				Block existBlock = this.blocks [block.Position.RowIndex] [block.Position.ColumnIndex];
 				weapon.Use ();
 			} catch {
 			}
@@ -169,8 +171,8 @@ namespace PetZombie
         protected List<Block> GetNeighbors(Block block)
 		{
 			List<Block> neighbors = new List<Block> ();
-			int row = block.Position.X;
-			int column = block.Position.Y;
+			int row = block.Position.RowIndex;
+			int column = block.Position.ColumnIndex;
 			if (row - 1 >= 0)
 				neighbors.Add (this.blocks[row-1][column]);
 			if (row + 1 < this.blocks.Count)

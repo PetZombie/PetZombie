@@ -4,28 +4,28 @@ namespace PetZombie
 {
 	public class Position
 	{
-		int x, y;
+		int rowIndex, columnIndex;
 
-		public int X
+		public int RowIndex
 		{
-			get{ return this.x;}
+			get{ return this.rowIndex;}
 		}
 
-		public int Y
+		public int ColumnIndex
 		{
-            get{ return this.y;}
+			get{ return this.columnIndex;}
 		}
 
-		public Position (int x, int y)
+		public Position (int rowIndex, int columnIndex)
 		{
-			this.x = x;
-			this.y = y;
+			this.rowIndex = rowIndex;
+			this.columnIndex = columnIndex;
 		}
 
 		public Position ()
 		{
-			this.x = 0;
-			this.y = 0;
+			this.rowIndex = 0;
+			this.columnIndex = 0;
 		}
 	}
 }
