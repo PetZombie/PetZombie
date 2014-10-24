@@ -53,7 +53,7 @@ namespace PetZombie
 		//Возвращает Block - новый случайный блок
 		private Block GenerateBlock (int x, int y)
 		{
-			int number = random.Next (0, 6);
+			int number = random.Next (0, 7);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position (x, y);
 			Block block = new Block (type, position);
