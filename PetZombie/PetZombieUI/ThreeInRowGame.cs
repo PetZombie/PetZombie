@@ -29,15 +29,26 @@ namespace PetZombieUI
             }
         }
 
+        private Block FindBlock(PetZombie.Block block)
+        {
+            var foundBlock = this.Blocks.Find(b => 
+            {
+                return (b.Position == block.Position) ? true : false;
+            });
+
+            return foundBlock;
+        }
+
         private List<PetZombieUI.Block> GetNeighbors(PetZombieUI.Block block)
         {
             var neighbors = new List<PetZombieUI.Block>();
 
             foreach (var neighbor in base.GetNeighbors(block))
             {
+                var neighborBlock = FindBlock(neighbor);
 
-
-                neighbors.Add(new PetZombieUI.Block(neighbor, blockSize));
+                if (neighborBlock != null)
+                    neighbors.Add(neighborBlock);
             }
 
             return neighbors;
@@ -58,17 +69,21 @@ namespace PetZombieUI
 
         public Block FindBlockAt(CCPoint point)
         {
-            var foundBlock = Blocks.Find(
-                block => 
+            var foundBlock = Blocks.Find(block => 
             {
-                if (block.WorldRectangle.ContainsPoint(point))
-                    return true;
-
-                return false;
+                return (block.WorldRectangle.ContainsPoint(point)) ? true : false;
             });
 
             return foundBlock;
         }
+
+        /*public Tuple<List<PetZombieUI.Block>, List<PetZombieUI.Block>> MoveBlocks(PetZombieUI.Block block1,
+            PetZombieUI.Block block2)
+        {
+            var tuple = base.MoveBlocks(block1, block2);
+
+
+        }*/
     }
 }
 
