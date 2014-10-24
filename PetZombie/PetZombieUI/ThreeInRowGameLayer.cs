@@ -27,6 +27,8 @@ namespace PetZombieUI
         private Block currentTouchedBlock;
         private bool isCurrentTouchedBlockMoved;
         private bool isTouchEnded;
+        //private bool isReplacedTouchBlockMoved;
+        //private CCPoint previousPosition;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
@@ -104,26 +106,26 @@ namespace PetZombieUI
             if (currentTouchedBlock != null && !isCurrentTouchedBlockMoved)
             {
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
-                var position = currentTouchedBlock.Sprite.Position + priorityDirection;
-                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, position);
+                //var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, 
+                //    currentTouchedBlock.Sprite.Position + priorityDirection);
+                var replacedBlock = GetBlockSpriteAt(currentTouchedBlock, 
+                    currentTouchedBlock.Sprite.Position + priorityDirection);
 
                 if (replacedBlock != null)
                 {
-
-
-                    replacedBlock.Sprite.ZOrder++;
+                    replacedBlock.ZOrder++;
                     var previousPosition = currentTouchedBlock.Sprite.Position;
 
-                    var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+                    var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Position);
                     var moveTo2 = new CCMoveTo(0.2f, previousPosition);
                     var action1 = new CCSequence(moveTo1, moveTo2);
                     var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
 
                     PauseListeners(true);
                     currentTouchedBlock.Sprite.RunAction(action1);
-                    replacedBlock.Sprite.RunAction(action2);
+                    replacedBlock.RunAction(action2);
 
-                    replacedBlock.Sprite.ZOrder--;
+                    replacedBlock.ZOrder--;
                     isCurrentTouchedBlockMoved = true;
 
                     if (!isTouchEnded)
@@ -145,6 +147,7 @@ namespace PetZombieUI
                 currentTouchedBlock = null;
                 isCurrentTouchedBlockMoved = false;
                 isTouchEnded = true;
+                //isReplacedTouchBlockMoved = false;
             }
         }
 
@@ -152,35 +155,51 @@ namespace PetZombieUI
 
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)
         {
-            float directionValue;
+            float additionValue;
             var absX = Math.Abs(delta.X);
             var absY = Math.Abs(delta.Y);
 
             if (absX > absY)
             {
                 if (delta.X > 0)
-                    directionValue = block.Size.Width + 1;
+                    additionValue = block.Size.Width;
                 else
-                    directionValue = -block.Size.Width - 1;
+                    additionValue = -block.Size.Width;
 
-                return new CCPoint(directionValue, 0);
+                return new CCPoint(delta.X + additionValue, 0);
             }
             else if (absY > absX)
             {
                 if (delta.Y > 0)
-                    directionValue = block.Size.Height + 1;
+                    additionValue = block.Size.Height;
                 else
-                    directionValue = -block.Size.Height - 1;
+                    additionValue = -block.Size.Height;
 
-                return new CCPoint(0, directionValue);
+                return new CCPoint(0, delta.Y + additionValue);
             }
 
             return new CCPoint();
         }
+
+        private CCNode GetBlockSpriteAt(Block block, CCPoint position)
+        {
+            var replacedBlock = game.GetReplacedBlock(block, position);
+
+            if (replacedBlock != null)
+            {
+                foreach (var node in blockGrid.Children)
+                {
+                    if (node.Position == replacedBlock.Sprite.Position)
+                        return node;
+                }
+            }
+
+            return null;
+        }
             
         private void AddBackground()
         {
-            background = new CCSprite("Images/new background");
+            background = new CCSprite("Images/background blur");
 
             var scaleX = background.ContentSize.Width / Resolution.DesignResolution.Width;
             var scaleY = background.ContentSize.Height / Resolution.DesignResolution.Height;

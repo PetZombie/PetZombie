@@ -100,7 +100,5 @@
     <AndroidAsset Include="Assets\Content\Images\zombie_block.png" />
     <AndroidAsset Include="Assets\Content\Images\background blur.png" />
     <AndroidAsset Include="Assets\Content\Images\brain.png" />
-    <AndroidAsset Include="Assets\Content\Images\new background.png" />
-    <AndroidAsset Include="Assets\Content\Images\new background%28blur%29.png" />
   </ItemGroup>
 </Project>
