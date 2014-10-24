@@ -35,6 +35,8 @@ namespace PetZombieUI
 
             foreach (var neighbor in base.GetNeighbors(block))
             {
+
+
                 neighbors.Add(new PetZombieUI.Block(neighbor, blockSize));
             }
 
@@ -63,8 +65,7 @@ namespace PetZombieUI
                     return true;
 
                 return false;
-            }
-            );
+            });
 
             return foundBlock;
         }

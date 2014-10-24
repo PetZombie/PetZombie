@@ -26,8 +26,9 @@ namespace PetZombieUI
         // Current proceccing block fields.
         private Block currentTouchedBlock;
         private bool isCurrentTouchedBlockMoved;
-        private bool isReplacedTouchBlockMoved;
-        private CCPoint previousPosition;
+        private bool isTouchEnded;
+        //private bool isReplacedTouchBlockMoved;
+        //private CCPoint previousPosition;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
@@ -84,6 +85,8 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock == null)
             {
+                isTouchEnded = false;
+
                 currentTouchedBlock = game.FindBlockAt(touch.Location);
 
                 if (currentTouchedBlock != null)
@@ -100,38 +103,34 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
-            if (currentTouchedBlock != null && !isReplacedTouchBlockMoved)
+            if (currentTouchedBlock != null && !isCurrentTouchedBlockMoved)
             {
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
-                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, 
+                //var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, 
+                //    currentTouchedBlock.Sprite.Position + priorityDirection);
+                var replacedBlock = GetBlockSpriteAt(currentTouchedBlock, 
                     currentTouchedBlock.Sprite.Position + priorityDirection);
 
                 if (replacedBlock != null)
                 {
+                    replacedBlock.ZOrder++;
+                    var previousPosition = currentTouchedBlock.Sprite.Position;
 
+                    var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Position);
+                    var moveTo2 = new CCMoveTo(0.2f, previousPosition);
+                    var action1 = new CCSequence(moveTo1, moveTo2);
+                    var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
 
-                    if (!isCurrentTouchedBlockMoved)
-                    {
-                        previousPosition = currentTouchedBlock.Sprite.Position;
-                        var moveTo1 = new CCMoveTo(0.1f, replacedBlock.Sprite.Position);
-                        var moveTo2 = new CCMoveTo(0.1f, previousPosition);
-                        currentTouchedBlock.Sprite.RunAction(new CCSequence(moveTo1, moveTo2));
-                        isCurrentTouchedBlockMoved = true;
-                    }
-                    else
-                    {
-                        var moveTo2 = new CCMoveTo(0.1f, previousPosition);
-                        replacedBlock.Sprite.RunAction(moveTo2);
-                        isReplacedTouchBlockMoved = true;
-                    }
+                    PauseListeners(true);
+                    currentTouchedBlock.Sprite.RunAction(action1);
+                    replacedBlock.RunAction(action2);
+
+                    replacedBlock.ZOrder--;
+                    isCurrentTouchedBlockMoved = true;
+
+                    if (!isTouchEnded)
+                        OnTouchEnded(touch, ccevent);
                 }
-
-                /*var delta = new CCPoint(blockWidth, blockWidth);
-                var action1 = new CCMoveBy(0.1f, delta);*/
-
-                //currentTouchedBlock.Sprite.RunAction(action1);
-                //currentTouchedBlock.Sprite.RunAction(scaleDown.Reverse());
-
             }
         }
 
@@ -147,7 +146,8 @@ namespace PetZombieUI
 
                 currentTouchedBlock = null;
                 isCurrentTouchedBlockMoved = false;
-                isReplacedTouchBlockMoved = false;
+                isTouchEnded = true;
+                //isReplacedTouchBlockMoved = false;
             }
         }
 
@@ -179,6 +179,22 @@ namespace PetZombieUI
             }
 
             return new CCPoint();
+        }
+
+        private CCNode GetBlockSpriteAt(Block block, CCPoint position)
+        {
+            var replacedBlock = game.GetReplacedBlock(block, position);
+
+            if (replacedBlock != null)
+            {
+                foreach (var node in blockGrid.Children)
+                {
+                    if (node.Position == replacedBlock.Sprite.Position)
+                        return node;
+                }
+            }
+
+            return null;
         }
             
         private void AddBackground()
