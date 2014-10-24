@@ -87,9 +87,9 @@ namespace PetZombie
 		//Генерация одного блока зомби, путем замещения типа случайного блока на поле.
 		private void GenerateBrain ()
 		{
-			int randomRow = random.Next (0, this.blocks.Count);
-			int randomColumn = random.Next (0, this.blocks [randomRow].Count);
-			this.blocks [randomRow] [randomColumn].Type = BlockType.Brain;
+			int lastRow = this.blocks.Count - 1;
+			int randomColumn = random.Next (0, this.blocks [lastRow].Count);
+			this.blocks [lastRow] [randomColumn].Type = BlockType.Brain;
 		}
 		//Меняет местами два блока (меняет позиции этих блоков)
 		//
