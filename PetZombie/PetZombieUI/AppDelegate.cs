@@ -11,11 +11,11 @@ namespace PetZombieUI
 			application.PreferMultiSampling = false;
             application.ContentSearchPaths.Add("Content");
 
-            Resolution.DesignResolution = mainWindow.DesignResolutionSize;
-            //mainWindow.SetDesignResolutionSize(480, 800, CCSceneResolutionPolicy.FixedHeight);
-
 			// Set display orientation.
 			mainWindow.SupportedDisplayOrientations = CCDisplayOrientation.Portrait;
+
+            // Set common resolution that will be used for all scenes.
+            Resolution.DesignResolution = mainWindow.DesignResolutionSize;
 
 			// Initialize the scene.
             var scene = ThreeInRowGameLayer.ThreeInRowGameLayerScene(mainWindow);

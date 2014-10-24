@@ -54,6 +54,34 @@ namespace PetZombieUI
             return null;
         }
 
+        private CCPoint GetPriorityDirection(Block block, CCPoint delta)
+        {
+            float additionValue;
+            var absX = Math.Abs(delta.X);
+            var absY = Math.Abs(delta.Y);
+
+            if (absX > absY)
+            {
+                if (delta.X > 0)
+                    additionValue = block.Size.Width;
+                else
+                    additionValue = -block.Size.Width;
+
+                return new CCPoint(delta.X + additionValue, 0);
+            }
+            else if (absY > absX)
+            {
+                if (delta.Y > 0)
+                    additionValue = block.Size.Height;
+                else
+                    additionValue = -block.Size.Height;
+
+                return new CCPoint(0, delta.Y + additionValue);
+            }
+
+            return new CCPoint();
+        }
+
         public Block FindBlockAt(CCPoint point)
         {
             var foundBlock = Blocks.Find(
