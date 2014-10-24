@@ -43,11 +43,12 @@ namespace PetZombie
 				for (int i = 0; i < rowsCount; i++) {
 					List<Block> row = new List<Block> ();
 					for (int j = 0; j < columnsCount; j++) {
-						row.Add (GenerateBlock (i, j));
+						row.Add (GenerateBlock (false, i, j));
 					}
 					this.blocks.Add (row);
 				}
 				this.GenerateZombie ();
+				this.GenerateBrain ();
 			} while (this.CheckDelete ().Count != 0);
 
 			this.target = target;
@@ -66,9 +67,13 @@ namespace PetZombie
 		//int y - индекс столбца
 		//
 		//Возвращает Block - новый случайный блок, исключая зомби-блок
-		private Block GenerateBlock (int x = 0, int y = 0)
+		private Block GenerateBlock (bool brain, int x = 0, int y = 0)
 		{
-			int number = random.Next (0, 6);
+			int number;
+			if (brain)
+				number = random.Next (0, 6);
+			else
+				number = random.Next (0, 5);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position (x, y);
 			Block block = new Block (type, position);
@@ -80,6 +85,13 @@ namespace PetZombie
 			int randomRow = random.Next (0, this.blocks.Count);
 			int randomColumn = random.Next (0, this.blocks[randomRow].Count);
 			this.blocks [randomRow] [randomColumn].Type = BlockType.Zombie;
+		}
+
+		//Генерация одного блока зомби, путем замещения типа случайного блока на поле.
+		private void GenerateBrain(){
+			int randomRow = random.Next (0, this.blocks.Count);
+			int randomColumn = random.Next (0, this.blocks[randomRow].Count);
+			this.blocks [randomRow] [randomColumn].Type = BlockType.Brain;
 		}
 
 		//Меняет местами два блока (меняет позиции этих блоков)
@@ -178,7 +190,7 @@ namespace PetZombie
 						if (nextRow < this.blocks.Count)
 							this.blocks [row] [block.Position.ColumnIndex].Type = this.blocks [nextRow] [block.Position.ColumnIndex].Type;
 						else {
-							Block newBlock = this.GenerateBlock ();
+							Block newBlock = this.GenerateBlock (true);
 							this.blocks [row] [block.Position.ColumnIndex].Type = newBlock.Type;
 						}
 						movingBlocks.Add (new Block (this.blocks [row] [block.Position.ColumnIndex].Type, this.blocks [row] [block.Position.ColumnIndex].Position));
@@ -202,7 +214,7 @@ namespace PetZombie
 						if (nextRow < this.blocks.Count)
 							this.blocks [row] [i].Type = this.blocks [nextRow] [i].Type;
 						else {
-							Block newBlock = this.GenerateBlock ();
+							Block newBlock = this.GenerateBlock (true);
 							this.blocks [row] [i].Type = newBlock.Type;
 						}
 						//movingBlocks.Add (new Block (this.blocks [row] [i].Type, this.blocks [row] [i].Position));
