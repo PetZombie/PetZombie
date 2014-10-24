@@ -12,7 +12,7 @@ namespace PetZombieUI
 
         // Margin fields.
         private const float marginPortion = 0.1f;
-        private float freeSpace;
+        private float freeSpace = Resolution.DesignResolution.Width * marginPortion;
 
         // Block greed fields.
         private CCNode blockGrid;
@@ -32,13 +32,10 @@ namespace PetZombieUI
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
 
-        private CCSprite background;
-
         #endregion
 
         private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
         {
-            freeSpace = Resolution.DesignResolution.Width * marginPortion;
             blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
             blockSize = new CCSize(blockWidth, blockWidth);
@@ -64,8 +61,6 @@ namespace PetZombieUI
             base.AddedToScene();
 
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
-
-            background.Position = VisibleBoundsWorldspace.Center;
         }
 
         public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
@@ -103,8 +98,7 @@ namespace PetZombieUI
             if (currentTouchedBlock != null && !isReplacedTouchBlockMoved)
             {
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
-                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, 
-                    currentTouchedBlock.Sprite.Position + priorityDirection);
+                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, currentTouchedBlock.Sprite.Position + priorityDirection);
 
                 if (replacedBlock != null)
                 {
@@ -151,7 +145,7 @@ namespace PetZombieUI
         }
 
         #endregion
-        /*
+
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)
         {
             float additionValue;
@@ -178,21 +172,13 @@ namespace PetZombieUI
             }
 
             return new CCPoint();
-        }*/
+        }
             
         private void AddBackground()
         {
-            background = new CCSprite("Images/background blur");
-
-            var scaleX = background.ContentSize.Width / Resolution.DesignResolution.Width;
-            var scaleY = background.ContentSize.Height / Resolution.DesignResolution.Height;
-
-            var scaleValue = Math.Min(scaleX, scaleY);
-
-            var screenWidth = background.ContentSize.Width / scaleValue;
-            var screenHeight = background.ContentSize.Height / scaleValue;
-
-            background.ScaleTo(new CCSize(screenWidth, screenHeight));
+            var background = new CCSprite("Images/background blur");
+            background.AnchorPoint = CCPoint.Zero;
+            background.ScaleTo(Resolution.DesignResolution);
 
             AddChild(background);
         }
@@ -212,6 +198,8 @@ namespace PetZombieUI
 
             AddChild(blockGrid);
         }
+
+
     }
 }
 
