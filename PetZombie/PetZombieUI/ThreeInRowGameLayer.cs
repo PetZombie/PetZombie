@@ -50,7 +50,7 @@ namespace PetZombieUI
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
-            //listener.OnTouchMoved = OnTouchMoved;
+            listener.OnTouchMoved = OnTouchMoved;
 
             Color = CCColor3B.Gray;
             Opacity = 255;
@@ -114,7 +114,8 @@ namespace PetZombieUI
                     {
                         previousPosition = currentTouchedBlock.Sprite.Position;
                         var moveTo1 = new CCMoveTo(0.1f, replacedBlock.Sprite.Position);
-                        currentTouchedBlock.Sprite.RunAction(moveTo1);
+                        var moveTo2 = new CCMoveTo(0.1f, previousPosition);
+                        currentTouchedBlock.Sprite.RunAction(new CCSequence(moveTo1, moveTo2));
                         isCurrentTouchedBlockMoved = true;
                     }
                     else
