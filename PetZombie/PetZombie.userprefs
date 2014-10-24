@@ -1,16 +1,17 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\GameCreator.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\ThreeInRowGame.cs">
     <Files>
-      <File FileName="PetZombie\Logic\BlockType.cs" Line="11" Column="4" />
-      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="28" Column="91" />
+      <File FileName="PetZombie\Logic\BlockType.cs" Line="13" Column="9" />
+      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="162" Column="6" />
       <File FileName="PetZombie\Logic\Block.cs" Line="31" Column="4" />
-      <File FileName="PetZombie\Logic\IGame.cs" Line="12" Column="3" />
-      <File FileName="PetZombie\Logic\GameCreator.cs" Line="13" Column="70" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="PetZombie\Logic\ThreeInRowGame.cs" line="160" offsetX="343" offsetY="2703" expression="tmpRow" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="4df123c8544b9f1f" />
 </Properties>

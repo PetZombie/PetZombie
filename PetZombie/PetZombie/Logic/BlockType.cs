@@ -9,8 +9,8 @@ namespace PetZombie
 		Orange,
 		Red,
 		Violet,
-		Zombie,
-		Brain
+		Brain,
+		Zombie
 	}
 }
 
