@@ -1,38 +1,3 @@
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\bin\Debug\CocosSharp.dll
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-C:\Users\Admin\Documents\Projects\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\CocosSharp.dll
-C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-C:\Users\Admin\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\CocosSharp.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\mscorlib.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\ru\mscorlib.resources.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\normidna.nlp
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\normnfc.nlp
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\normnfd.nlp
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkc.nlp
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkd.nlp
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-E:\PetZombie-master\PetZombie-master\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\mscorlib.dll
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\ru\mscorlib.resources.dll
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\normidna.nlp
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\normnfc.nlp
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\normnfd.nlp
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkc.nlp
-E:\Учеба\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkd.nlp
-E:\Учеба\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
-E:\Учеба\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-E:\Учеба\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\mscorlib.dll
@@ -42,11 +7,6 @@ E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfc.nlp
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfd.nlp
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkc.nlp
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkd.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
 E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
 E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
-C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache

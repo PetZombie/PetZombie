@@ -30,8 +30,7 @@ namespace PetZombie
 			get { return this.stepsCount; }
 		}
 
-		public int BrainCount
-		{
+		public int BrainCount {
 			get { return this.currentBrainCount; }
 		}
 
@@ -43,11 +42,12 @@ namespace PetZombie
 				for (int i = 0; i < rowsCount; i++) {
 					List<Block> row = new List<Block> ();
 					for (int j = 0; j < columnsCount; j++) {
-						row.Add (GenerateBlock (i, j));
+						row.Add (GenerateBlock (false, i, j));
 					}
 					this.blocks.Add (row);
 				}
 				this.GenerateZombie ();
+				this.GenerateBrain ();
 			} while (this.CheckDelete ().Count != 0);
 
 			this.target = target;
@@ -58,7 +58,6 @@ namespace PetZombie
 			this.points = 0;
 			this.currentBrainCount = 0;
 		}
-
 		//Генерация блока
 		//
 		//Аргументы:
@@ -66,22 +65,32 @@ namespace PetZombie
 		//int y - индекс столбца
 		//
 		//Возвращает Block - новый случайный блок, исключая зомби-блок
-		private Block GenerateBlock (int x = 0, int y = 0)
+		private Block GenerateBlock (bool brain, int x = 0, int y = 0)
 		{
-			int number = random.Next (0, 6);
+			int number;
+			if (brain)
+				number = random.Next (0, 6);
+			else
+				number = random.Next (0, 5);
 			BlockType type = (BlockType)BlockType.ToObject (typeof(BlockType), number);
 			Position position = new Position (x, y);
 			Block block = new Block (type, position);
 			return block;
 		}
-
 		//Генерация одного блока зомби, путем замещения типа случайного блока на поле.
-		private void GenerateZombie(){
+		private void GenerateZombie ()
+		{
 			int randomRow = random.Next (0, this.blocks.Count);
-			int randomColumn = random.Next (0, this.blocks[randomRow].Count);
+			int randomColumn = random.Next (0, this.blocks [randomRow].Count);
 			this.blocks [randomRow] [randomColumn].Type = BlockType.Zombie;
 		}
-
+		//Генерация одного блока зомби, путем замещения типа случайного блока на поле.
+		private void GenerateBrain ()
+		{
+			int randomRow = random.Next (0, this.blocks.Count);
+			int randomColumn = random.Next (0, this.blocks [randomRow].Count);
+			this.blocks [randomRow] [randomColumn].Type = BlockType.Brain;
+		}
 		//Меняет местами два блока (меняет позиции этих блоков)
 		//
 		//Аргументы:
@@ -107,7 +116,6 @@ namespace PetZombie
 						this.blocks [block2.Position.RowIndex] [block2.Position.ColumnIndex].Type = block2.Type;
 					}
 				}
-
 				return null;
 			} catch {
 				return null;
@@ -117,10 +125,10 @@ namespace PetZombie
 		private bool AbilityToReplace (Block block1, Block block2)
 		{
 			if (Math.Abs (block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
-			    (block1.Position.ColumnIndex == block2.Position.ColumnIndex))
+				(block1.Position.ColumnIndex == block2.Position.ColumnIndex))
 				return true;
 			if (Math.Abs (block1.Position.ColumnIndex - block2.Position.ColumnIndex) == 1 &&
-			    (block1.Position.RowIndex == block2.Position.RowIndex))
+				(block1.Position.RowIndex == block2.Position.RowIndex))
 				return true;
 			return false;
 		}
@@ -178,7 +186,7 @@ namespace PetZombie
 						if (nextRow < this.blocks.Count)
 							this.blocks [row] [block.Position.ColumnIndex].Type = this.blocks [nextRow] [block.Position.ColumnIndex].Type;
 						else {
-							Block newBlock = this.GenerateBlock ();
+							Block newBlock = this.GenerateBlock (true);
 							this.blocks [row] [block.Position.ColumnIndex].Type = newBlock.Type;
 						}
 						movingBlocks.Add (new Block (this.blocks [row] [block.Position.ColumnIndex].Type, this.blocks [row] [block.Position.ColumnIndex].Position));
@@ -187,14 +195,15 @@ namespace PetZombie
 					points += 10;
 				}
 			}
-				
+
 			return new Tuple<List<Block>, List<Block>> (delBlocks, movingBlocks);
 		}
 
-		private void BrainChecking ()
+		private void BrainDeleteChecking ()
 		{
 			for (int i = 0; i < this.blocks [0].Count; i++) {
 				if (this.blocks [0] [i].Type == BlockType.Brain) {
+
 					this.currentBrainCount++;
 					int row = 0;
 					while (row < this.blocks.Count) {
@@ -202,7 +211,11 @@ namespace PetZombie
 						if (nextRow < this.blocks.Count)
 							this.blocks [row] [i].Type = this.blocks [nextRow] [i].Type;
 						else {
-							Block newBlock = this.GenerateBlock ();
+							Block newBlock;
+							if (HasOtherBrain (this.blocks [0] [i]))
+								newBlock = this.GenerateBlock (true);
+							else
+								newBlock = new Block(BlockType.Brain);
 							this.blocks [row] [i].Type = newBlock.Type;
 						}
 						//movingBlocks.Add (new Block (this.blocks [row] [i].Type, this.blocks [row] [i].Position));
@@ -210,6 +223,19 @@ namespace PetZombie
 					}
 				}
 			}
+		}
+
+		private bool HasOtherBrain (Block brain)
+		{
+			foreach (List<Block> row in this.blocks) {
+				List<Block> brains = row.FindAll (delegate (Block b) {return b.Type == BlockType.Brain;});
+				if (brains.Count > 0) {
+					if (brains.Contains (brain) && brains.Count == 1)
+						continue;
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public void UseWeapon (Weapon weapon, Block block)
