@@ -48,7 +48,7 @@ namespace PetZombie
 				}
 				this.GenerateZombie ();
 				this.GenerateBrain ();
-			} while (this.CheckDelete ().Count != 0);
+			} while (this.CheckDelete ().Count != 0 || !this.CheckBrainAndZombieAreNotNear());
 
 			this.target = target;
 			this.stepsCount = steps;
@@ -91,6 +91,19 @@ namespace PetZombie
 			int randomColumn = random.Next (0, this.blocks [lastRow].Count);
 			this.blocks [lastRow] [randomColumn].Type = BlockType.Brain;
 		}
+
+		private bool CheckBrainAndZombieAreNotNear()
+		{
+			Block brain = this.blocks [blocks.Count - 1].Find (delegate(Block b) {
+				return b.Type == BlockType.Brain;
+			});
+			Block zombie = this.blocks [blocks.Count - 1].Find (delegate(Block b) {
+				return b.Type == BlockType.Zombie;
+			}); 
+			return (zombie == null || (Math.Abs (brain.Position.ColumnIndex - zombie.Position.ColumnIndex) > 1 
+				&& Math.Abs (brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
+		}
+
 		//Меняет местами два блока (меняет позиции этих блоков)
 		//
 		//Аргументы:
@@ -99,7 +112,7 @@ namespace PetZombie
 		//
 		//Возвращает Tuple<List<Block>, List<Block>> - тьюпл из двух списков блоков.
 		//Первый список - удаляемые блоки, второй - перемещаемые блоки.
-		public Tuple<List<Block>, List<Block>> MoveBlocks (Block block1, Block block2)
+		public Tuple<List<Block>, List<Block>> ReplaceBlocks (Block block1, Block block2)
 		{
 			try {
 				if (AbilityToReplace (block1, block2)) {
@@ -122,8 +135,15 @@ namespace PetZombie
 			}
 		}
 
-		private bool AbilityToReplace (Block block1, Block block2)
+		//Проверка на возможность перемещения двух блоков.
+		//Учитывается расположение блоков в матрице, а также тип блоков.
+		//Если хотя бы один из блоков - зомби, то перемещение невозможно.
+		//Если блоки расположены друг от друга на расстоянии большем 1, то метод вернет false
+		//Иначе вернется true
+		public bool AbilityToReplace (Block block1, Block block2)
 		{
+			if (block1.Type == BlockType.Zombie || block2.Type == BlockType.Zombie)
+				return false;
 			if (Math.Abs (block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
 				(block1.Position.ColumnIndex == block2.Position.ColumnIndex))
 				return true;
@@ -181,8 +201,18 @@ namespace PetZombie
 				foreach (Block block in oneSet) {
 					delBlocks.Add (block);
 					int row = block.Position.RowIndex;
+					int increment = 1;
 					while (row < this.blocks.Count) {
-						int nextRow = row + 1;
+						if (this.blocks [row] [block.Position.ColumnIndex].Type == BlockType.Zombie) {
+							row++;
+							continue;
+						}
+						int nextRow = row + increment;
+						if (this.blocks [nextRow] [block.Position.ColumnIndex].Type == BlockType.Zombie) {
+							increment++;
+							continue;
+						} else
+							increment--;
 						if (nextRow < this.blocks.Count)
 							this.blocks [row] [block.Position.ColumnIndex].Type = this.blocks [nextRow] [block.Position.ColumnIndex].Type;
 						else {
