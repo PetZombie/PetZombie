@@ -8,7 +8,7 @@ namespace PetZombieUI
     {
         private CCSize blockSize;
 
-        public new List<PetZombieUI.Block> Blocks
+        public new List<Block> Blocks
         {
             get;
             private set;
@@ -17,7 +17,7 @@ namespace PetZombieUI
         public ThreeInRowGame(int rowsCount, int columnsCount, CCSize blockSize) 
             : base(rowsCount, columnsCount, 2, 2, 2)
         {
-            Blocks = new List<PetZombieUI.Block>(rowsCount*columnsCount);
+            Blocks = new List<Block>(rowsCount*columnsCount);
 
             foreach (var row in base.Blocks)
             {
@@ -31,7 +31,7 @@ namespace PetZombieUI
 
         private Block FindBlock(PetZombie.Block block)
         {
-            var foundBlock = this.Blocks.Find(b => 
+            var foundBlock = Blocks.Find(b => 
             {
                 return (b.Position == block.Position) ? true : false;
             });
@@ -39,9 +39,9 @@ namespace PetZombieUI
             return foundBlock;
         }
 
-        private List<PetZombieUI.Block> GetNeighbors(PetZombieUI.Block block)
+        private List<Block> GetNeighbors(Block block)
         {
-            var neighbors = new List<PetZombieUI.Block>();
+            var neighbors = new List<Block>();
 
             foreach (var neighbor in base.GetNeighbors(block))
             {
@@ -54,7 +54,7 @@ namespace PetZombieUI
             return neighbors;
         }
 
-        public PetZombieUI.Block GetReplacedBlock(PetZombieUI.Block block, CCPoint position)
+        public Block GetReplacedBlock(Block block, CCPoint position)
         {
             foreach (var neighbor in GetNeighbors(block))
             {
@@ -77,15 +77,14 @@ namespace PetZombieUI
             return foundBlock;
         }
 
-        public Tuple<List<PetZombieUI.Block>, List<PetZombieUI.Block>> ReplaceBlocks(PetZombieUI.Block block1,
-            PetZombieUI.Block block2)
+        public Tuple<List<Block>, List<Block>> ReplaceBlocks(Block block1, Block block2)
         {
             var tuple = base.ReplaceBlocks(block1, block2);
 
             if (tuple != null)
             {
-                var removedBlocks = new List<PetZombieUI.Block>();
-                var movedBlocks = new List<PetZombieUI.Block>();
+                var removedBlocks = new List<Block>();
+                var movedBlocks = new List<Block>();
 
                 foreach (var block in tuple.Item1)
                     removedBlocks.Add(FindBlock(block));

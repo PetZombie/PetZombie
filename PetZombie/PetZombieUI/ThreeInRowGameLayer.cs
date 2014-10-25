@@ -117,15 +117,15 @@ namespace PetZombieUI
                         var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
                         var moveTo2 = new CCMoveTo(0.2f, previousPosition);
 
-
                         var tuple = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
 
                         PauseListeners(true);
 
                         if (tuple != null)
                         {
+                            var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
                             currentTouchedBlock.Sprite.RunAction(moveTo1);
-                            replacedBlock.Sprite.RunAction(new CCSequence(moveTo2, new CCCallFunc(() => ResumeListeners(true))));
+                            replacedBlock.Sprite.RunAction(new CCSequence(moveTo2, removeBlocks, new CCCallFunc(() => ResumeListeners(true))));
                         }
                         else
                         {
@@ -169,6 +169,12 @@ namespace PetZombieUI
         }
 
         #endregion
+
+        private void RemoveBlocks(List<Block> blocks)
+        {
+            foreach (var block in blocks)
+                blockGrid.RemoveChild(block.Sprite);
+        }
 
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)
         {
