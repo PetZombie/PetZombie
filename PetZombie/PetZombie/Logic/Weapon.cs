@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PetZombie
 {
@@ -11,7 +12,10 @@ namespace PetZombie
 			this.count = count;
 		}
 
-		abstract public void Use ();
+		//Использовать оружие
+		//Принимает блок и всю матрицу блоков, на которые применяется оружие
+		//Вовзращает матрицу, над которой применили оружие
+		abstract public List<List<Block>> Use (Block block, List<List<Block>> blocks, Delegate GenerateBlocks);
 	}
 }
 

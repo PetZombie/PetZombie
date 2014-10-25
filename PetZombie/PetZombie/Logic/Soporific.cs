@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PetZombie
 {
 	//Снотворное
 	class Soporific: Weapon
 	{
-		public Soporific (int size)
+		public Soporific(int count) : base(count)
 		{
 		}
-		public override void Use()
+
+		public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
 		{
+			if (block.Type != BlockType.Zombie)
+				return blocks;
+			return blocks;
 		}
 	}
 }

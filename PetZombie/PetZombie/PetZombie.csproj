@@ -41,6 +41,8 @@
     <Compile Include="Logic\Soporific.cs" />
     <Compile Include="Logic\Position.cs" />
     <Compile Include="Logic\BlockType.cs" />
+    <Compile Include="Logic\Gun.cs" />
+    <Compile Include="Logic\Bomb.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />
