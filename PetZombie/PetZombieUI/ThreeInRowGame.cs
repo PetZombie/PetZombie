@@ -77,13 +77,27 @@ namespace PetZombieUI
             return foundBlock;
         }
 
-        /*public Tuple<List<PetZombieUI.Block>, List<PetZombieUI.Block>> MoveBlocks(PetZombieUI.Block block1,
+        public Tuple<List<PetZombieUI.Block>, List<PetZombieUI.Block>> ReplaceBlocks(PetZombieUI.Block block1,
             PetZombieUI.Block block2)
         {
-            var tuple = base.MoveBlocks(block1, block2);
+            var tuple = base.ReplaceBlocks(block1, block2);
 
+            if (tuple != null)
+            {
+                var removedBlocks = new List<PetZombieUI.Block>();
+                var movedBlocks = new List<PetZombieUI.Block>();
 
-        }*/
+                foreach (var block in tuple.Item1)
+                    removedBlocks.Add(FindBlock(block));
+
+                foreach (var block in tuple.Item2)
+                    movedBlocks.Add(FindBlock(block));
+
+                return new Tuple<List<Block>, List<Block>>(removedBlocks, movedBlocks);
+            }
+
+            return null;
+        }
     }
 }
 

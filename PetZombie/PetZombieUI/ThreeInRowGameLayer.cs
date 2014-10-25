@@ -109,25 +109,45 @@ namespace PetZombieUI
 
                 if (replacedBlock != null)
                 {
+                    if (game.AbilityToReplace(currentTouchedBlock, replacedBlock))
+                    {
+                        replacedBlock.Sprite.ZOrder++;
+                        var previousPosition = currentTouchedBlock.Sprite.Position;
+
+                        var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+                        var moveTo2 = new CCMoveTo(0.2f, previousPosition);
 
 
-                    replacedBlock.Sprite.ZOrder++;
-                    var previousPosition = currentTouchedBlock.Sprite.Position;
+                        var tuple = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
 
-                    var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
-                    var moveTo2 = new CCMoveTo(0.2f, previousPosition);
-                    var action1 = new CCSequence(moveTo1, moveTo2);
-                    var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
+                        PauseListeners(true);
 
-                    PauseListeners(true);
-                    currentTouchedBlock.Sprite.RunAction(action1);
-                    replacedBlock.Sprite.RunAction(action2);
+                        if (tuple != null)
+                        {
+                            currentTouchedBlock.Sprite.RunAction(moveTo1);
+                            replacedBlock.Sprite.RunAction(new CCSequence(moveTo2, new CCCallFunc(() => ResumeListeners(true))));
+                        }
+                        else
+                        {
+                            var action1 = new CCSequence(moveTo1, moveTo2);
+                            var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
 
-                    replacedBlock.Sprite.ZOrder--;
-                    isCurrentTouchedBlockMoved = true;
+                            currentTouchedBlock.Sprite.RunAction(action1);
+                            replacedBlock.Sprite.RunAction(action2);
+                        }
 
-                    if (!isTouchEnded)
-                        OnTouchEnded(touch, ccevent);
+                        replacedBlock.Sprite.ZOrder--;
+                        isCurrentTouchedBlockMoved = true;
+
+                        if (!isTouchEnded)
+                            OnTouchEnded(touch, ccevent);
+                    }
+                    else
+                    {
+
+                    }
+
+
                 }
             }
         }
@@ -136,11 +156,11 @@ namespace PetZombieUI
         {
             if (currentTouchedBlock != null)
             {
-                    var scale = currentTouchedBlock.Size.Width / 
-                        currentTouchedBlock.Sprite.ScaledContentSize.Width;
-                    var scaleUp = new CCScaleBy(0.1f, scale);
+                var scale = currentTouchedBlock.Size.Width / 
+                    currentTouchedBlock.Sprite.ScaledContentSize.Width;
+                var scaleUp = new CCScaleBy(0.1f, scale);
 
-                    currentTouchedBlock.Sprite.RunAction(scaleUp);
+                currentTouchedBlock.Sprite.RunAction(scaleUp);
 
                 currentTouchedBlock = null;
                 isCurrentTouchedBlockMoved = false;
