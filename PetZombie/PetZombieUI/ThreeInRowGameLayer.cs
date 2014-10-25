@@ -28,6 +28,8 @@ namespace PetZombieUI
         private bool isCurrentTouchedBlockMoved;
         private bool isTouchEnded;
 
+        // Func to resume listeners when calling from the code 
+        // where listeners aer paused while actions are running.
         private CCCallFunc resumeListeners;
 
         // Touch fields.
@@ -54,9 +56,6 @@ namespace PetZombieUI
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
-
-            Color = CCColor3B.Gray;
-            Opacity = 255;
 
             AddBackground();
             AddBlockGrid();
@@ -233,6 +232,8 @@ namespace PetZombieUI
 
             return new CCPoint();
         }
+
+        #region Sprite elements adding
             
         private void AddBackground()
         {
@@ -266,6 +267,8 @@ namespace PetZombieUI
 
             AddChild(blockGrid);
         }
+
+        #endregion
     }
 }
 
