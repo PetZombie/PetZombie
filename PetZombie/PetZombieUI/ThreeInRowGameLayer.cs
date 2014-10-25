@@ -28,6 +28,8 @@ namespace PetZombieUI
         private bool isCurrentTouchedBlockMoved;
         private bool isTouchEnded;
 
+        private CCCallFunc resumeListeners;
+
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
 
@@ -44,6 +46,8 @@ namespace PetZombieUI
             blockGridMargin = freeSpace / 2;
 
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
+
+            resumeListeners = new CCCallFunc(() => ResumeListeners(true));
 
             listener = new CCEventListenerTouchOneByOne();
             listener.IsSwallowTouches = true;
@@ -81,15 +85,19 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
+            // We need to be not able to handle any touches while handling particular one.
             if (currentTouchedBlock == null)
             {
                 isTouchEnded = false;
 
+                // Finding the block that appropriates to user touch loccation on screen.
                 currentTouchedBlock = game.FindBlockAt(touch.Location);
 
                 if (currentTouchedBlock != null)
                 {
+                    // The action that will be run on the touched block sprite.
                     var scaleDown = new CCScaleBy(0.1f, 0.8f);
+
                     currentTouchedBlock.Sprite.RunAction(scaleDown);
 
                     return true;
@@ -101,59 +109,78 @@ namespace PetZombieUI
 
         private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
         {
+            // If no block touched there's no reason to handle the touch.
+            // OnTouchMoved event is called always while display is being touched,
+            // so we need to handle it once user has swiped display.
+            // This is enough for our porpouse to having the direction user has swiped display.
+            // isCurrentTouchedBlockMoved mark stricts that situation going on right way
+            // for avoiding other touches' side effects.
             if (currentTouchedBlock != null && !isCurrentTouchedBlockMoved)
             {
+                // See GetPriorityDirection method.
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
                 var position = currentTouchedBlock.Sprite.Position + priorityDirection;
                 var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, position);
 
                 if (replacedBlock != null)
                 {
+                    // Detecting whether toched block and replaced block are replaceable to each other.
                     if (game.AbilityToReplace(currentTouchedBlock, replacedBlock))
                     {
+                        // For desire right replace action we set the replaced block's ZOrder up
+                        // so that the touched block moves under that one.
                         replacedBlock.Sprite.ZOrder++;
+
+                        // Remember the touched block's initial position for replace action purposes.
                         var previousPosition = currentTouchedBlock.Sprite.Position;
 
                         var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
                         var moveTo2 = new CCMoveTo(0.2f, previousPosition);
 
-                        var tuple = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
-
+                        // Pause listeners to avoid any touches when actions is running.
                         PauseListeners(true);
 
+                        var tuple = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
+
+                        // If there's "Tree In Row!".
                         if (tuple != null)
                         {
                             var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
+                            var action = new CCSequence(moveTo2, removeBlocks, resumeListeners);
+
                             currentTouchedBlock.Sprite.RunAction(moveTo1);
-                            replacedBlock.Sprite.RunAction(new CCSequence(moveTo2, removeBlocks, new CCCallFunc(() => ResumeListeners(true))));
+                            replacedBlock.Sprite.RunAction(action);
                         }
                         else
                         {
                             var action1 = new CCSequence(moveTo1, moveTo2);
-                            var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
+                            var action2 = new CCSequence(moveTo2, moveTo1, resumeListeners);
 
                             currentTouchedBlock.Sprite.RunAction(action1);
                             replacedBlock.Sprite.RunAction(action2);
                         }
 
+                        // Return back to the previous value taking count of that
+                        // the same block can be swipped several times.
                         replacedBlock.Sprite.ZOrder--;
-                        isCurrentTouchedBlockMoved = true;
-
-                        if (!isTouchEnded)
-                            OnTouchEnded(touch, ccevent);
-                    }
-                    else
-                    {
-
                     }
 
+                    isCurrentTouchedBlockMoved = true;
 
+                    // OnTouchEnded can be not called if user ends their touch before animation 
+                    // that pause listeners is complete and it's not resume them again.
+                    // In this case we need to call the event handler manually
+                    // to perform all things we want to complete.
+                    if (!isTouchEnded)
+                        OnTouchEnded(touch, ccevent);
                 }
             }
         }
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
         {
+            // Like with OnTouchedMoved we don't need to handle the touch end
+            // if ther's no block has been touched.
             if (currentTouchedBlock != null)
             {
                 var scale = currentTouchedBlock.Size.Width / 
@@ -162,6 +189,7 @@ namespace PetZombieUI
 
                 currentTouchedBlock.Sprite.RunAction(scaleUp);
 
+                // Some necessary resets.
                 currentTouchedBlock = null;
                 isCurrentTouchedBlockMoved = false;
                 isTouchEnded = true;
