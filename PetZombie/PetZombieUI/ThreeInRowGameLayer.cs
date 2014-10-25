@@ -173,7 +173,9 @@ namespace PetZombieUI
         private void RemoveBlocks(List<Block> blocks)
         {
             foreach (var block in blocks)
+            {
                 blockGrid.RemoveChild(block.Sprite);
+            }
         }
 
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)

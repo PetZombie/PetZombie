@@ -87,7 +87,10 @@ namespace PetZombieUI
                 var movedBlocks = new List<Block>();
 
                 foreach (var block in tuple.Item1)
+                {
+                    //Blocks.Remove(FindBlock(block));
                     removedBlocks.Add(FindBlock(block));
+                }
 
                 foreach (var block in tuple.Item2)
                     movedBlocks.Add(FindBlock(block));
