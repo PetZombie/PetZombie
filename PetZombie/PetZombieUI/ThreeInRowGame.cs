@@ -29,6 +29,19 @@ namespace PetZombieUI
             }
         }
 
+        public void UpdateBlocks()
+        {
+            Blocks.Clear();
+
+            foreach (var row in base.Blocks)
+            {
+                foreach (var block in row)
+                {
+                    Blocks.Add(new Block(block, blockSize));
+                }
+            }
+        }
+
         private Block FindBlock(PetZombie.Block block)
         {
             var foundBlock = Blocks.Find(b => 
