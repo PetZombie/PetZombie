@@ -243,7 +243,6 @@ namespace PetZombie
 
                     if (nextRow < this.blocks.Count)
                     {
-                           
                         if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
                             movingBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
                         else
@@ -259,7 +258,7 @@ namespace PetZombie
                     {
                         Block newBlock = this.GenerateBlock(true);
                         this.blocks[row][column].Type = newBlock.Type;
-                        newBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
+                        newBlocks.Add(new Block(newBlock.Type, new Position(nextRow, column)));
                     }
 
                     row++;
