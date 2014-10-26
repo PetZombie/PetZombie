@@ -58,7 +58,7 @@ namespace PetZombie
                 }
                 this.GenerateZombie();
                 this.GenerateBrain();
-            } while (this.CheckDelete().Count != 0 || !this.CheckBrainAndZombieAreNotNear());
+            } while (this.CheckDelete().Item1 != null || !this.CheckBrainAndZombieAreNotNear());
 
             this.target = target;
             this.stepsCount = steps;
@@ -123,13 +123,13 @@ namespace PetZombie
         //
         //Возвращает Tuple<List<Block>, List<Block>> - тьюпл из двух списков блоков.
         //Первый список - удаляемые блоки, второй - перемещаемые блоки.
-        public Tuple<List<Block>, List<Block>, List<Block>> ReplaceBlocks(Block block1, Block block2)
+        public Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks(Block block1, Block block2)
         {
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
-            List<List<Block>> delBlocks = new List<List<Block>>(this.CheckDelete());
-            if (delBlocks.Count > 0)
+            Tuple<List<Block>, int> delBlocks = this.CheckDelete();
+            if (delBlocks != null)
             {
                 this.stepsCount--;
                 return this.DeleteBlocks(delBlocks, block1, block2);
@@ -141,7 +141,6 @@ namespace PetZombie
                 return null;
             }
         }
-
         //Проверка на возможность перемещения двух блоков.
         //Учитывается расположение блоков в матрице, а также тип блоков.
         //Если хотя бы один из блоков - зомби, то перемещение невозможно.
@@ -152,17 +151,16 @@ namespace PetZombie
             if (block1.Type == BlockType.Zombie || block2.Type == BlockType.Zombie)
                 return false;
             if (Math.Abs(block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
-            (block1.Position.ColumnIndex == block2.Position.ColumnIndex))
+                (block1.Position.ColumnIndex == block2.Position.ColumnIndex))
                 return true;
             if (Math.Abs(block1.Position.ColumnIndex - block2.Position.ColumnIndex) == 1 &&
-            (block1.Position.RowIndex == block2.Position.RowIndex))
+                (block1.Position.RowIndex == block2.Position.RowIndex))
                 return true;
             return false;
         }
 
-        private List<List<Block>> CheckDelete()
+        private Tuple<List<Block>, int> CheckDelete()
         {
-            List<List<Block>> delBlocks = new List<List<Block>>();
             int rowsCount = this.blocks.Count;
             int columnsCount;
             for (int i = 0; i < rowsCount; i++)
@@ -199,78 +197,77 @@ namespace PetZombie
                         l++;
                     }
                     if (tmpColumn.Count > 2)
-                        delBlocks.Add(tmpColumn);
+                        return new Tuple<List<Block>, int>(tmpColumn, tmpColumn.Count);
                     if (tmpRow.Count > 2)
-                        delBlocks.Add(tmpRow);
+                        return new Tuple<List<Block>, int>(tmpRow, 1);
                 }
             }
 
-            return delBlocks;
+            return null;
         }
 
-        private Tuple<List<Block>, List<Block>, List<Block>> DeleteBlocks(List<List<Block>> blocksForDelete, Block repBlock1, Block repBlock2)
+        private Tuple<List<Block>, List<Block>, List<Block>, int> DeleteBlocks(Tuple<List<Block>, int> blocksForDelete, Block repBlock1, Block repBlock2)
         {
             List<Block> delBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
-            foreach (List<Block> oneSet in blocksForDelete)
+            foreach (Block block in blocksForDelete.Item1)
             {
-                foreach (Block block in oneSet)
+
+                if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
+                    delBlocks.Add(new Block(repBlock2.Type, repBlock2.Position));
+                else
                 {
-                    if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
-                        delBlocks.Add(new Block(repBlock2.Type, repBlock2.Position));
+                    if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
+                        delBlocks.Add(new Block(repBlock1.Type, repBlock1.Position));
+                    else
+                        delBlocks.Add(new Block(block.Position));
+                }
+                int row = block.Position.RowIndex;
+                int column = block.Position.ColumnIndex;
+                int increment = 1;
+                while (row < this.blocks.Count)
+                {
+                    if (this.blocks[row][column].Type == BlockType.Zombie)
+                    {
+                        row++;
+                        increment--;
+                        continue;
+                    }
+                    int nextRow = row + increment;
+                    if (nextRow < this.blocks.Count && this.blocks[nextRow][column].Type == BlockType.Zombie)
+                    {
+                        increment++;
+                        continue;
+                    }
+
+                    if (nextRow < this.blocks.Count)
+                    {
+                           
+                        if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
+                            movingBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
+                        else
+                        {
+                            if (nextRow == repBlock2.Position.RowIndex && column == repBlock2.Position.ColumnIndex)
+                                movingBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
+                            else
+                                movingBlocks.Add(this.blocks[nextRow][column]);
+                        }
+                        this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
+                    }
                     else
                     {
-                        if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
-                            delBlocks.Add(new Block(repBlock1.Type, repBlock1.Position));
-                        else
-                            delBlocks.Add(new Block(block.Position));
+                        Block newBlock = this.GenerateBlock(true);
+                        this.blocks[row][column].Type = newBlock.Type;
+                        newBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
                     }
-                    int row = block.Position.RowIndex;
-                    int column = block.Position.ColumnIndex;
-                    int increment = 1;
-                    while (row < this.blocks.Count)
-                    {
-                        if (this.blocks[row][column].Type == BlockType.Zombie)
-                        {
-                            row++;
-                            increment--;
-                            continue;
-                        }
-                        int nextRow = row + increment;
-                        if (nextRow < this.blocks.Count && this.blocks[nextRow][column].Type == BlockType.Zombie)
-                        {
-                            increment++;
-                            continue;
-                        }
 
-                        if (nextRow < this.blocks.Count)
-                        {
-                            if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
-                                movingBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
-                            else
-                            {
-                                if (nextRow == repBlock2.Position.RowIndex && column == repBlock2.Position.ColumnIndex)
-                                    movingBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
-                                else
-                                    movingBlocks.Add(this.blocks[nextRow][column]);
-                            }
-                            this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
-                        }
-                        else
-                        {
-                            Block newBlock = this.GenerateBlock(true);
-                            this.blocks[row][column].Type = newBlock.Type;
-                            newBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
-                        }
-
-                        row++;
-                    }
-                    points += 10;
+                    row++;
                 }
+                points += 10;
             }
 
-            return new Tuple<List<Block>, List<Block>, List<Block>>(delBlocks, movingBlocks, newBlocks);
+            return new Tuple<List<Block>, List<Block>, List<Block>, int>(delBlocks, movingBlocks, newBlocks, blocksForDelete.Item2);
         }
 
         private void BrainDeleteChecking()
