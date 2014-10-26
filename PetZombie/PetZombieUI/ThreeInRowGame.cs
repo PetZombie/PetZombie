@@ -22,14 +22,13 @@ namespace PetZombieUI
             foreach (var row in base.Blocks)
             {
                 foreach (var block in row)
-                {
-                    this.blockSize = blockSize;
                     Blocks.Add(new Block(block, blockSize));
-                }
             }
+
+            this.blockSize = blockSize;
         }
 
-        public void UpdateBlocks()
+        /*public void UpdateBlocks()
         {
             Blocks.Clear();
 
@@ -37,10 +36,15 @@ namespace PetZombieUI
             {
                 foreach (var block in row)
                 {
-                    Blocks.Add(new Block(block, blockSize));
+                    var newBlock = FindBlock(block);
+
+                    if (newBlock != null)
+                        Blocks.Add(newBlock);
+                    else
+                        Blocks.Add(new Block(block, blockSize));
                 }
             }
-        }
+        }*/
 
         private Block FindBlock(PetZombie.Block block)
         {
@@ -90,7 +94,7 @@ namespace PetZombieUI
             return foundBlock;
         }
 
-        public Tuple<List<Block>, List<Block>> ReplaceBlocks(Block block1, Block block2)
+        public Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks(Block block1, Block block2)
         {
             var tuple = base.ReplaceBlocks(block1, block2);
 
@@ -98,17 +102,18 @@ namespace PetZombieUI
             {
                 var removedBlocks = new List<Block>();
                 var movedBlocks = new List<Block>();
+                var newBlocks = new List<Block>();
 
                 foreach (var block in tuple.Item1)
-                {
-                    //Blocks.Remove(FindBlock(block));
                     removedBlocks.Add(FindBlock(block));
-                }
 
                 foreach (var block in tuple.Item2)
                     movedBlocks.Add(FindBlock(block));
 
-                return new Tuple<List<Block>, List<Block>>(removedBlocks, movedBlocks);
+                foreach (var block in tuple.Item3)
+                    newBlocks.Add(new Block(block, blockSize));
+
+                return new Tuple<List<Block>, List<Block>, List<Block>, int>(removedBlocks, movedBlocks, newBlocks, tuple.Item4);
             }
 
             return null;
