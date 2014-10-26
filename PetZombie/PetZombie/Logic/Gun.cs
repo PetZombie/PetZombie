@@ -8,9 +8,11 @@ namespace PetZombie
 		public Gun (int count): base(count)
 		{
 		}
-        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
+
+        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlock)
 		{
-            return blocks;
+            this.count--;
+            return Operation.DeleteBlock(block, blocks, GenerateBlock);
 		}
 	}
 }

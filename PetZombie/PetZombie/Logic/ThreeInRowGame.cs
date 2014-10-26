@@ -147,7 +147,7 @@ namespace PetZombie
 					return null;
 				}
 			}
-			catch
+            catch (Exception e)
 			{
 				return null;
 			}
@@ -176,14 +176,13 @@ namespace PetZombie
 			List<List<Block>> delBlocks = new List<List<Block>>();
 			int rowsCount = this.blocks.Count;
 			int columnsCount;
-			List <Block> tmpRow, tmpColumn;
 			for (int i = 0; i < rowsCount; i++)
 			{
 				columnsCount = this.blocks[i].Count;
 				for (int j = 0; j < columnsCount; j++)
 				{
-					tmpRow = new List<Block>();
-					tmpColumn = new List<Block>();
+                    List <Block> tmpRow = new List<Block>();
+                    List <Block> tmpColumn = new List<Block>();
 					tmpColumn.Add(this.blocks[i][j]);
 					tmpRow.Add(this.blocks[i][j]);
 
@@ -220,40 +219,41 @@ namespace PetZombie
 			return delBlocks;
 		}
 
-		private Tuple<List<Block>, List<Block>> DeleteBlocks(List<List<Block>> blocks)
+        private Tuple<List<Block>, List<Block>> DeleteBlocks(List<List<Block>> blocksForDelete)
 		{
 			List<Block> delBlocks = new List<Block>();
 			List<Block> movingBlocks = new List<Block>();
-			foreach (List<Block> oneSet in blocks)
+            foreach (List<Block> oneSet in blocksForDelete)
 			{
 				foreach (Block block in oneSet)
 				{
 					delBlocks.Add(block);
 					int row = block.Position.RowIndex;
+                    int column = block.Position.ColumnIndex;
 					int increment = 1;
 					while (row < this.blocks.Count)
 					{
-						if (this.blocks[row][block.Position.ColumnIndex].Type == BlockType.Zombie)
+                        if (this.blocks[row][column].Type == BlockType.Zombie)
 						{
 							row++;
 							increment--;
 							continue;
 						}
 						int nextRow = row + increment;
-						if (this.blocks[nextRow][block.Position.ColumnIndex].Type == BlockType.Zombie)
+                        if (nextRow < this.blocks.Count && this.blocks[nextRow][column].Type == BlockType.Zombie)
 						{
 							increment++;
 							continue;
 						}
 
 						if (nextRow < this.blocks.Count)
-							this.blocks[row][block.Position.ColumnIndex].Type = this.blocks[nextRow][block.Position.ColumnIndex].Type;
+                            this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
 						else
 						{
 							Block newBlock = this.GenerateBlock(true);
-							this.blocks[row][block.Position.ColumnIndex].Type = newBlock.Type;
+                            this.blocks[row][column].Type = newBlock.Type;
 						}
-						movingBlocks.Add(new Block(this.blocks[row][block.Position.ColumnIndex].Type, this.blocks[row][block.Position.ColumnIndex].Position));
+                        movingBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
 						row++;
 					}
 					points += 10;

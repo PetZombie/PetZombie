@@ -10,6 +10,8 @@ namespace PetZombie
 		}
         public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
 		{
+            this.count--;
+            return Operation.DeleteBlock(block, blocks, GenerateBlocks);
             return blocks;
 		}
 	}

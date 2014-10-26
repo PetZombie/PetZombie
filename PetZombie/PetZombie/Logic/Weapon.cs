@@ -7,6 +7,11 @@ namespace PetZombie
 	{
 		public int count;
 
+        public int Count
+        {
+            get{ return this.count; }
+        }
+
 		public Weapon (int count=1)
 		{
 			this.count = count;
