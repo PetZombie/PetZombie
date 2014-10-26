@@ -123,7 +123,7 @@ namespace PetZombie
         //
         //Возвращает Tuple<List<Block>, List<Block>> - тьюпл из двух списков блоков.
         //Первый список - удаляемые блоки, второй - перемещаемые блоки.
-        public Tuple<List<Block>, List<Block>> ReplaceBlocks(Block block1, Block block2)
+        public Tuple<List<Block>, List<Block>, List<Block>> ReplaceBlocks(Block block1, Block block2)
         {
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
@@ -208,10 +208,11 @@ namespace PetZombie
             return delBlocks;
         }
 
-        private Tuple<List<Block>, List<Block>> DeleteBlocks(List<List<Block>> blocksForDelete, Block repBlock1, Block repBlock2)
+        private Tuple<List<Block>, List<Block>, List<Block>> DeleteBlocks(List<List<Block>> blocksForDelete, Block repBlock1, Block repBlock2)
         {
             List<Block> delBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
+            List<Block> newBlocks = new List<Block>();
             foreach (List<Block> oneSet in blocksForDelete)
             {
                 foreach (Block block in oneSet)
@@ -244,20 +245,24 @@ namespace PetZombie
                         }
 
                         if (nextRow < this.blocks.Count)
+                        {
                             this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
+                            movingBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
+                        }
                         else
                         {
                             Block newBlock = this.GenerateBlock(true);
                             this.blocks[row][column].Type = newBlock.Type;
+                            newBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
                         }
-                        movingBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
+
                         row++;
                     }
                     points += 10;
                 }
             }
 
-            return new Tuple<List<Block>, List<Block>>(delBlocks, movingBlocks);
+            return new Tuple<List<Block>, List<Block>, List<Block>>(delBlocks, movingBlocks, newBlocks);
         }
 
         private void BrainDeleteChecking()
