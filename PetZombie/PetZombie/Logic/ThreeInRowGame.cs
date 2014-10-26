@@ -258,7 +258,10 @@ namespace PetZombie
                     {
                         Block newBlock = this.GenerateBlock(true);
                         this.blocks[row][column].Type = newBlock.Type;
-                        newBlocks.Add(new Block(newBlock.Type, new Position(nextRow, column)));
+                        if (blocksForDelete.Item2 > 1)
+                            newBlocks.Add(new Block(newBlock.Type, new Position(nextRow + blocksForDelete.Item1.IndexOf(block), column)));
+                        else
+                            newBlocks.Add(new Block(newBlock.Type, new Position(nextRow, column)));
                     }
 
                     row++;
