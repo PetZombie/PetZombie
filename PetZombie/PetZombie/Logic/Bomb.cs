@@ -11,8 +11,25 @@ namespace PetZombie
         public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
 		{
             this.count--;
-            return Operation.DeleteBlock(block, blocks, GenerateBlocks);
+            int row = block.Position.RowIndex;
+            int column = block.Position.ColumnIndex;
+            List<Block> delBlocks = new List<Block>();
+            delBlocks.Add(new Block(new Position(row-1, column-1)));
+            delBlocks.Add(new Block(new Position(row-1, column)));
+            delBlocks.Add(new Block(new Position(row-1, column+1)));
+
+            delBlocks.Add(new Block(new Position(row, column-1)));
+            delBlocks.Add(new Block(new Position(row, column)));
+            delBlocks.Add(new Block(new Position(row, column+1)));
+
+            delBlocks.Add(new Block(new Position(row+1, column-1)));
+            delBlocks.Add(new Block(new Position(row+1, column)));
+            delBlocks.Add(new Block(new Position(row+1, column+1)));
+
+            foreach (Block b in delBlocks)
+                blocks = new List<List<Block>>(Operation.DeleteBlock(b, blocks, GenerateBlocks));
             return blocks;
+            //return 
 		}
 	}
 }

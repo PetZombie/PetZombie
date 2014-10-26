@@ -224,7 +224,7 @@ namespace PetZombie
                         if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
                             delBlocks.Add(new Block(repBlock1.Type, repBlock1.Position));
                         else
-                            delBlocks.Add(block);
+                            delBlocks.Add(new Block(block.Position));
                     }
                     int row = block.Position.RowIndex;
                     int column = block.Position.ColumnIndex;
@@ -246,8 +246,16 @@ namespace PetZombie
 
                         if (nextRow < this.blocks.Count)
                         {
+                            if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
+                                movingBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
+                            else
+                            {
+                                if (nextRow == repBlock2.Position.RowIndex && column == repBlock2.Position.ColumnIndex)
+                                    movingBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
+                                else
+                                    movingBlocks.Add(this.blocks[nextRow][column]);
+                            }
                             this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
-                            movingBlocks.Add(new Block(this.blocks[row][column].Type, this.blocks[row][column].Position));
                         }
                         else
                         {
