@@ -145,7 +145,7 @@ namespace PetZombieUI
                         if (tuple != null)
                         {
                             var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
-                            var moveBlocks = new CCCallFunc(() => MoveBlocks(tuple.Item2, tuple.Item4));
+                            var moveBlocks = new CCCallFunc(() => MoveBlocks(tuple.Item2, tuple.Item3, tuple.Item4));
                             var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
 
                             currentTouchedBlock.Sprite.RunAction(moveTo1);
@@ -200,12 +200,22 @@ namespace PetZombieUI
 
         #endregion
 
-        private void MoveBlocks(List<Block> blocks, int shift)
+        private void MoveBlocks(List<Block> movingBlocks, List<Block> newBlocks, int shift)
         {
             CCMoveTo moveTo;
 
-            foreach (var block in blocks)
+            foreach (var block in movingBlocks)
             {
+                moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
+                    block.Sprite.Position.Y - block.Size.Height*shift));
+
+                block.Sprite.RunAction(moveTo);
+            }
+
+            foreach (var block in newBlocks)
+            {
+                blockGrid.AddChild(block.Sprite);
+
                 moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
                     block.Sprite.Position.Y - block.Size.Height*shift));
 
