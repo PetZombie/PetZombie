@@ -58,7 +58,7 @@ namespace PetZombie
                 }
                 this.GenerateZombie();
                 this.GenerateBrain();
-            } while (this.CheckDelete().Item1 != null || !this.CheckBrainAndZombieAreNotNear());
+            } while (this.CheckDelete() != null || !this.CheckBrainAndZombieAreNotNear());
 
             this.target = target;
             this.stepsCount = steps;
