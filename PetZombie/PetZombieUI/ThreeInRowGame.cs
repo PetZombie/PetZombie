@@ -28,7 +28,7 @@ namespace PetZombieUI
             this.blockSize = blockSize;
         }
 
-        /*public void UpdateBlocks()
+        public void UpdateBlocks()
         {
             Blocks.Clear();
 
@@ -44,7 +44,7 @@ namespace PetZombieUI
                         Blocks.Add(new Block(block, blockSize));
                 }
             }
-        }*/
+        }
 
         private Block FindBlock(PetZombie.Block block)
         {

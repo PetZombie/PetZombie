@@ -151,7 +151,7 @@ namespace PetZombieUI
                             currentTouchedBlock.Sprite.RunAction(moveTo1);
                             replacedBlock.Sprite.RunAction(action);
 
-                            //game.UpdateBlocks();
+                            game.UpdateBlocks();
                         }
                         else
                         {
@@ -215,6 +215,7 @@ namespace PetZombieUI
             foreach (var block in newBlocks)
             {
                 blockGrid.AddChild(block.Sprite);
+                AddEventListener(listener.Copy(), block.Sprite);
 
                 moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
                     block.Sprite.Position.Y - block.Size.Height*shift));
