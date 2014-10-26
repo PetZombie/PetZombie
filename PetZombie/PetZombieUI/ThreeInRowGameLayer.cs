@@ -187,7 +187,7 @@ namespace PetZombieUI
             {
                 var scale = currentTouchedBlock.Size.Width / 
                     currentTouchedBlock.Sprite.ScaledContentSize.Width;
-                var scaleUp = new CCScaleBy(0.2f, scale);
+                var scaleUp = new CCScaleBy(0.1f, scale);
 
                 currentTouchedBlock.Sprite.RunAction(scaleUp);
 
@@ -206,7 +206,7 @@ namespace PetZombieUI
 
             foreach (var block in blocks)
             {
-                moveTo = new CCMoveTo(0.1f*shift, new CCPoint(block.Sprite.Position.X, 
+                moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
                     block.Sprite.Position.Y - block.Size.Height*shift));
 
                 block.Sprite.RunAction(moveTo);
