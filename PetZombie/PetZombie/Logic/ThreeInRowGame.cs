@@ -259,12 +259,28 @@ this.stepsCount--;
 
         private void DeleteBlocks(List<Block> blocksForDelete, Block repBlock1, Block repBlock2)
         {
+            List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
 
+            if (blocksForDelete.Find(delegate(Block b)
+            {
+                return b.Position.ColumnIndex == repBlock1.Position.ColumnIndex && b.Position.RowIndex == repBlock1.Position.RowIndex;
+            }) != null)
+            {
+                prevMovBlocks.Add(repBlock2);
+                movingBlocks.Add(repBlock1);
+            }
+            else
+            {
+                prevMovBlocks.Add(repBlock1);
+                movingBlocks.Add(repBlock2);
+            }
+
             foreach (Block block in blocksForDelete)
             {
+                //delBlocks.Add(block);
                 int row = block.Position.RowIndex;
                 int column = block.Position.ColumnIndex;
                 int increment = 1;
@@ -285,8 +301,8 @@ this.stepsCount--;
 
                     if (nextRow < this.blocks.Count)
                     {
-                        Block b = new Block(new Position(nextRow, column));
-                        prevMovBlocks.Add(this.GetBlockFromInitBlocks(b, repBlock1, repBlock2));
+                        //prevMovBlocks.Add(this.GetBlockFromInitBlocks(this.blocks[row][column], repBlock1, repBlock2));
+                        prevMovBlocks.Add(this.blocks[nextRow][column]);
                         this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
                         movingBlocks.Add(this.blocks[row][column]);
                     }
