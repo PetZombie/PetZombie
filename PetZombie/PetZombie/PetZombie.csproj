@@ -44,6 +44,7 @@
     <Compile Include="Logic\Gun.cs" />
     <Compile Include="Logic\Bomb.cs" />
     <Compile Include="Logic\Operation.cs" />
+    <Compile Include="Logic\BlocksDeletingEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />

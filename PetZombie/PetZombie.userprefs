@@ -1,17 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\ThreeInRowGameLayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\ThreeInRowGame.cs">
     <Files>
-      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="214" Column="10" />
-      <File FileName="PetZombieUI\ThreeInRowGame.cs" Line="31" Column="37" />
+      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="6" Column="18" />
+      <File FileName="PetZombie\Logic\IGame.cs" Line="9" Column="8" />
+      <File FileName="PetZombie\Logic\BlocksDeletingEventArgs.cs" Line="10" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="PetZombie\Logic\ThreeInRowGame.cs" line="160" offsetX="343" offsetY="2703" expression="tmpRow" liveUpdate="False" />
+    <Watch file="PetZombie\Logic\ThreeInRowGame.cs" line="160" offsetX="448" offsetY="2706" expression="tmpRow" liveUpdate="False" />
     <Watch file="PetZombieUI\ThreeInRowGameLayer.cs" line="192" offsetX="407" offsetY="2805" expression="neighbor" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="HT3BJWL03591" />
+  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="4df123c8544b9f1f" />
 </Properties>

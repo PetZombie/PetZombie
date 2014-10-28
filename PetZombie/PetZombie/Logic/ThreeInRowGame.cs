@@ -14,6 +14,10 @@ namespace PetZombie
         int level;
         int currentBrainCount;
 
+        public delegate void DeleteEventHandler(object sender, BlocksDeletingEventArgs e);
+
+        public event DeleteEventHandler Delete;
+
         public delegate Block Del(bool brain,int x = 0,int y = 0);
 
         public List<List<Block>> Blocks
@@ -58,7 +62,7 @@ namespace PetZombie
                 }
                 this.GenerateZombie();
                 this.GenerateBrain();
-            } while (this.CheckDelete() != null || !this.CheckBrainAndZombieAreNotNear());
+            } while (this.CheckDelete().Count > 0 || !this.CheckBrainAndZombieAreNotNear());
 
             this.target = target;
             this.stepsCount = steps;
@@ -68,14 +72,15 @@ namespace PetZombie
             this.points = 0;
             this.currentBrainCount = 0;
         }
-        //Генерация блока
-        //
-        //Аргументы:
-        //int x - индекс строки
-        //int y - индекс столбца
-        //
-        //Возвращает Block - новый случайный блок, исключая зомби-блок
-        private Block GenerateBlock(bool brain, int x = 0, int y = 0)
+            
+        /// <summary>
+        /// Генерация нового блока случайного типа, исключая зомби-блок.
+        /// </summary>
+        /// <param name="brain">Может сгенерироваться мозг или нет</param>
+        /// <param name="rowIndex">Позиция блока в строке. По умолчанию равна 0</param>
+        /// <param name="columnIndex">Позиция блока в столбце. По умолчанию равна 0</param>
+        /// <returns>Блок с типом, случайно выбранным из перечисления BlockType, исключая Zombie</returns>
+        private Block GenerateBlock(bool brain, int rowIndex = 0, int columnIndex = 0)
         {
             int number;
             if (brain)
@@ -83,10 +88,11 @@ namespace PetZombie
             else
                 number = random.Next(0, 5);
             BlockType type = (BlockType)BlockType.ToObject(typeof(BlockType), number);
-            Position position = new Position(x, y);
+            Position position = new Position(rowIndex, columnIndex);
             Block block = new Block(type, position);
             return block;
         }
+
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateZombie()
         {
@@ -94,6 +100,7 @@ namespace PetZombie
             int randomColumn = random.Next(0, this.blocks[randomRow].Count);
             this.blocks[randomRow][randomColumn].Type = BlockType.Zombie;
         }
+
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateBrain()
         {
@@ -115,37 +122,36 @@ namespace PetZombie
             return (zombie == null || (Math.Abs(brain.Position.ColumnIndex - zombie.Position.ColumnIndex) > 1
             && Math.Abs(brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
         }
-        //Меняет местами два блока (меняет позиции этих блоков)
-        //
-        //Аргументы:
-        //Block block1 - первый блок для передвижения
-        //Block block2 - второй блок для передвижения
-        //
-        //Возвращает Tuple<List<Block>, List<Block>> - тьюпл из двух списков блоков.
-        //Первый список - удаляемые блоки, второй - перемещаемые блоки.
-        public Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks(Block block1, Block block2)
+
+        /// <summary>
+        /// Метод заменяет местами два блока и удаляет блоки, если собралась нудная комбинация.
+        /// </summary>
+        /// <param name="block1">Первый блок для перемещения</param>
+        /// <param name="block2">Второй блок для перемещения</param>
+        public void ReplaceBlocks(Block block1, Block block2)
         {
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
-            Tuple<List<Block>, int> delBlocks = this.CheckDelete();
-            if (delBlocks != null)
+            List<Block> delBlocks = this.CheckDelete();
+            if (delBlocks.Count > 0)
             {
                 this.stepsCount--;
-                return this.DeleteBlocks(delBlocks, block1, block2);
+                this.DeleteBlocks(delBlocks, block1, block2);
             }
             else
             {
                 this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
-                return null;
             }
         }
-        //Проверка на возможность перемещения двух блоков.
-        //Учитывается расположение блоков в матрице, а также тип блоков.
-        //Если хотя бы один из блоков - зомби, то перемещение невозможно.
-        //Если блоки расположены друг от друга на расстоянии большем 1, то метод вернет false
-        //Иначе вернется true
+
+        /// <summary>
+        /// Проверка на возможность перемещения двух блоков. Учитывается расположение блоков в матрице, а также тип блоков.
+        /// </summary>
+        /// <param name="block1">Первый блок для перемещения</param>
+        /// <param name="block2">Второй блок для перемещения</param>
+        /// <returns>Возможно замена местами этих вух блоков или нет</returns>
         public bool AbilityToReplace(Block block1, Block block2)
         {
             if (block1.Type == BlockType.Zombie || block2.Type == BlockType.Zombie)
@@ -159,10 +165,12 @@ namespace PetZombie
             return false;
         }
 
-        private Tuple<List<Block>, int> CheckDelete()
+        private List<Block> CheckDelete()
         {
+            List<Block> delBlocks = new List<Block>();
             int rowsCount = this.blocks.Count;
             int columnsCount;
+            bool hasRow = false, hasColumn = false;
             for (int i = 0; i < rowsCount; i++)
             {
                 columnsCount = this.blocks[i].Count;
@@ -196,24 +204,32 @@ namespace PetZombie
                         k++;
                         l++;
                     }
-                    if (tmpColumn.Count > 2)
-                        return new Tuple<List<Block>, int>(tmpColumn, tmpColumn.Count);
-                    if (tmpRow.Count > 2)
-                        return new Tuple<List<Block>, int>(tmpRow, 1);
+                    if (!hasColumn && tmpColumn.Count > 2)
+                    {
+                        delBlocks.AddRange(tmpColumn);
+                        hasColumn = true;
+                    }
+                    if (!hasRow && tmpRow.Count > 2)
+                    {
+                        delBlocks.AddRange(tmpRow);
+                        hasRow = true;
+                    }
                 }
             }
 
-            return null;
+            return delBlocks;
         }
 
-        private Tuple<List<Block>, List<Block>, List<Block>, int> DeleteBlocks(Tuple<List<Block>, int> blocksForDelete, Block repBlock1, Block repBlock2)
+        private void DeleteBlocks(List<Block> blocksForDelete, Block repBlock1, Block repBlock2)
         {
             List<Block> delBlocks = new List<Block>();
+            List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
-            foreach (Block block in blocksForDelete.Item1)
-            {
 
+            foreach (Block block in blocksForDelete)
+            {
+                //Должны работать с матрицей до перемещения блоков в ней
                 if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
                     delBlocks.Add(new Block(repBlock2.Type, repBlock2.Position));
                 else
@@ -244,32 +260,34 @@ namespace PetZombie
                     if (nextRow < this.blocks.Count)
                     {
                         if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
-                            movingBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
+                            prevMovBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
                         else
                         {
                             if (nextRow == repBlock2.Position.RowIndex && column == repBlock2.Position.ColumnIndex)
-                                movingBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
+                                prevMovBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
                             else
-                                movingBlocks.Add(this.blocks[nextRow][column]);
+                                prevMovBlocks.Add(this.blocks[nextRow][column]);
                         }
+
                         this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
+                        movingBlocks.Add(this.blocks[row][column]);
                     }
                     else
                     {
                         Block newBlock = this.GenerateBlock(true);
                         this.blocks[row][column].Type = newBlock.Type;
-                        if (blocksForDelete.Item2 > 1)
-                            newBlocks.Add(new Block(newBlock.Type, new Position(nextRow + blocksForDelete.Item1.IndexOf(block), column)));
-                        else
-                            newBlocks.Add(new Block(newBlock.Type, new Position(nextRow, column)));
+                        newBlocks.Add(this.blocks[row][column]);
                     }
 
                     row++;
                 }
                 points += 10;
             }
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
 
-            return new Tuple<List<Block>, List<Block>, List<Block>, int>(delBlocks, movingBlocks, newBlocks, blocksForDelete.Item2);
+            DeleteEventHandler handler = Delete;
+            if (handler != null)
+                handler(this, e);
         }
 
         private void BrainDeleteChecking()
@@ -350,4 +368,3 @@ namespace PetZombie
         }
     }
 }
-

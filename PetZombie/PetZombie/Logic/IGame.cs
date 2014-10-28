@@ -9,7 +9,7 @@ namespace PetZombie
 			get;
 		}
 
-        Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks (Block block1, Block block2);
+        void ReplaceBlocks (Block block1, Block block2);
         //List<Block> GetNeighbors (Block block);
 	}
 }
