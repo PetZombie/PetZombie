@@ -9,7 +9,7 @@ namespace PetZombie
         {
         }
 
-        public static List<List<Block>> DeleteBlock(Block block, List<List<Block>> blocks, Delegate GenerateBlock)
+        public static List<List<Block>> DeleteBlock(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlock)
         {
             int row = block.Position.RowIndex;
             int column = block.Position.ColumnIndex;
@@ -33,8 +33,8 @@ namespace PetZombie
                     blocks[row][column].Type = blocks[nextRow][column].Type;
                 else
                 {
-                    //Block newBlock = GenerateBlock(true);
-                    //blocks[row][column].Type = newBlock.Type;
+                    Block newBlock = GenerateBlock(true);
+                    blocks[row][column].Type = newBlock.Type;
                 }
                 row++;
             }

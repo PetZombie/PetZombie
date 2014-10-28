@@ -20,7 +20,7 @@ namespace PetZombie
 		//Использовать оружие
 		//Принимает блок и всю матрицу блоков, на которые применяется оружие
 		//Вовзращает матрицу, над которой применили оружие
-		abstract public List<List<Block>> Use (Block block, List<List<Block>> blocks, Delegate GenerateBlocks);
+        abstract public List<List<Block>> Use (Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks);
 	}
 }
 

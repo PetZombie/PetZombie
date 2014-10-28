@@ -8,7 +8,7 @@ namespace PetZombie
 		public Bomb (int count): base(count)
 		{
 		}
-        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
+        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks)
 		{
             this.count--;
             int row = block.Position.RowIndex;

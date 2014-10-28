@@ -10,7 +10,7 @@ namespace PetZombie
 		{
 		}
 
-		public override List<List<Block>> Use(Block block, List<List<Block>> blocks, Delegate GenerateBlocks)
+        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks)
 		{
 			if (block.Type != BlockType.Zombie)
 				return blocks;

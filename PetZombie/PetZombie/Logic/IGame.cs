@@ -9,7 +9,7 @@ namespace PetZombie
 			get;
 		}
 
-        void ReplaceBlocks (Block block1, Block block2);
+        bool ReplaceBlocks (Block block1, Block block2);
         //List<Block> GetNeighbors (Block block);
 	}
 }

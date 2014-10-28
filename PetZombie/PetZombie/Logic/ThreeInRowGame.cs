@@ -14,11 +14,13 @@ namespace PetZombie
         int level;
         int currentBrainCount;
 
+        int blockPoints, brainPoints, zombiePoints, stepPoints;
+
         public delegate void DeleteEventHandler(object sender, BlocksDeletingEventArgs e);
 
         public event DeleteEventHandler Delete;
 
-        public delegate Block Del(bool brain,int x = 0,int y = 0);
+        public delegate Block BlockGenerator(bool brain, int rowIndex = 0, int columnIndex = 0);
 
         public List<List<Block>> Blocks
         {
@@ -71,8 +73,13 @@ namespace PetZombie
             this.weapons = new List<Weapon>();
             this.points = 0;
             this.currentBrainCount = 0;
+
+            this.blockPoints = 10;
+            this.zombiePoints = 50;
+            this.brainPoints = 70;
+            this.stepPoints = 10;
         }
-            
+
         /// <summary>
         /// Генерация нового блока случайного типа, исключая зомби-блок.
         /// </summary>
@@ -120,7 +127,7 @@ namespace PetZombie
                 return b.Type == BlockType.Zombie;
             }); 
             return (zombie == null || (Math.Abs(brain.Position.ColumnIndex - zombie.Position.ColumnIndex) > 1
-            && Math.Abs(brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
+                && Math.Abs(brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
         }
 
         /// <summary>
@@ -128,7 +135,7 @@ namespace PetZombie
         /// </summary>
         /// <param name="block1">Первый блок для перемещения</param>
         /// <param name="block2">Второй блок для перемещения</param>
-        public void ReplaceBlocks(Block block1, Block block2)
+        public bool ReplaceBlocks(Block block1, Block block2)
         {
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
@@ -138,11 +145,13 @@ namespace PetZombie
             {
                 this.stepsCount--;
                 this.DeleteBlocks(delBlocks, block1, block2);
+                return true;
             }
             else
             {
                 this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
+                return false;
             }
         }
 
@@ -220,6 +229,18 @@ namespace PetZombie
             return delBlocks;
         }
 
+        private Block GetBlockFromInitBlocks(Block block, Block repBlock1, Block repBlock2)
+        {
+            if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
+                return new Block(repBlock2.Type, repBlock2.Position);
+            else
+            {
+                if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
+                    return new Block(repBlock1.Type, repBlock1.Position);
+            }
+            return block;
+        }
+
         private void DeleteBlocks(List<Block> blocksForDelete, Block repBlock1, Block repBlock2)
         {
             List<Block> delBlocks = new List<Block>();
@@ -229,16 +250,7 @@ namespace PetZombie
 
             foreach (Block block in blocksForDelete)
             {
-                //Должны работать с матрицей до перемещения блоков в ней
-                if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
-                    delBlocks.Add(new Block(repBlock2.Type, repBlock2.Position));
-                else
-                {
-                    if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
-                        delBlocks.Add(new Block(repBlock1.Type, repBlock1.Position));
-                    else
-                        delBlocks.Add(new Block(block.Position));
-                }
+                delBlocks.Add(GetBlockFromInitBlocks(block, repBlock1, repBlock2));
                 int row = block.Position.RowIndex;
                 int column = block.Position.ColumnIndex;
                 int increment = 1;
@@ -259,16 +271,8 @@ namespace PetZombie
 
                     if (nextRow < this.blocks.Count)
                     {
-                        if (nextRow == repBlock1.Position.RowIndex && column == repBlock1.Position.ColumnIndex)
-                            prevMovBlocks.Add(this.blocks[repBlock2.Position.RowIndex][repBlock2.Position.ColumnIndex]);
-                        else
-                        {
-                            if (nextRow == repBlock2.Position.RowIndex && column == repBlock2.Position.ColumnIndex)
-                                prevMovBlocks.Add(this.blocks[repBlock1.Position.RowIndex][repBlock1.Position.ColumnIndex]);
-                            else
-                                prevMovBlocks.Add(this.blocks[nextRow][column]);
-                        }
-
+                        Block b = new Block(new Position(nextRow, column));
+                        prevMovBlocks.Add(this.GetBlockFromInitBlocks(b, repBlock1, repBlock2));
                         this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
                         movingBlocks.Add(this.blocks[row][column]);
                     }
@@ -281,7 +285,7 @@ namespace PetZombie
 
                     row++;
                 }
-                points += 10;
+                points += blockPoints;
             }
             BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
 
@@ -292,18 +296,28 @@ namespace PetZombie
 
         private void BrainDeleteChecking()
         {
+            List<Block> delBlocks = new List<Block>();
+            List<Block> prevMovBlocks = new List<Block>();
+            List<Block> movingBlocks = new List<Block>();
+            List<Block> newBlocks = new List<Block>();
+
             for (int i = 0; i < this.blocks[0].Count; i++)
             {
                 if (this.blocks[0][i].Type == BlockType.Brain)
                 {
-
+                    delBlocks.Add(this.blocks[0][i]);
                     this.currentBrainCount++;
+                    this.points += brainPoints;
                     int row = 0;
                     while (row < this.blocks.Count)
                     {
                         int nextRow = row + 1;
                         if (nextRow < this.blocks.Count)
+                        {
+                            prevMovBlocks.Add(this.blocks[nextRow][i]);
                             this.blocks[row][i].Type = this.blocks[nextRow][i].Type;
+                            movingBlocks.Add(this.blocks[row][i]);
+                        }
                         else
                         {
                             Block newBlock;
@@ -312,12 +326,19 @@ namespace PetZombie
                             else
                                 newBlock = new Block(BlockType.Brain);
                             this.blocks[row][i].Type = newBlock.Type;
+                            newBlocks.Add(this.blocks[row][i]);
                         }
-                        //movingBlocks.Add (new Block (this.blocks [row] [i].Type, this.blocks [row] [i].Position));
                         row++;
                     }
                 }
             }
+
+
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
+
+            DeleteEventHandler handler = Delete;
+            if (handler != null)
+                handler(this, e);
         }
 
         private bool HasOtherBrain(Block brain)
@@ -340,15 +361,8 @@ namespace PetZombie
 
         public void UseWeapon(Weapon weapon, Block block)
         {
-            try
-            {
-                Block existBlock = this.blocks[block.Position.RowIndex][block.Position.ColumnIndex];
-                //Del handler = this.GenerateBlock(true);
-                //weapon.Use (existBlock, this.blocks, handler);
-            }
-            catch
-            {
-            }
+                BlockGenerator generator = this.GenerateBlock;
+                weapon.Use (block, this.blocks, generator);
         }
 
         protected List<Block> GetNeighbors(Block block)
