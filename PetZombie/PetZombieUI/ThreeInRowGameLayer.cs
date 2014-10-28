@@ -211,7 +211,7 @@ namespace PetZombieUI
 
             var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
             var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks, args.NewBlocks));
-            var action = new CCSequence(moveTo2, removeBlocks, resumeListeners);
+            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
 
             currentTouchedBlock.Sprite.RunAction(moveTo1);
             replacedBlock.Sprite.RunAction(action);
