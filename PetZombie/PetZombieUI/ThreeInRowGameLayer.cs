@@ -227,7 +227,10 @@ namespace PetZombieUI
             {
                 moveTo = new CCMoveTo(0.2f, Block.GetPosition(currentMovingBlocks[i], blockSize));
 
-                FindBlockSprite(prevMovingBlocks[i]).RunAction(moveTo);
+
+                var sprite = FindBlockSprite(prevMovingBlocks[i]);
+                if (sprite != null)
+                    sprite.RunAction(moveTo);
             }
 
             /*foreach (var block in newBlocks)
