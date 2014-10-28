@@ -65,6 +65,11 @@ namespace PetZombieUI
             this.Size = size;
         }
 
+        public static CCPoint GetPosition(PetZombie.Block block, CCSize size)
+        {
+            return new Block(block, size).Sprite.Position;
+        }
+
         private CCRect GetWorldRectangle()
         {
             var x = Sprite.PositionWorldspace.X - Size.Width*Sprite.AnchorPoint.X;

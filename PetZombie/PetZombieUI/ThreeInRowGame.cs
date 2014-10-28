@@ -12,6 +12,17 @@ namespace PetZombieUI
         {
             get;
             private set;
+            /*get
+            {
+                var blocks = new List<Block>();
+
+                foreach (var row in base.Blocks)
+                {
+                    foreach (var block in row)
+                        blocks.Add(new Block(block, blockSize));
+                }
+            }*/
+
         }
 
         public ThreeInRowGame(int rowsCount, int columnsCount, CCSize blockSize) 
@@ -26,23 +37,21 @@ namespace PetZombieUI
             }
 
             this.blockSize = blockSize;
+            //base.Delete += UpdateBlocks;
         }
 
-        public void UpdateBlocks()
+        public void UpdateBlocks(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
-            Blocks.Clear();
+            //Blocks.Clear();
 
-            foreach (var row in base.Blocks)
+            foreach (var block in args.DelBlocks)
             {
-                foreach (var block in row)
-                {
-                    var newBlock = FindBlock(block);
+                Blocks.Remove(FindBlock(block));
+            }
 
-                    if (newBlock != null)
-                        Blocks.Add(newBlock);
-                    else
-                        Blocks.Add(new Block(block, blockSize));
-                }
+            foreach (var block in args.PrevMovBlocks)
+            {
+
             }
         }
 
@@ -94,7 +103,7 @@ namespace PetZombieUI
             return foundBlock;
         }
 
-        public Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks(Block block1, Block block2)
+        /*public Tuple<List<Block>, List<Block>, List<Block>, int> ReplaceBlocks(Block block1, Block block2)
         {
             var tuple = base.ReplaceBlocks(block1, block2);
 
@@ -117,7 +126,7 @@ namespace PetZombieUI
             }
 
             return null;
-        }
+        }*/
     }
 }
 

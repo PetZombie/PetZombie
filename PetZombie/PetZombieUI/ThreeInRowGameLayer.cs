@@ -28,6 +28,9 @@ namespace PetZombieUI
         private bool isCurrentTouchedBlockMoved;
         private bool isTouchEnded;
 
+        private Block replacedBlock;
+        private CCPoint previousPosition;
+
         // Func to resume listeners when calling from the code 
         // where listeners aer paused while actions are running.
         private CCCallFunc resumeListeners;
@@ -48,6 +51,7 @@ namespace PetZombieUI
             blockGridMargin = freeSpace / 2;
 
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
+            game.Delete += OnDelete;
 
             resumeListeners = new CCCallFunc(() => ResumeListeners(true));
 
@@ -119,7 +123,7 @@ namespace PetZombieUI
                 // See GetPriorityDirection method.
                 var priorityDirection = GetPriorityDirection(currentTouchedBlock, touch.Delta);
                 var position = currentTouchedBlock.Sprite.Position + priorityDirection;
-                var replacedBlock = game.GetReplacedBlock(currentTouchedBlock, position);
+                replacedBlock = game.GetReplacedBlock(currentTouchedBlock, position);
 
                 if (replacedBlock != null)
                 {
@@ -131,7 +135,7 @@ namespace PetZombieUI
                         replacedBlock.Sprite.ZOrder++;
 
                         // Remember the touched block's initial position for replace action purposes.
-                        var previousPosition = currentTouchedBlock.Sprite.Position;
+                        previousPosition = currentTouchedBlock.Sprite.Position;
 
                         var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
                         var moveTo2 = new CCMoveTo(0.2f, previousPosition);
@@ -139,19 +143,19 @@ namespace PetZombieUI
                         // Pause listeners to avoid any touches when actions is running.
                         PauseListeners(true);
 
-                        var tuple = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
+                        var isThreeInRow = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
 
                         // If there's "Tree In Row!".
-                        if (tuple != null)
+                        if (isThreeInRow)
                         {
-                            var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
-                            var moveBlocks = new CCCallFunc(() => MoveBlocks(tuple.Item2, tuple.Item3, tuple.Item4));
-                            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
+                            //var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
+                            //var moveBlocks = new CCCallFunc(() => MoveBlocks(tuple.Item2, tuple.Item3, tuple.Item4));
+                            //var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
 
-                            currentTouchedBlock.Sprite.RunAction(moveTo1);
-                            replacedBlock.Sprite.RunAction(action);
+                            //currentTouchedBlock.Sprite.RunAction(moveTo1);
+                            //replacedBlock.Sprite.RunAction(action);
 
-                            game.UpdateBlocks();
+                            //game.UpdateBlocks();
                         }
                         else
                         {
@@ -200,36 +204,61 @@ namespace PetZombieUI
 
         #endregion
 
-        private void MoveBlocks(List<Block> movingBlocks, List<Block> newBlocks, int shift)
+        private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
+        {
+            var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+            var moveTo2 = new CCMoveTo(0.2f, previousPosition);
+
+            var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+            var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks, args.NewBlocks));
+            var action = new CCSequence(moveTo2, removeBlocks, resumeListeners);
+
+            currentTouchedBlock.Sprite.RunAction(moveTo1);
+            replacedBlock.Sprite.RunAction(action);
+        }
+
+        private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 
+            List<PetZombie.Block> currentMovingBlocks, 
+            List<PetZombie.Block> newBlocks)
         {
             CCMoveTo moveTo;
 
-            foreach (var block in movingBlocks)
+            for (var i = 0; i < prevMovingBlocks.Count; i++)
             {
-                moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
-                    block.Sprite.Position.Y - block.Size.Height*shift));
+                moveTo = new CCMoveTo(0.2f, Block.GetPosition(currentMovingBlocks[i], blockSize));
 
-                block.Sprite.RunAction(moveTo);
+                FindBlockSprite(prevMovingBlocks[i]).RunAction(moveTo);
             }
 
-            foreach (var block in newBlocks)
+            /*foreach (var block in newBlocks)
             {
                 blockGrid.AddChild(block.Sprite);
                 AddEventListener(listener.Copy(), block.Sprite);
 
-                moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
-                    block.Sprite.Position.Y - block.Size.Height*shift));
+                //moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
+                //    block.Sprite.Position.Y - block.Size.Height*shift));
 
-                block.Sprite.RunAction(moveTo);
-            }
+                //block.Sprite.RunAction(moveTo);
+            }*/
         }
 
-        private void RemoveBlocks(List<Block> blocks)
+        private void RemoveBlocks(List<PetZombie.Block> blocks)
         {
             foreach (var block in blocks)
             {
-                blockGrid.RemoveChild(block.Sprite);
+                blockGrid.RemoveChild(FindBlockSprite(block));
             }
+        }
+
+        private CCNode FindBlockSprite(PetZombie.Block block)
+        {
+            foreach (var sprite in blockGrid.Children)
+            {
+                if (sprite.Position == Block.GetPosition(block, blockSize))
+                    return sprite;
+            }
+
+            return null;
         }
 
         private CCPoint GetPriorityDirection(Block block, CCPoint delta)
