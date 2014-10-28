@@ -245,14 +245,12 @@ namespace PetZombie
 
         private void DeleteBlocks(List<Block> blocksForDelete, Block repBlock1, Block repBlock2)
         {
-            List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
 
             foreach (Block block in blocksForDelete)
             {
-                delBlocks.Add(GetBlockFromInitBlocks(block, repBlock1, repBlock2));
                 int row = block.Position.RowIndex;
                 int column = block.Position.ColumnIndex;
                 int increment = 1;
@@ -289,7 +287,7 @@ namespace PetZombie
                 }
                 points += blockPoints;
             }
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(blocksForDelete, prevMovBlocks, movingBlocks, newBlocks);
 
             DeleteEventHandler handler = Delete;
             if (handler != null)
