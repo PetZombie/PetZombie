@@ -13,14 +13,13 @@ namespace PetZombie
         int points;
         int level;
         int currentBrainCount;
-
         int blockPoints, brainPoints, zombiePoints, stepPoints;
 
-        public delegate void DeleteEventHandler(object sender, BlocksDeletingEventArgs e);
+        public delegate void DeleteEventHandler(object sender,BlocksDeletingEventArgs e);
 
         public event DeleteEventHandler Delete;
 
-        public delegate Block BlockGenerator(bool brain, int rowIndex = 0, int columnIndex = 0);
+        public delegate Block BlockGenerator(bool brain,int rowIndex = 0,int columnIndex = 0);
 
         public List<List<Block>> Blocks
         {
@@ -99,7 +98,6 @@ namespace PetZombie
             Block block = new Block(type, position);
             return block;
         }
-
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateZombie()
         {
@@ -107,7 +105,6 @@ namespace PetZombie
             int randomColumn = random.Next(0, this.blocks[randomRow].Count);
             this.blocks[randomRow][randomColumn].Type = BlockType.Zombie;
         }
-
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateBrain()
         {
@@ -127,7 +124,7 @@ namespace PetZombie
                 return b.Type == BlockType.Zombie;
             }); 
             return (zombie == null || (Math.Abs(brain.Position.ColumnIndex - zombie.Position.ColumnIndex) > 1
-                && Math.Abs(brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
+            && Math.Abs(brain.Position.RowIndex - zombie.Position.RowIndex) > 1));
         }
 
         /// <summary>
@@ -137,21 +134,26 @@ namespace PetZombie
         /// <param name="block2">Второй блок для перемещения</param>
         public bool ReplaceBlocks(Block block1, Block block2)
         {
+            bool needDelete = false;
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
             List<Block> delBlocks = this.CheckDelete();
-            if (delBlocks.Count > 0)
+            while (delBlocks.Count > 0)
             {
+                needDelete = true;
                 this.stepsCount--;
                 this.DeleteBlocks(delBlocks, block1, block2);
-                return true;
+                this.BrainDeleteChecking();
+                delBlocks = new List<Block>(this.CheckDelete());
             }
+            if (needDelete)
+                return needDelete;
             else
             {
                 this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
-                return false;
+                return needDelete;
             }
         }
 
@@ -361,8 +363,8 @@ namespace PetZombie
 
         public void UseWeapon(Weapon weapon, Block block)
         {
-                BlockGenerator generator = this.GenerateBlock;
-                weapon.Use (block, this.blocks, generator);
+            BlockGenerator generator = this.GenerateBlock;
+            weapon.Use(block, this.blocks, generator);
         }
 
         protected List<Block> GetNeighbors(Block block)
