@@ -139,10 +139,23 @@ namespace PetZombie
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
             List<Block> delBlocks = this.CheckDelete();
+            if (delBlocks.Count > 0)
+            {
+                this.stepsCount--;
+                this.DeleteBlocks(delBlocks, block1, block2);
+                return true;
+            }
+            else
+            {
+                this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
+                this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
+                return false;
+            }
+            /*
             while (delBlocks.Count > 0)
             {
                 needDelete = true;
-                this.stepsCount--;
+this.stepsCount--;
                 this.DeleteBlocks(delBlocks, block1, block2);
                 this.BrainDeleteChecking();
                 delBlocks = new List<Block>(this.CheckDelete());
@@ -155,6 +168,7 @@ namespace PetZombie
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
                 return needDelete;
             }
+            */
         }
 
         /// <summary>
