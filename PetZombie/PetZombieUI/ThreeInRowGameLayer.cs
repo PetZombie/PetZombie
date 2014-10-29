@@ -72,6 +72,16 @@ namespace PetZombieUI
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
             background.Position = VisibleBoundsWorldspace.Center;
+
+            ApperBlockGrid();
+        }
+
+        public void ApperBlockGrid()
+        {
+            var moveTo1 = new CCMoveTo(1.0f, new CCPoint(blockGridMargin, blockGridMargin + blockSize.Height/2));
+            var moveTo2 = new CCMoveTo(0.2f, new CCPoint(blockGridMargin, blockGridMargin));
+
+            blockGrid.RunAction(new CCSequence(moveTo1, moveTo2));
         }
 
         public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
@@ -314,7 +324,7 @@ namespace PetZombieUI
         private void AddBlockGrid()
         {
             blockGrid = new CCNode();
-            blockGrid.Position = new CCPoint(blockGridMargin, blockGridMargin);
+            blockGrid.Position = new CCPoint(blockGridMargin, -Resolution.DesignResolution.Height);
 
             //Block block;
 
