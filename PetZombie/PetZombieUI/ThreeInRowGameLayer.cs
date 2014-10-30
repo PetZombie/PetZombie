@@ -19,6 +19,8 @@ namespace PetZombieUI
         private float blockGridWidth;
         private float blockGridMargin;
 
+        private CCNode toolbar;
+
         // Block fields.
         private float blockWidth;
         private CCSize blockSize;
@@ -63,6 +65,7 @@ namespace PetZombieUI
 
             AddBackground();
             AddBlockGrid();
+            AddToolbar();
         }
 
         protected override void AddedToScene()
@@ -72,8 +75,9 @@ namespace PetZombieUI
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
             background.Position = VisibleBoundsWorldspace.Center;
+            toolbar.Position = new CCPoint(blockGridMargin, Resolution.DesignResolution.Height - blockGridMargin - blockSize.Height);
 
-            ApperBlockGrid();
+            //ApperBlockGrid();
         }
 
         public void ApperBlockGrid()
@@ -220,11 +224,15 @@ namespace PetZombieUI
             var moveTo2 = new CCMoveTo(0.2f, previousPosition);
 
             var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+            removeBlocks.Duration = 0.2f;
             var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks, args.NewBlocks));
-            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
+            moveBlocks.Duration = 0.3f;
+            var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
+            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, resumeListeners);
 
             currentTouchedBlock.Sprite.RunAction(moveTo1);
             replacedBlock.Sprite.RunAction(action);
+
         }
 
         private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 
@@ -235,7 +243,7 @@ namespace PetZombieUI
 
             for (var i = 0; i < prevMovingBlocks.Count; i++)
             {
-                moveTo = new CCMoveTo(0.2f, Block.GetPosition(currentMovingBlocks[i], blockSize));
+                moveTo = new CCMoveTo(0.3f, Block.GetPosition(currentMovingBlocks[i], blockSize));
 
 
                 var sprite = FindBlockSprite(prevMovingBlocks[i]);
@@ -243,16 +251,19 @@ namespace PetZombieUI
                     sprite.RunAction(moveTo);
             }
 
-            /*foreach (var block in newBlocks)
+            foreach (var block in newBlocks)
             {
-                blockGrid.AddChild(block.Sprite);
-                AddEventListener(listener.Copy(), block.Sprite);
+                var newBlock = new Block(block, blockSize);
+
+                game.Blocks.Add(newBlock);
+                blockGrid.AddChild(newBlock.Sprite);
+                AddEventListener(listener.Copy(), newBlock.Sprite);
 
                 //moveTo = new CCMoveTo(0.2f*shift, new CCPoint(block.Sprite.Position.X, 
-                //    block.Sprite.Position.Y - block.Size.Height*shift));
+                //block.Sprite.Position.Y - block.Size.Height*shift));
 
                 //block.Sprite.RunAction(moveTo);
-            }*/
+            }
         }
 
         private void RemoveBlocks(List<PetZombie.Block> blocks)
@@ -261,6 +272,13 @@ namespace PetZombieUI
             {
                 blockGrid.RemoveChild(FindBlockSprite(block));
             }
+        }
+
+        private void UpdateBlockGrid()
+        {
+            game.UpdateBlocks();
+            RemoveChild(blockGrid);
+            AddBlockGrid();
         }
 
         private CCNode FindBlockSprite(PetZombie.Block block)
@@ -324,7 +342,7 @@ namespace PetZombieUI
         private void AddBlockGrid()
         {
             blockGrid = new CCNode();
-            blockGrid.Position = new CCPoint(blockGridMargin, -Resolution.DesignResolution.Height);
+            blockGrid.Position = new CCPoint(blockGridMargin, blockGridMargin);
 
             //Block block;
 
@@ -335,6 +353,31 @@ namespace PetZombieUI
             }
 
             AddChild(blockGrid);
+        }
+
+        private void AddToolbar()
+        {
+            toolbar = new CCNode();
+
+            var toolbarItems = new CCSprite[]
+            { 
+                new CCSprite("Images/star_icon"),
+                new CCSprite("Images/trace"),
+                new CCSprite("Images/brain_icon"),
+                new CCSprite("Images/soporific_icon"),
+                new CCSprite("Images/aim_icon"),
+                new CCSprite("Images/bomb_icon")
+            };
+
+            for (var i = 0; i < toolbarItems.Length; i++)
+            {
+                toolbarItems[i].ScaleTo(blockSize);
+                toolbarItems[i].Position = new CCPoint(i*blockWidth, 0);
+                toolbarItems[i].AnchorPoint = CCPoint.Zero;
+                toolbar.AddChild(toolbarItems[i]);
+            }
+
+            AddChild(toolbar);
         }
 
         #endregion

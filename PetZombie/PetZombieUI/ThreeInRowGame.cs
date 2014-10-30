@@ -40,18 +40,14 @@ namespace PetZombieUI
             //base.Delete += UpdateBlocks;
         }
 
-        public void UpdateBlocks(object sender, PetZombie.BlocksDeletingEventArgs args)
+        public void UpdateBlocks()
         {
-            //Blocks.Clear();
+            Blocks.Clear();
 
-            foreach (var block in args.DelBlocks)
+            foreach (var row in base.Blocks)
             {
-                Blocks.Remove(FindBlock(block));
-            }
-
-            foreach (var block in args.PrevMovBlocks)
-            {
-
+                foreach (var block in row)
+                    Blocks.Add(new Block(block, blockSize));
             }
         }
 

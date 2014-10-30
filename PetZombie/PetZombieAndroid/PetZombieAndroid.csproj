@@ -104,5 +104,14 @@
     <AndroidAsset Include="Assets\Content\Images\brain.png" />
     <AndroidAsset Include="Assets\Content\Images\new background.png" />
     <AndroidAsset Include="Assets\Content\Images\new background%28blur%29.png" />
+    <AndroidAsset Include="Assets\Content\Images\aim3.png" />
+    <AndroidAsset Include="Assets\Content\Images\aim_icon.png" />
+    <AndroidAsset Include="Assets\Content\Images\bomb.png" />
+    <AndroidAsset Include="Assets\Content\Images\bomb_icon.png" />
+    <AndroidAsset Include="Assets\Content\Images\brain_icon.png" />
+    <AndroidAsset Include="Assets\Content\Images\soporific.png" />
+    <AndroidAsset Include="Assets\Content\Images\soporific_icon.png" />
+    <AndroidAsset Include="Assets\Content\Images\star_icon.png" />
+    <AndroidAsset Include="Assets\Content\Images\trace.png" />
   </ItemGroup>
 </Project>
