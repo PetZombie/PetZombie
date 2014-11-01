@@ -172,12 +172,13 @@ namespace PetZombieUI
                             //game.UpdateBlocks();
                         }
                         else
-                        {
+                        {/*
                             var action1 = new CCSequence(moveTo1, moveTo2);
                             var action2 = new CCSequence(moveTo2, moveTo1, resumeListeners);
 
                             currentTouchedBlock.Sprite.RunAction(action1);
-                            replacedBlock.Sprite.RunAction(action2);
+                            replacedBlock.Sprite.RunAction(action2);*/
+                            ResumeListeners(true);
                         }
 
                         // Return back to the previous value taking count of that
@@ -371,7 +372,7 @@ namespace PetZombieUI
 
             for (var i = 0; i < toolbarItems.Length; i++)
             {
-                toolbarItems[i].ScaleTo(blockSize);
+                //toolbarItems[i].ScaleTo(blockSize);
                 toolbarItems[i].Position = new CCPoint(i*blockWidth, 0);
                 toolbarItems[i].AnchorPoint = CCPoint.Zero;
                 toolbar.AddChild(toolbarItems[i]);
