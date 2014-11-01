@@ -263,6 +263,7 @@ namespace PetZombie
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
+            List<Block> initPositionsOfNewBlocks = new List<Block>();
 
             if (blocksForDelete[0].Item1.Find(delegate(Block b)
             {
@@ -303,6 +304,7 @@ namespace PetZombie
                             {
                                 Block newBlock = this.GenerateBlock(true);
                                 this.blocks[row][column].Type = newBlock.Type;
+                                initPositionsOfNewBlocks.Add(new Block(new Position(this.blocks.Count, column)));
                                 newBlocks.Add(this.blocks[row][column]);
                             }
                             row++;
@@ -312,7 +314,7 @@ namespace PetZombie
 
             }
 
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
 
             DeleteEventHandler handler = Delete;
             if (handler != null)
