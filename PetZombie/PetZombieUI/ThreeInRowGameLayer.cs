@@ -277,8 +277,8 @@ namespace PetZombieUI
         private void UpdateBlockGrid()
         {
             game.UpdateBlocks();
-            //RemoveChild(blockGrid);
-            //AddBlockGrid();
+            RemoveChild(blockGrid);
+            AddBlockGrid();
         }
 
         private CCNode FindBlockSprite(PetZombie.Block block)
