@@ -9,6 +9,7 @@ namespace PetZombie
         List<Block> prevMovBlocks;
         List<Block> curMovBlocks;
         List<Block> newBlocks;
+        List<Block> initPositionsOfNewBlocks;
 
         public List<Block> DelBlocks
         {
@@ -30,12 +31,18 @@ namespace PetZombie
             get{ return this.newBlocks; }
         }
 
-        public BlocksDeletingEventArgs(List<Block> delBlocks, List<Block> prevMovBlocks, List<Block> curMovBlocks, List<Block> newBlocks)
+        public List<Block> InitPositionsOfNewBlocks
+        {
+            get{ return this.initPositionsOfNewBlocks; }
+        }
+
+        public BlocksDeletingEventArgs(List<Block> delBlocks, List<Block> prevMovBlocks, List<Block> curMovBlocks, List<Block> newBlocks, List<Block> initPositionsOfNewBlocks)
         {
             this.delBlocks = new List<Block>(delBlocks);
             this.prevMovBlocks = new List<Block>(prevMovBlocks);
             this.curMovBlocks = new List<Block>(curMovBlocks);
             this.newBlocks = new List<Block>(newBlocks);
+            this.initPositionsOfNewBlocks = new List<Block>(initPositionsOfNewBlocks);
         }
     }
 }

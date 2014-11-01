@@ -139,7 +139,7 @@ namespace PetZombie
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
             List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
-            if (delBlocks.Count > 0)
+            /*if (delBlocks.Count > 0)
             {
                 this.stepsCount--;
                 this.DeleteBlocks(delBlocks, block1, block2);
@@ -150,15 +150,15 @@ namespace PetZombie
                 this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
                 return false;
-            }
-            /*
+            }*/
+
             while (delBlocks.Count > 0)
             {
                 needDelete = true;
-this.stepsCount--;
-                this.DeleteBlocks(delBlocks, block1, block2);
+                this.stepsCount--;
+                this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks), block1, block2);
                 this.BrainDeleteChecking();
-                delBlocks = new List<Block>(this.CheckDelete());
+                delBlocks = new List<Tuple<List<Block>, int>>(this.CheckDelete());
             }
             if (needDelete)
                 return needDelete;
@@ -168,7 +168,7 @@ this.stepsCount--;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
                 return needDelete;
             }
-            */
+
         }
 
         /// <summary>
@@ -311,46 +311,7 @@ this.stepsCount--;
                 }
 
             }
-                
-//            foreach (Block block in blocksForDelete)
-//            {
-//                //delBlocks.Add(GetBlockFromInitBlocks(block, repBlock1,repBlock2));
-//                int row = block.Position.RowIndex;
-//                int column = block.Position.ColumnIndex;
-//                int increment = 1;
-//                while (row < this.blocks.Count)
-//                {
-//                    if (this.blocks[row][column].Type == BlockType.Zombie)
-//                    {
-//                        row++;
-//                        increment--;
-//                        continue;
-//                    }
-//                    int nextRow = row + increment;
-//                    if (nextRow < this.blocks.Count && this.blocks[nextRow][column].Type == BlockType.Zombie)
-//                    {
-//                        increment++;
-//                        continue;
-//                    }
-//
-//                    if (nextRow < this.blocks.Count)
-//                    {
-//                        //prevMovBlocks.Add(this.GetBlockFromInitBlocks(this.blocks[row][column], repBlock1, repBlock2));
-//                        prevMovBlocks.Add(this.blocks[nextRow][column]);
-//                        this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
-//                        movingBlocks.Add(this.blocks[row][column]);
-//                    }
-//                    else
-//                    {
-//                        Block newBlock = this.GenerateBlock(true);
-//                        this.blocks[row][column].Type = newBlock.Type;
-//                        newBlocks.Add(this.blocks[row][column]);
-//                    }
-//
-//                    row++;
-//                }
-//                points += blockPoints;
-//            }
+
             BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
 
             DeleteEventHandler handler = Delete;
@@ -364,6 +325,7 @@ this.stepsCount--;
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
             List<Block> newBlocks = new List<Block>();
+            List<Block> initPositionsOfNewBlocks = new List<Block>();
 
             for (int i = 0; i < this.blocks[0].Count; i++)
             {
@@ -390,6 +352,7 @@ this.stepsCount--;
                             else
                                 newBlock = new Block(BlockType.Brain);
                             this.blocks[row][i].Type = newBlock.Type;
+                            initPositionsOfNewBlocks.Add(new Block(new Position(this.blocks.Count, i)));
                             newBlocks.Add(this.blocks[row][i]);
                         }
                         row++;
@@ -397,8 +360,7 @@ this.stepsCount--;
                 }
             }
 
-
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
 
             DeleteEventHandler handler = Delete;
             if (handler != null)
