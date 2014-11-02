@@ -92,6 +92,7 @@
     <Folder Include="Assets\Content\Images\" />
     <Folder Include="Assets\Content\Sounds\" />
     <Folder Include="Resources\values-ru\" />
+    <Folder Include="Assets\Content\Fonts\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\Images\blue_ellipse_block.png" />
@@ -100,18 +101,14 @@
     <AndroidAsset Include="Assets\Content\Images\red_ellipse_block.png" />
     <AndroidAsset Include="Assets\Content\Images\violet_ellipse_block.png" />
     <AndroidAsset Include="Assets\Content\Images\zombie_block.png" />
-    <AndroidAsset Include="Assets\Content\Images\background blur.png" />
     <AndroidAsset Include="Assets\Content\Images\brain.png" />
     <AndroidAsset Include="Assets\Content\Images\new background.png" />
-    <AndroidAsset Include="Assets\Content\Images\new background%28blur%29.png" />
-    <AndroidAsset Include="Assets\Content\Images\aim3.png" />
-    <AndroidAsset Include="Assets\Content\Images\aim_icon.png" />
-    <AndroidAsset Include="Assets\Content\Images\bomb.png" />
-    <AndroidAsset Include="Assets\Content\Images\bomb_icon.png" />
-    <AndroidAsset Include="Assets\Content\Images\brain_icon.png" />
-    <AndroidAsset Include="Assets\Content\Images\soporific.png" />
-    <AndroidAsset Include="Assets\Content\Images\soporific_icon.png" />
-    <AndroidAsset Include="Assets\Content\Images\star_icon.png" />
-    <AndroidAsset Include="Assets\Content\Images\trace.png" />
+    <AndroidAsset Include="Assets\Content\Images\aim_bar.png" />
+    <AndroidAsset Include="Assets\Content\Images\bomb_bar.png" />
+    <AndroidAsset Include="Assets\Content\Images\brain_bar.png" />
+    <AndroidAsset Include="Assets\Content\Images\soporific_bar.png" />
+    <AndroidAsset Include="Assets\Content\Images\star_bar.png" />
+    <AndroidAsset Include="Assets\Content\Images\trace_bar.png" />
+    <AndroidAsset Include="Assets\Content\Fonts\AGCrownStyle Roman.ttf" />
   </ItemGroup>
 </Project>
