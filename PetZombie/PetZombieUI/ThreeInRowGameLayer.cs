@@ -226,11 +226,10 @@ namespace PetZombieUI
             var delay = new CCDelayTime(0.1f);
 
             var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
-            //removeBlocks.Duration = 0.2f;
-            var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks, args.NewBlocks, args.InitPositionsOfNewBlocks));
+            var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
             moveBlocks.Duration = 0.3f;
             var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
-            var action = new CCSequence(moveTo2, delay, removeBlocks, resumeListeners);
+            var action = new CCSequence(moveTo2, delay, removeBlocks, delay, moveBlocks, updateBlockGrid, resumeListeners);
 
             currentTouchedBlock.Sprite.RunAction(moveTo1);
             replacedBlock.Sprite.RunAction(action);
@@ -238,31 +237,26 @@ namespace PetZombieUI
         }
 
         private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 
-            List<PetZombie.Block> currentMovingBlocks, 
-            List<PetZombie.Block> newBlocks, List<PetZombie.Block> initPositionsOfNewBlocks)
+            List<PetZombie.Block> currentMovingBlocks)
         {
             CCMoveTo moveTo;
 
             for (var i = 0; i < prevMovingBlocks.Count; i++)
             {
-                moveTo = new CCMoveTo(0.3f, Block.GetPosition(currentMovingBlocks[i], blockSize));
-
-
                 var sprite = FindBlockSprite(prevMovingBlocks[i]);
-                //blockGrid.RemoveChild(sprite);
+
+                if (sprite != null)
+                    blockGrid.RemoveChild(sprite);
             }
 
-            for (var i = 0; i < initPositionsOfNewBlocks.Count; i++)
+            for (var i = 0; i < prevMovingBlocks.Count; i++)
             {
-                var newBlock = new Block(initPositionsOfNewBlocks[i], blockSize);
+                moveTo = new CCMoveTo(0.2f, Block.GetPosition(currentMovingBlocks[i], blockSize));
 
-                game.Blocks.Add(newBlock);
-                blockGrid.AddChild(newBlock.Sprite);
-                AddEventListener(listener.Copy(), newBlock.Sprite);
-
-                moveTo = new CCMoveTo(0.3f, Block.GetPosition(initPositionsOfNewBlocks[i], blockSize));
-
-                FindBlockSprite(initPositionsOfNewBlocks[i]).RunAction(moveTo);
+                var block = new Block(prevMovingBlocks[i], blockSize);
+                blockGrid.AddChild(block.Sprite);
+                AddEventListener(listener.Copy(), block.Sprite);
+                block.Sprite.RunAction(moveTo);
             }
         }
 
@@ -276,7 +270,7 @@ namespace PetZombieUI
 
         private void UpdateBlockGrid()
         {
-            //game.UpdateBlocks();
+            game.UpdateBlocks();
             RemoveChild(blockGrid);
             AddBlockGrid();
         }
