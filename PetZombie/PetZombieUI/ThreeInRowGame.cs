@@ -57,12 +57,12 @@ namespace PetZombieUI
             Blocks.Remove(FindBlock(block));
         }
 
-        public void AddBlock(Block block)
+        public void AddBlock(PetZombie.Block block)
         {
-            Blocks.Add(block);
+            Blocks.Add(new Block(block, blockSize));
         }
 
-        private Block FindBlock(PetZombie.Block block)
+        public Block FindBlock(PetZombie.Block block)
         {
             var foundBlock = Blocks.Find(b => 
             {

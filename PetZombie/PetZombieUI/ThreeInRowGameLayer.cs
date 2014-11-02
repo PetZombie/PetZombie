@@ -222,16 +222,16 @@ namespace PetZombieUI
         private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
             var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
-            var moveTo2 = new CCMoveTo(0.2f, previousPosition);
-
-            var delay = new CCDelayTime(0.1f);
+            var moveTo2 = new CCMoveTo(0.3f, previousPosition);
 
             var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
-            removeBlocks.Duration = 0.1f;
+            removeBlocks.Duration = 1f;
             var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
-            moveBlocks.Duration = 0.4f;
+            moveBlocks.Duration = 1f;
+            //var removeNext = new CCCallFunc(() => game.NextDelete());
             var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
-            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, resumeListeners);
+            updateBlockGrid.Duration = 0.2f;
+            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, resumeListeners);
 
             currentTouchedBlock.Sprite.RunAction(moveTo1);
             replacedBlock.Sprite.RunAction(action);
@@ -248,7 +248,10 @@ namespace PetZombieUI
                 var sprite = FindBlockSprite(prevMovingBlocks[i]);
 
                 if (sprite != null)
+                {
                     blockGrid.RemoveChild(sprite);
+                    game.RemoveBlock(prevMovingBlocks[i]);
+                }
             }
 
             for (var i = 0; i < prevMovingBlocks.Count; i++)
@@ -262,7 +265,7 @@ namespace PetZombieUI
                 var block = new Block(prevMovingBlocks[i], blockSize);
 
                 blockGrid.AddChild(block.Sprite);
-                //game.AddBlock(block);
+                game.AddBlock(currentMovingBlocks[i]);
                 //AddEventListener(listener.Copy(), block.Sprite);
 
                 block.Sprite.RunAction(action);
@@ -274,15 +277,15 @@ namespace PetZombieUI
             foreach (var block in blocks)
             {
                 blockGrid.RemoveChild(FindBlockSprite(block));
-                //game.RemoveBlock(block);
+                game.RemoveBlock(block);
             }
         }
 
         private void UpdateBlockGrid()
         {
             game.UpdateBlocks();
-            //RemoveChild(blockGrid);
-            //AddBlockGrid();
+            RemoveChild(blockGrid);
+            AddBlockGrid();
         }
 
         private CCNode FindBlockSprite(PetZombie.Block block)
