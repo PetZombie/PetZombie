@@ -63,7 +63,7 @@ namespace PetZombie
 
             }
 
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks);
 
             DeleteEvent(game, e);
 

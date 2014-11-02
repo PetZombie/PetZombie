@@ -36,13 +36,11 @@ namespace PetZombie
             get{ return this.initPositionsOfNewBlocks; }
         }
 
-        public BlocksDeletingEventArgs(List<Block> delBlocks, List<Block> prevMovBlocks, List<Block> curMovBlocks, List<Block> newBlocks, List<Block> initPositionsOfNewBlocks)
+        public BlocksDeletingEventArgs(List<Block> delBlocks, List<Block> prevMovBlocks, List<Block> curMovBlocks)
         {
             this.delBlocks = new List<Block>(delBlocks);
             this.prevMovBlocks = new List<Block>(prevMovBlocks);
             this.curMovBlocks = new List<Block>(curMovBlocks);
-            this.newBlocks = new List<Block>(newBlocks);
-            this.initPositionsOfNewBlocks = new List<Block>(initPositionsOfNewBlocks);
         }
     }
 }
