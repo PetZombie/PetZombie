@@ -32,6 +32,12 @@ namespace PetZombie
 			this.type = type;
 			this.position = position;
 		}
+
+        protected internal Block (Block block)
+        {
+            this.type = block.Type;
+            this.position = block.Position;
+        }
 	}
 }
 

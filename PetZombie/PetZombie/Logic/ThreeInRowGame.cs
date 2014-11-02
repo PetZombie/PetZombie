@@ -139,20 +139,8 @@ namespace PetZombie
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
             List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
-            /*if (delBlocks.Count > 0)
-            {
-                this.stepsCount--;
-                this.DeleteBlocks(delBlocks, block1, block2);
-                return true;
-            }
-            else
-            {
-                this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
-                this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
-                return false;
-            }*/
 
-            while (delBlocks.Count > 0)
+            if (delBlocks.Count > 0)
             {
                 needDelete = true;
                 this.stepsCount--;
@@ -285,7 +273,7 @@ namespace PetZombie
             {
                 foreach (Block block in oneSet.Item1)
                 {
-                    delBlocks.Add(block);
+                    delBlocks.Add(new Block(block));
                     if (oneSet.Item2 == 1 || firstly)
                     {
                         firstly = false;
@@ -293,19 +281,29 @@ namespace PetZombie
                         int column = block.Position.ColumnIndex;
                         while (row < this.blocks.Count)
                         {
+                            if (this.blocks[row][column].Type == BlockType.Zombie)
+                            {
+                                row++;
+                                continue;
+                            }
+
                             int nextRow = row + oneSet.Item2;
+
+                            if (nextRow < this.blocks.Count && this.blocks[nextRow][column].Type == BlockType.Zombie)
+                                nextRow++;
+
                             if (nextRow < this.blocks.Count)
                             {
-                                prevMovBlocks.Add(this.blocks[row + oneSet.Item2][column]);
+                                prevMovBlocks.Add(new Block(this.blocks[row + oneSet.Item2][column]));
                                 this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
-                                movingBlocks.Add(this.blocks[row][column]);
+                                movingBlocks.Add(new Block(this.blocks[row][column]));
                             }
                             else
                             {
                                 Block newBlock = this.GenerateBlock(true);
                                 this.blocks[row][column].Type = newBlock.Type;
                                 initPositionsOfNewBlocks.Add(new Block(new Position(this.blocks.Count, column)));
-                                newBlocks.Add(this.blocks[row][column]);
+                                newBlocks.Add(new Block(this.blocks[row][column]));
                             }
                             row++;
                         }
@@ -315,7 +313,7 @@ namespace PetZombie
             }
 
             BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
-
+         
             DeleteEventHandler handler = Delete;
             if (handler != null)
                 handler(this, e);
@@ -390,7 +388,7 @@ namespace PetZombie
         public void UseWeapon(Weapon weapon, Block block)
         {
             BlockGenerator generator = this.GenerateBlock;
-            weapon.Use(block, this.blocks, generator);
+            this.blocks = new List<List<Block>>(weapon.Use(block, this.blocks, generator, this, this.Delete));
         }
 
         protected List<Block> GetNeighbors(Block block)

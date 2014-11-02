@@ -9,10 +9,15 @@ namespace PetZombie
 		{
 		}
 
-        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks)
+        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, 
+            ThreeInRowGame.BlockGenerator GenerateBlocks, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
 		{
             this.count--;
-            return Operation.DeleteBlock(block, blocks, GenerateBlocks);
+            List<Block> del = new List<Block>();
+            del.Add(new Block(block));
+            List<Tuple<List<Block>,int>> blocksForDelete = new List<Tuple<List<Block>, int>>();
+            blocksForDelete.Add(new Tuple<List<Block>, int>(del, 1));
+            return Operation.DeleteBlock(blocksForDelete, blocks, GenerateBlocks, game, DeleteEvent);
 		}
 	}
 }
