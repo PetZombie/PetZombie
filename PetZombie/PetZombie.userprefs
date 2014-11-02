@@ -2,11 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\Logic\ThreeInRowGame.cs">
     <Files>
-      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="322" Column="43" />
-      <File FileName="PetZombie\Logic\Soporific.cs" Line="16" Column="39" />
-      <File FileName="PetZombie\Logic\Gun.cs" Line="20" Column="102" />
-      <File FileName="PetZombie\Logic\Operation.cs" Line="14" Column="10" />
-      <File FileName="PetZombie\Logic\Bomb.cs" Line="14" Column="26" />
+      <File FileName="PetZombie\Logic\ThreeInRowGame.cs" Line="440" Column="18" />
+      <File FileName="PetZombie\Logic\Soporific.cs" Line="1" Column="1" />
+      <File FileName="PetZombie\Logic\Gun.cs" Line="1" Column="1" />
+      <File FileName="PetZombie\Logic\Operation.cs" Line="1" Column="1" />
+      <File FileName="PetZombie\Logic\Bomb.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

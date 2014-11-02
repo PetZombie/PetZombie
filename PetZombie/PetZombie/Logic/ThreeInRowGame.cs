@@ -302,8 +302,8 @@ namespace PetZombie
                             {
                                 Block newBlock = this.GenerateBlock(true);
                                 this.blocks[row][column].Type = newBlock.Type;
-                                initPositionsOfNewBlocks.Add(new Block(new Position(this.blocks.Count, column)));
-                                newBlocks.Add(new Block(this.blocks[row][column]));
+                                prevMovBlocks.Add(new Block(new Position(this.blocks.Count, column)));
+                                movingBlocks.Add(new Block(this.blocks[row][column]));
                             }
                             row++;
                         }
@@ -312,7 +312,7 @@ namespace PetZombie
 
             }
 
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks);
          
             DeleteEventHandler handler = Delete;
             if (handler != null)
@@ -360,7 +360,7 @@ namespace PetZombie
                 }
             }
 
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks, newBlocks, initPositionsOfNewBlocks);
+            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks);
 
             DeleteEventHandler handler = Delete;
             if (handler != null)
@@ -383,6 +383,62 @@ namespace PetZombie
                 }
             }
             return false;
+        }
+
+        private void ZombieEatBrain()
+        {
+            foreach (List<Block> oneRow in this.blocks)
+            {
+                List<Block> zombies = oneRow.FindAll(delegate (Block b)
+                {
+                    return b.Type == BlockType.Zombie;
+                });
+
+                foreach (Block zombie in zombies)
+                {
+                    int row = zombie.Position.RowIndex;
+                    int column = zombie.Position.ColumnIndex;
+                    List<Tuple<List<Block>, int>> allDelBlocks = new List<Tuple<List<Block>, int>>();
+
+                    if (this.blocks[row - 1][column].Type == BlockType.Brain)
+                    {
+                        List<Block> brain = new List<Block>();
+                        brain.Add(new Block(this.blocks[row - 1][column]));
+                        Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
+                        allDelBlocks.Add(delBlocks);
+                    }
+                    if (this.blocks[row][column - 1].Type == BlockType.Brain)
+                    {
+                        List<Block> brain = new List<Block>();
+                        brain.Add(new Block(this.blocks[row][column - 1]));
+                        Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
+                        allDelBlocks.Add(delBlocks);
+                    }
+
+                    if (this.blocks[row][column + 1].Type == BlockType.Brain)
+                    {
+                        List<Block> brain = new List<Block>();
+                        brain.Add(new Block(this.blocks[row][column + 1]));
+                        Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
+                        allDelBlocks.Add(delBlocks);
+                    }
+
+                    if (this.blocks[row + 1][column].Type == BlockType.Brain)
+                    {
+                        List<Block> brain = new List<Block>();
+                        brain.Add(new Block(this.blocks[row + 1][column]));
+                        Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
+                        allDelBlocks.Add(delBlocks);
+                    }
+
+                    if (allDelBlocks.Count > 0)
+                    {
+                        BlockGenerator generator = this.GenerateBlock;
+                        Operation.DeleteBlock(allDelBlocks, this.blocks, generator, this, this.Delete);
+                    }
+
+                }
+            }
         }
 
         public void UseWeapon(Weapon weapon, Block block)
