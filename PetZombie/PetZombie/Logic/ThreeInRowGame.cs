@@ -284,7 +284,7 @@ namespace PetZombie
 
                             if (nextRow < this.blocks.Count)
                             {
-                                prevMovBlocks.Add(new Block(this.blocks[row + oneSet.Item2][column]));
+                                prevMovBlocks.Add(new Block(this.blocks[nextRow][column]));
                                 this.blocks[row][column].Type = this.blocks[nextRow][column].Type;
                                 movingBlocks.Add(new Block(this.blocks[row][column]));
                             }
