@@ -140,7 +140,7 @@ namespace PetZombie
 
             List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
 
-            if (delBlocks.Count > 0)
+            while (delBlocks.Count > 0)
             {
                 needDelete = true;
                 this.stepsCount--;
@@ -250,22 +250,20 @@ namespace PetZombie
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
-            List<Block> newBlocks = new List<Block>();
-            List<Block> initPositionsOfNewBlocks = new List<Block>();
 
-            if (blocksForDelete[0].Item1.Find(delegate(Block b)
-            {
-                return b.Position.ColumnIndex == repBlock1.Position.ColumnIndex && b.Position.RowIndex == repBlock1.Position.RowIndex;
-            }) != null)
-            {
-                prevMovBlocks.Add(repBlock1);
-                movingBlocks.Add(repBlock2);
-            }
-            else
-            {
-                prevMovBlocks.Add(repBlock2);
-                movingBlocks.Add(repBlock1);
-            }
+//            if (blocksForDelete[0].Item1.Find(delegate(Block b)
+//            {
+//                return b.Position.ColumnIndex == repBlock1.Position.ColumnIndex && b.Position.RowIndex == repBlock1.Position.RowIndex;
+//            }) != null)
+//            {
+//                prevMovBlocks.Add(repBlock1);
+//                movingBlocks.Add(repBlock2);
+//            }
+//            else
+//            {
+//                prevMovBlocks.Add(repBlock2);
+//                movingBlocks.Add(repBlock1);
+//            }
 
             bool firstly = true;
 
@@ -324,8 +322,6 @@ namespace PetZombie
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
-            List<Block> newBlocks = new List<Block>();
-            List<Block> initPositionsOfNewBlocks = new List<Block>();
 
             for (int i = 0; i < this.blocks[0].Count; i++)
             {
@@ -352,8 +348,8 @@ namespace PetZombie
                             else
                                 newBlock = new Block(BlockType.Brain);
                             this.blocks[row][i].Type = newBlock.Type;
-                            initPositionsOfNewBlocks.Add(new Block(new Position(this.blocks.Count, i)));
-                            newBlocks.Add(this.blocks[row][i]);
+                            prevMovBlocks.Add(new Block(new Position(this.blocks.Count, i)));
+                            movingBlocks.Add(this.blocks[row][i]);
                         }
                         row++;
                     }

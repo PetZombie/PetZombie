@@ -13,8 +13,10 @@ namespace PetZombie
         public override List<List<Block>> Use(Block block, List<List<Block>> blocks,
             ThreeInRowGame.BlockGenerator GenerateBlocks, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
 		{
-			if (block.Type != BlockType.Zombie)
-				return blocks;
+            //ZombieBlock zombie = block as ZombieBlock;
+            //if (zombie == null)
+            //return blocks;
+
 			return blocks;
 		}
 	}

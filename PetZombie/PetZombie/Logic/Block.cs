@@ -9,6 +9,7 @@ namespace PetZombie
 
         public Position Position{
 			get {return this.position; }
+            set { this.position = value; }
 		}
 
         public BlockType Type{
