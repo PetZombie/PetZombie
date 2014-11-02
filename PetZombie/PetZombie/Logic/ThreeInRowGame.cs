@@ -134,29 +134,35 @@ namespace PetZombie
         /// <param name="block2">Второй блок для перемещения</param>
         public bool ReplaceBlocks(Block block1, Block block2)
         {
-            bool needDelete = false;
             this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block2.Type;
             this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block1.Type;
 
             List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
 
-            while (delBlocks.Count > 0)
+            if (delBlocks.Count > 0)
             {
-                needDelete = true;
                 this.stepsCount--;
-                this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks), block1, block2);
+                this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
                 this.BrainDeleteChecking();
-                delBlocks = new List<Tuple<List<Block>, int>>(this.CheckDelete());
+                return true;
             }
-            if (needDelete)
-                return needDelete;
             else
             {
                 this.blocks[block1.Position.RowIndex][block1.Position.ColumnIndex].Type = block1.Type;
                 this.blocks[block2.Position.RowIndex][block2.Position.ColumnIndex].Type = block2.Type;
-                return needDelete;
+                return false;
             }
+        }
 
+        public void NextDelete()
+        {
+            List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
+
+            if (delBlocks.Count > 0)
+            {
+                this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
+                this.BrainDeleteChecking();
+            }
         }
 
         /// <summary>
@@ -245,25 +251,11 @@ namespace PetZombie
             return block;
         }
 
-        private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete, Block repBlock1, Block repBlock2)
+        private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete)
         {
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
-
-//            if (blocksForDelete[0].Item1.Find(delegate(Block b)
-//            {
-//                return b.Position.ColumnIndex == repBlock1.Position.ColumnIndex && b.Position.RowIndex == repBlock1.Position.RowIndex;
-//            }) != null)
-//            {
-//                prevMovBlocks.Add(repBlock1);
-//                movingBlocks.Add(repBlock2);
-//            }
-//            else
-//            {
-//                prevMovBlocks.Add(repBlock2);
-//                movingBlocks.Add(repBlock1);
-//            }
 
             bool firstly = true;
 
