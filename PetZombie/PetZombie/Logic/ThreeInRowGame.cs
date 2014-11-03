@@ -143,7 +143,7 @@ namespace PetZombie
             {
                 this.stepsCount--;
                 this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
-                this.BrainDeleteChecking();
+                //this.BrainDeleteChecking();
                 return true;
             }
             else
