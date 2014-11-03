@@ -103,7 +103,7 @@ namespace PetZombie
         {
             int randomRow = random.Next(0, this.blocks.Count);
             int randomColumn = random.Next(0, this.blocks[randomRow].Count);
-            this.blocks[randomRow][randomColumn].Type = BlockType.Zombie;
+            this.blocks[randomRow][randomColumn] = new ZombieBlock(new Position(randomRow, randomColumn));
         }
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateBrain()
@@ -384,6 +384,10 @@ namespace PetZombie
 
                 foreach (Block zombie in zombies)
                 {
+                    ZombieBlock realZombie = zombie as ZombieBlock;
+                    if (realZombie == null || !realZombie.CanEat)
+                        continue;
+
                     int row = zombie.Position.RowIndex;
                     int column = zombie.Position.ColumnIndex;
                     List<Tuple<List<Block>, int>> allDelBlocks = new List<Tuple<List<Block>, int>>();

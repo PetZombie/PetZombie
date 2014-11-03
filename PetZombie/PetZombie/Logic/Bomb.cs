@@ -14,25 +14,25 @@ namespace PetZombie
             this.count--;
             int row = block.Position.RowIndex;
             int column = block.Position.ColumnIndex;
-            List<Block> row1 = new List<Block>();
-            row1.Add(new Block(new Position(row-1, column-1)));
-            row1.Add(new Block(new Position(row-1, column)));
-            row1.Add(new Block(new Position(row-1, column+1)));
+            List<Block> column1 = new List<Block>();
+            column1.Add(new Block(new Position(row-1, column-1)));
+            column1.Add(new Block(new Position(row, column-1)));
+            column1.Add(new Block(new Position(row+1, column-1)));
 
-            List<Block> row2 = new List<Block>();
-            row2.Add(new Block(new Position(row, column-1)));
-            row2.Add(new Block(new Position(row, column)));
-            row2.Add(new Block(new Position(row, column+1)));
+            List<Block> column2 = new List<Block>();
+            column2.Add(new Block(new Position(row-1, column)));
+            column2.Add(new Block(new Position(row, column)));
+            column2.Add(new Block(new Position(row+1, column)));
 
-            List<Block> row3 = new List<Block>();
-            row3.Add(new Block(new Position(row+1, column-1)));
-            row3.Add(new Block(new Position(row+1, column)));
-            row3.Add(new Block(new Position(row+1, column+1)));
+            List<Block> column3 = new List<Block>();
+            column3.Add(new Block(new Position(row-1, column+1)));
+            column3.Add(new Block(new Position(row, column+1)));
+            column3.Add(new Block(new Position(row+1, column+1)));
 
             List<Tuple<List<Block>,int>> blocksForDelete = new List<Tuple<List<Block>, int>>();
-            blocksForDelete.Add(new Tuple<List<Block>, int>(row1, 1));
-            blocksForDelete.Add(new Tuple<List<Block>, int>(row2, 1));
-            blocksForDelete.Add(new Tuple<List<Block>, int>(row3, 1));
+            blocksForDelete.Add(new Tuple<List<Block>, int>(column1, 1));
+            blocksForDelete.Add(new Tuple<List<Block>, int>(column2, 1));
+            blocksForDelete.Add(new Tuple<List<Block>, int>(column3, 1));
             return Operation.DeleteBlock(blocksForDelete, blocks, GenerateBlocks, game, DeleteEvent);
 		}
 	}

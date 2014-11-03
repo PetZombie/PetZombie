@@ -15,8 +15,6 @@ namespace PetZombie
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
-            List<Block> newBlocks = new List<Block>();
-            List<Block> initPositionsOfNewBlocks = new List<Block>();
 
             bool firstly = true;
 
@@ -45,7 +43,7 @@ namespace PetZombie
 
                             if (nextRow < blocks.Count)
                             {
-                                prevMovBlocks.Add(new Block(blocks[row + oneSet.Item2][column]));
+                                prevMovBlocks.Add(new Block(blocks[nextRow][column]));
                                 blocks[row][column].Type = blocks[nextRow][column].Type;
                                 movingBlocks.Add(new Block(blocks[row][column]));
                             }
@@ -53,8 +51,8 @@ namespace PetZombie
                             {
                                 Block newBlock = GenerateBlock(true);
                                 blocks[row][column].Type = newBlock.Type;
-                                initPositionsOfNewBlocks.Add(new Block(new Position(blocks.Count, column)));
-                                newBlocks.Add(new Block(blocks[row][column]));
+                                prevMovBlocks.Add(new Block(new Position(blocks.Count, column)));
+                                movingBlocks.Add(new Block(blocks[row][column]));
                             }
                             row++;
                         }

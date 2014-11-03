@@ -2,7 +2,7 @@
 
 namespace PetZombie
 {
-    public class ZombieBlock
+    public class ZombieBlock: Block
     {
         bool canEat;
 
@@ -12,12 +12,16 @@ namespace PetZombie
             set{ this.canEat = value; }
         }
 
-        //public ZombieBlock(Position position)
-        //{
-        //   this.Position = new Position(position.RowIndex, position.ColumnIndex);
-        //   this.Type = BlockType.Zombie;
-        //   this.canEat = true;
-        //}
+        public ZombieBlock(Position position): base(position)
+        {
+           this.Type = BlockType.Zombie;
+           this.canEat = true;
+        }
+
+        public ZombieBlock(ZombieBlock block):base(block)
+        {
+            this.canEat = block.CanEat;
+        }
     }
 }
 
