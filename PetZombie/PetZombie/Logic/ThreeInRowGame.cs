@@ -29,6 +29,17 @@ namespace PetZombie
         public int Points
         {
             get{ return this.points; }
+            set{ this.points = value; }
+        }
+
+        public int ZombiePoints
+        {
+            get{return this.zombiePoints; }
+        }
+
+        public int BlockPoints
+        {
+            get{ return this.blockPoints; }
         }
 
         public int Level
@@ -76,7 +87,7 @@ namespace PetZombie
             this.blockPoints = 10;
             this.zombiePoints = 50;
             this.brainPoints = 70;
-            this.stepPoints = 10;
+            this.stepPoints = 20;
         }
 
         /// <summary>
@@ -264,6 +275,7 @@ namespace PetZombie
                 foreach (Block block in oneSet.Item1)
                 {
                     delBlocks.Add(new Block(block));
+                    this.points += blockPoints;
                     if (oneSet.Item2 == 1 || firstly)
                     {
                         firstly = false;
@@ -311,66 +323,23 @@ namespace PetZombie
 
         private void BrainDeleteChecking()
         {
-            List<Block> delBlocks = new List<Block>();
-            List<Block> prevMovBlocks = new List<Block>();
-            List<Block> movingBlocks = new List<Block>();
-
+            List<Tuple<List<Block>, int>> delBlocks = new List<Tuple<List<Block>, int>>();
             for (int i = 0; i < this.blocks[0].Count; i++)
             {
                 if (this.blocks[0][i].Type == BlockType.Brain)
                 {
-                    delBlocks.Add(this.blocks[0][i]);
+                    List<Block> del = new List<Block>();
+                    del.Add(this.blocks[0][i]);
+                    delBlocks.Add(new Tuple<List<Block>, int> (del, 1));
                     this.currentBrainCount++;
                     this.points += brainPoints;
-                    int row = 0;
-                    while (row < this.blocks.Count)
-                    {
-                        int nextRow = row + 1;
-                        if (nextRow < this.blocks.Count)
-                        {
-                            prevMovBlocks.Add(this.blocks[nextRow][i]);
-                            this.blocks[row][i].Type = this.blocks[nextRow][i].Type;
-                            movingBlocks.Add(this.blocks[row][i]);
-                        }
-                        else
-                        {
-                            Block newBlock;
-                            if (HasOtherBrain(this.blocks[0][i]))
-                                newBlock = this.GenerateBlock(true);
-                            else
-                                newBlock = new Block(BlockType.Brain);
-                            this.blocks[row][i].Type = newBlock.Type;
-                            prevMovBlocks.Add(new Block(new Position(this.blocks.Count, i)));
-                            movingBlocks.Add(this.blocks[row][i]);
-                        }
-                        row++;
-                    }
                 }
             }
-
-            BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks);
 
             DeleteEventHandler handler = Delete;
+            BlockGenerator generator = this.GenerateBlock;
             if (handler != null)
-                handler(this, e);
-        }
-
-        private bool HasOtherBrain(Block brain)
-        {
-            foreach (List<Block> row in this.blocks)
-            {
-                List<Block> brains = row.FindAll(delegate (Block b)
-                {
-                    return b.Type == BlockType.Brain;
-                });
-                if (brains.Count > 0)
-                {
-                    if (brains.Contains(brain) && brains.Count == 1)
-                        continue;
-                    return true;
-                }
-            }
-            return false;
+                this.blocks = Operation.DeleteBlock(delBlocks, this.blocks, generator, this, handler);
         }
 
         private void ZombieEatBrain()

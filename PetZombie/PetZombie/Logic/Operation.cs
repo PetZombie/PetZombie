@@ -9,6 +9,24 @@ namespace PetZombie
         {
         }
 
+        private static bool HasOtherBrain(Block brain, List<List<Block>> blocks)
+        {
+            foreach (List<Block> row in blocks)
+            {
+                List<Block> brains = row.FindAll(delegate (Block b)
+                {
+                    return b.Type == BlockType.Brain;
+                });
+                if (brains.Count > 0)
+                {
+                    if (brains.Contains(brain) && brains.Count == 1)
+                        continue;
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static List<List<Block>> DeleteBlock(List<Tuple<List<Block>,int>> blocksForDelete, List<List<Block>> blocks,
             ThreeInRowGame.BlockGenerator GenerateBlock, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
         {
@@ -23,6 +41,17 @@ namespace PetZombie
                 foreach (Block block in oneSet.Item1)
                 {
                     delBlocks.Add(new Block(block));
+                    if (block is ZombieBlock)
+                        game.Points += game.ZombiePoints;
+                    else
+                        game.Points += game.BlockPoints;
+
+                    Block newBlock;
+                    if (block.Type == BlockType.Brain && !HasOtherBrain(block, blocks))
+                        newBlock = new Block(BlockType.Brain);
+                    else
+                        newBlock = GenerateBlock(true);
+
                     if (oneSet.Item2 == 1 || firstly)
                     {
                         firstly = false;
@@ -49,7 +78,6 @@ namespace PetZombie
                             }
                             else
                             {
-                                Block newBlock = GenerateBlock(true);
                                 blocks[row][column].Type = newBlock.Type;
                                 prevMovBlocks.Add(new Block(new Position(blocks.Count, column)));
                                 movingBlocks.Add(new Block(blocks[row][column]));
