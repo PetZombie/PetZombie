@@ -292,8 +292,8 @@ namespace PetZombie
                             {
                                 Block newBlock = this.GenerateBlock(true);
                                 this.blocks[row][column].Type = newBlock.Type;
-                                prevMovBlocks.Add(new Block(new Position(this.blocks.Count, column)));
-                                movingBlocks.Add(new Block(this.blocks[row][column]));
+                                prevMovBlocks.Add(new Block(newBlock.Type, new Position(this.blocks.Count, column)));
+                                movingBlocks.Add(new Block(newBlock.Type, new Position(row, column)));
                             }
                             row++;
                         }

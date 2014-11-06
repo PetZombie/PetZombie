@@ -33,20 +33,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Logic\IGame.cs" />
-    <Compile Include="Logic\Weapon.cs" />
-    <Compile Include="Logic\Block.cs" />
-    <Compile Include="Logic\GameCreator.cs" />
-    <Compile Include="Logic\ThreeInRowGame.cs" />
-    <Compile Include="Logic\Soporific.cs" />
-    <Compile Include="Logic\Position.cs" />
-    <Compile Include="Logic\BlockType.cs" />
-    <Compile Include="Logic\Gun.cs" />
-    <Compile Include="Logic\Bomb.cs" />
-    <Compile Include="Logic\Operation.cs" />
-    <Compile Include="Logic\BlocksDeletingEventArgs.cs" />
-    <Compile Include="Logic\ZombieBlock.cs" />
+    <Compile Include="ThreeInRowGame\Block.cs" />
+    <Compile Include="ThreeInRowGame\BlocksDeletingEventArgs.cs" />
+    <Compile Include="ThreeInRowGame\BlockType.cs" />
+    <Compile Include="ThreeInRowGame\Bomb.cs" />
+    <Compile Include="ThreeInRowGame\GameCreator.cs" />
+    <Compile Include="ThreeInRowGame\Gun.cs" />
+    <Compile Include="ThreeInRowGame\IGame.cs" />
+    <Compile Include="ThreeInRowGame\Operation.cs" />
+    <Compile Include="ThreeInRowGame\Position.cs" />
+    <Compile Include="ThreeInRowGame\Soporific.cs" />
+    <Compile Include="ThreeInRowGame\ThreeInRowGame.cs" />
+    <Compile Include="ThreeInRowGame\Weapon.cs" />
+    <Compile Include="ThreeInRowGame\ZombieBlock.cs" />
+    <Compile Include="ZombieRoom\ZombiePet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ThreeInRowGame\" />
+    <Folder Include="ZombieRoom\" />
+  </ItemGroup>
 </Project>
