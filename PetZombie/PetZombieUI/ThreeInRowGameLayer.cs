@@ -35,7 +35,7 @@ namespace PetZombieUI
 
         // Func to resume listeners when calling from the code 
         // where listeners aer paused while actions are running.
-        private CCCallFunc resumeListeners;
+        //private CCCallFunc resumeListeners;
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
@@ -55,7 +55,7 @@ namespace PetZombieUI
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
             game.Delete += OnDelete;
 
-            resumeListeners = new CCCallFunc(() => ResumeListeners(true));
+            //resumeListeners = new CCCallFunc(() => ResumeListeners(true));
 
             listener = new CCEventListenerTouchOneByOne();
             AddEventListener(listener, this);
@@ -77,16 +77,6 @@ namespace PetZombieUI
 
             background.Position = VisibleBoundsWorldspace.Center;
             toolbar.Position = new CCPoint(blockGridMargin, Resolution.DesignResolution.Height - blockGridMargin - blockSize.Height);
-
-            //ApperBlockGrid();
-        }
-
-        public void ApperBlockGrid()
-        {
-            var moveTo1 = new CCMoveTo(1.0f, new CCPoint(blockGridMargin, blockGridMargin + blockSize.Height/2));
-            var moveTo2 = new CCMoveTo(0.2f, new CCPoint(blockGridMargin, blockGridMargin));
-
-            blockGrid.RunAction(new CCSequence(moveTo1, moveTo2));
         }
 
         public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
@@ -161,7 +151,7 @@ namespace PetZombieUI
                         var isThreeInRow = game.ReplaceBlocks(currentTouchedBlock, replacedBlock);
 
                         // If there's "Tree In Row!".
-                        if (isThreeInRow)
+                        if (!isThreeInRow)
                         {
                             //var removeBlocks = new CCCallFunc(() => RemoveBlocks(tuple.Item1));
                             //var moveBlocks = new CCCallFunc(() => MoveBlocks(tuple.Item2, tuple.Item3, tuple.Item4));
@@ -171,14 +161,17 @@ namespace PetZombieUI
                             //replacedBlock.Sprite.RunAction(action);
 
                             //game.UpdateBlocks();
-                        }
-                        else
-                        {
+
                             var action1 = new CCSequence(moveTo1, moveTo2);
-                            var action2 = new CCSequence(moveTo2, moveTo1, resumeListeners);
+                            var action2 = new CCSequence(moveTo2, moveTo1, new CCCallFunc(() => ResumeListeners(true)));
 
                             currentTouchedBlock.Sprite.RunAction(action1);
                             replacedBlock.Sprite.RunAction(action2);
+                        }
+                        else
+                        {
+                            game.NextDelete();
+                            ResumeListeners(true);
                         }
 
                         // Return back to the previous value taking count of that
@@ -221,20 +214,36 @@ namespace PetZombieUI
 
         private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
-            var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
-            var moveTo2 = new CCMoveTo(0.3f, previousPosition);
+            if (currentTouchedBlock != null && replacedBlock != null)
+            {
+                var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+                var moveTo2 = new CCMoveTo(0.3f, previousPosition);
 
-            var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
-            removeBlocks.Duration = 0.2f;
-            var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
-            moveBlocks.Duration = 1f;
-            //var removeNext = new CCCallFunc(() => game.NextDelete());
-            var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
-            updateBlockGrid.Duration = 0.1f;
-            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, resumeListeners);
+                var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+                removeBlocks.Duration = 0.2f;
+                var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
+                moveBlocks.Duration = 1f;
+                //var removeNext = new CCCallFunc(() => game.NextDelete());
+                var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
+                updateBlockGrid.Duration = 0.1f;
+                var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid);
 
-            currentTouchedBlock.Sprite.RunAction(moveTo1);
-            replacedBlock.Sprite.RunAction(action);
+                currentTouchedBlock.Sprite.RunAction(moveTo1);
+                replacedBlock.Sprite.RunAction(action);
+            }
+            else
+            {
+                var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+                removeBlocks.Duration = 0.2f;
+                var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
+                moveBlocks.Duration = 1f;
+                //var removeNext = new CCCallFunc(() => game.NextDelete());
+                var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
+                updateBlockGrid.Duration = 0.1f;
+                var action = new CCSequence(removeBlocks, moveBlocks, updateBlockGrid);
+
+                RunAction(action);
+            }
         }
 
         private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 
