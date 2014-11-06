@@ -170,7 +170,7 @@ namespace PetZombieUI
                         }
                         else
                         {
-                            game.NextDelete();
+                            //game.NextDelete();
                             ResumeListeners(true);
                         }
 
@@ -226,7 +226,7 @@ namespace PetZombieUI
                 //var removeNext = new CCCallFunc(() => game.NextDelete());
                 var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
                 updateBlockGrid.Duration = 0.1f;
-                var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid);
+                var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, new CCCallFunc(() => game.NextDelete()));
 
                 currentTouchedBlock.Sprite.RunAction(moveTo1);
                 replacedBlock.Sprite.RunAction(action);
@@ -274,7 +274,7 @@ namespace PetZombieUI
                 var block = new Block(prevMovingBlocks[i], blockSize);
 
                 blockGrid.AddChild(block.Sprite);
-                game.AddBlock(currentMovingBlocks[i]);
+                //game.AddBlock(currentMovingBlocks[i]);
                 //AddEventListener(listener.Copy(), block.Sprite);
 
                 block.Sprite.RunAction(action);
@@ -291,7 +291,7 @@ namespace PetZombieUI
                 var remove = new CCCallFunc(() =>
                 {
                     blockGrid.RemoveChild(sprite);
-                    game.RemoveBlock(block);
+                    //game.RemoveBlock(block);
                 });
                 sprite.RunAction(new CCSequence(scaleBy, remove));
             }
