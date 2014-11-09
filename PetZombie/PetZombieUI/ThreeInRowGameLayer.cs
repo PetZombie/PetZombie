@@ -214,36 +214,21 @@ namespace PetZombieUI
 
         private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
-            if (currentTouchedBlock != null && replacedBlock != null)
-            {
-                var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
-                var moveTo2 = new CCMoveTo(0.3f, previousPosition);
+            var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+            var moveTo2 = new CCMoveTo(0.3f, previousPosition);
 
-                var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
-                removeBlocks.Duration = 0.2f;
-                var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
-                moveBlocks.Duration = 1f;
-                //var removeNext = new CCCallFunc(() => game.NextDelete());
-                var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
-                updateBlockGrid.Duration = 0.1f;
-                var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, new CCCallFunc(() => game.NextDelete()));
+            var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+            removeBlocks.Duration = 0.2f;
+            var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
+            moveBlocks.Duration = 0.5f;
+            var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
+            updateBlockGrid.Duration = 0.1f;
+            var nextDelete = new CCCallFunc(() => NextDelete());
+            nextDelete.Duration = 0.1f;
+            var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, nextDelete);
 
-                currentTouchedBlock.Sprite.RunAction(moveTo1);
-                replacedBlock.Sprite.RunAction(action);
-            }
-            else
-            {
-                var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
-                removeBlocks.Duration = 0.2f;
-                var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
-                moveBlocks.Duration = 1f;
-                //var removeNext = new CCCallFunc(() => game.NextDelete());
-                var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
-                updateBlockGrid.Duration = 0.1f;
-                var action = new CCSequence(removeBlocks, moveBlocks, updateBlockGrid);
-
-                RunAction(action);
-            }
+            currentTouchedBlock.Sprite.RunAction(moveTo1);
+            replacedBlock.Sprite.RunAction(action);
         }
 
         private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 
@@ -295,6 +280,11 @@ namespace PetZombieUI
                 });
                 sprite.RunAction(new CCSequence(scaleBy, remove));
             }
+        }
+
+        private void NextDelete()
+        {
+            game.NextDelete();
         }
 
         private void UpdateBlockGrid()
