@@ -5,11 +5,19 @@ namespace PetZombie
 {
 	public class Gun : Weapon
 	{
-		public Gun (int count): base(count)
+        int count;
+
+        public int Count 
+        {
+            get{return this.count; }
+        }
+
+		public Gun (int count)
 		{
+            this.count = count;
 		}
 
-        public override List<List<Block>> Use(Block block, List<List<Block>> blocks, 
+        public List<List<Block>> Use(Block block, List<List<Block>> blocks, 
             ThreeInRowGame.BlockGenerator GenerateBlocks, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
 		{
             this.count--;

@@ -217,18 +217,23 @@ namespace PetZombieUI
             var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
             var moveTo2 = new CCMoveTo(0.3f, previousPosition);
 
-            var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
+            var removeBlocks = new CCCallFuncN(() => RemoveBlocks(args.DelBlocks));
             removeBlocks.Duration = 0.2f;
             var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
             moveBlocks.Duration = 0.5f;
             var updateBlockGrid = new CCCallFunc(() => UpdateBlockGrid());
             updateBlockGrid.Duration = 0.1f;
-            var nextDelete = new CCCallFunc(() => NextDelete());
+            var nextDelete = new CCCallFunc(() => MyNextDelete());
             nextDelete.Duration = 0.1f;
             var action = new CCSequence(moveTo2, removeBlocks, moveBlocks, updateBlockGrid, nextDelete);
 
             currentTouchedBlock.Sprite.RunAction(moveTo1);
             replacedBlock.Sprite.RunAction(action);
+        }
+
+        private void MyNextDelete()
+        {
+            game.NextDelete();
         }
 
         private void MoveBlocks(List<PetZombie.Block> prevMovingBlocks, 

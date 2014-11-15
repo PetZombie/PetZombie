@@ -47,6 +47,8 @@
     <Compile Include="ThreeInRowGame\Weapon.cs" />
     <Compile Include="ThreeInRowGame\ZombieBlock.cs" />
     <Compile Include="ZombieRoom\ZombiePet.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="ZombieRoom\State.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />

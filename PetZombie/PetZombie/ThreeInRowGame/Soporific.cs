@@ -3,22 +3,29 @@ using System.Collections.Generic;
 
 namespace PetZombie
 {
-	//Снотворное
-	class Soporific: Weapon
-	{
-		public Soporific(int count) : base(count)
-		{
-		}
+    class Soporific: Weapon
+    {
+        int count;
 
-        public override List<List<Block>> Use(Block block, List<List<Block>> blocks,
-            ThreeInRowGame.BlockGenerator GenerateBlocks, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
-		{
-            //ZombieBlock zombie = block as ZombieBlock;
-            //if (zombie == null)
-            //return blocks;
+        public int Count
+        {
+            get{ return this.count; }
+        }
 
-			return blocks;
-		}
-	}
+        public Soporific(int count)
+        {
+            this.count = count;
+        }
+
+        public List<List<Block>> Use(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks, 
+            ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
+        {
+            ZombieBlock zombie = block as ZombieBlock;
+            if (zombie == null)
+                return blocks;
+            blocks[zombie.Position.RowIndex][zombie.Position.ColumnIndex] = new ZombieBlock(zombie.Position, false);
+            return blocks;
+        }
+    }
 }
 
