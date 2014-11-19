@@ -217,7 +217,7 @@ namespace PetZombieUI
             var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
             var moveTo2 = new CCMoveTo(0.3f, previousPosition);
 
-            var removeBlocks = new CCCallFuncN(() => RemoveBlocks(args.DelBlocks));
+            var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
             removeBlocks.Duration = 0.2f;
             var moveBlocks = new CCCallFunc(() => MoveBlocks(args.PrevMovBlocks, args.CurMovBlocks));
             moveBlocks.Duration = 0.5f;

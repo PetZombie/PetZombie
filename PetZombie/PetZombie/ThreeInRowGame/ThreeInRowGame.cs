@@ -7,7 +7,7 @@ namespace PetZombie
     {
         List<List<Block>> blocks;
         public int target;
-        public int stepsCount;
+        int stepsCount;
         List<Weapon> weapons;
         Random random;
         int points;
@@ -377,10 +377,15 @@ namespace PetZombie
         {
             foreach (List<Block> oneRow in this.blocks)
             {
-                List<ZombieBlock> zombies = oneRow.FindAll(delegate (Block b)
+                List<ZombieBlock> zombies = new List<ZombieBlock>();
+                foreach(Block b in oneRow)
                 {
-                    return b is ZombieBlock;
-                });
+                    if (b is ZombieBlock)
+                    {
+                        ZombieBlock z = b as ZombieBlock;
+                        zombies.Add(z);
+                    }
+                }
 
                 foreach (ZombieBlock zombie in zombies)
                 {
