@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PetZombie
 {
-    class Soporific: Weapon
+    public class Soporific: Weapon
     {
         int count;
 

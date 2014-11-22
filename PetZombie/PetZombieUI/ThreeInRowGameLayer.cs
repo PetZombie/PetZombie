@@ -20,6 +20,8 @@ namespace PetZombieUI
         private float blockGridMargin;
 
         private CCNode toolbar;
+        private List<Weapon> weapons;
+        private Weapon currentTouchedWeapon;
 
         // Block fields.
         private float blockWidth;
@@ -110,6 +112,24 @@ namespace PetZombieUI
 
                     return true;
                 }
+                else
+                {
+                    foreach (var weapon in weapons)
+                    {
+                        if (weapon.WorldRectangle.ContainsPoint(touch.Location))
+                        {
+                            var weaponSprite = new CCSprite(weapon.Sprite.Texture);
+                            weaponSprite.ScaleTo(weapon.Sprite.ScaledContentSize);
+                            weaponSprite.Position = weapon.Sprite.Position;
+
+                            toolbar.AddChild(weaponSprite);
+                            weapon.Sprite.ZOrder++;
+                            currentTouchedWeapon = weapon;
+
+                            return true;
+                        }
+                    }
+                }
             }
 
             return false;
@@ -188,6 +208,10 @@ namespace PetZombieUI
                     if (!isTouchEnded)
                         OnTouchEnded(touch, ccevent);
                 }
+            }
+            else if (currentTouchedWeapon != null)
+            {
+                currentTouchedWeapon.Sprite.Position += touch.Delta;
             }
         }
 
@@ -372,6 +396,16 @@ namespace PetZombieUI
 
         private void AddToolbar()
         {
+            var soporific = new Soporific();
+            var gun = new Gun();
+            var bomb = new Bomb();
+
+            weapons = new List<Weapon>();
+
+            weapons.Add(soporific);
+            weapons.Add(gun);
+            weapons.Add(bomb);
+
             toolbar = new CCNode();
 
             var toolbarItems = new CCSprite[]
@@ -379,16 +413,19 @@ namespace PetZombieUI
                 new CCSprite("Images/star_bar"),
                 new CCSprite("Images/trace_bar"),
                 new CCSprite("Images/brain_bar"),
-                new CCSprite("Images/soporific_bar"),
+                soporific.Sprite,
+                gun.Sprite,
+                bomb.Sprite
+                /*new CCSprite("Images/soporific_bar"),
                 new CCSprite("Images/aim_bar"),
-                new CCSprite("Images/bomb_bar")
+                new CCSprite("Images/bomb_bar")*/
             };
 
             for (var i = 0; i < toolbarItems.Length; i++)
             {
                 toolbarItems[i].ScaleTo(blockSize);
-                toolbarItems[i].Position = new CCPoint(i*blockWidth, 0);
-                toolbarItems[i].AnchorPoint = CCPoint.Zero;
+                toolbarItems[i].Position = new CCPoint(i*blockWidth + blockSize.Width/2, blockSize.Height/2);
+                //toolbarItems[i].AnchorPoint = CCPoint.Zero;
 
                 toolbar.AddChild(toolbarItems[i]);
             }

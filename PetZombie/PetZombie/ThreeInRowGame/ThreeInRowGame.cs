@@ -373,7 +373,7 @@ namespace PetZombie
             return false;
         }
 
-        private void ZombieEatBrain()
+        /*private void ZombieEatBrain()
         {
             foreach (List<Block> oneRow in this.blocks)
             {
@@ -429,7 +429,7 @@ namespace PetZombie
 
                 }
             }
-        }
+        }*/
 
         public void UseWeapon(Weapon weapon, Block block)
         {
