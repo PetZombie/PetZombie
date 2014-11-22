@@ -4,11 +4,11 @@
     <Files>
       <File FileName="PetZombieUI\Bomb.cs" Line="1" Column="1" />
       <File FileName="PetZombieUI\Soporific.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="54" Column="60" />
+      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="63" Column="46" />
       <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="1" Column="1" />
       <File FileName="PetZombieUI\Weapon.cs" Line="1" Column="1" />
       <File FileName="PetZombieUI\Gun.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\AppDelegate.cs" Line="18" Column="75" />
+      <File FileName="PetZombieUI\AppDelegate.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
