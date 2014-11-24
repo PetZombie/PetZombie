@@ -10,7 +10,9 @@ namespace PetZombie
 		Red,
 		Violet,
 		Brain,
-		Zombie
+        BrainInBank,
+        Zombie,
+        BrainInCrackedBank
 	}
 }
 

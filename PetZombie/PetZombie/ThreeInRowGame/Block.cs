@@ -6,6 +6,13 @@ namespace PetZombie
 	{
 		BlockType type;
 		Position position;
+        bool cage;
+
+        public bool Cage
+        {
+            get { return this.cage; }
+            set{ this.cage = value; }
+        }
 
         public Position Position{
 			get {return this.position; }
@@ -17,27 +24,31 @@ namespace PetZombie
 			set{this.type = value; }
 		}
 
-		protected internal Block (BlockType type)
+        protected internal Block (BlockType type, bool cage=false)
 		{
 			this.type = type;
 			this.position = new Position ();
+            this.cage = cage;
 		}
 
-		protected internal Block (Position position)
+        protected internal Block (Position position, bool cage=false)
 		{
 			this.position = position;
+            this.cage = cage;
 		}
 
-		protected internal Block (BlockType type, Position position)
+        protected internal Block (BlockType type, Position position, bool cage=false)
 		{
 			this.type = type;
 			this.position = position;
+            this.cage = cage;
 		}
 
         protected internal Block (Block block)
         {
             this.type = block.Type;
             this.position = block.Position;
+            this.cage = block.cage;
         }
 	}
 }

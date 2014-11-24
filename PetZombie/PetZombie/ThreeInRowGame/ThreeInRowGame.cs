@@ -7,7 +7,7 @@ namespace PetZombie
     {
         List<List<Block>> blocks;
         public int target;
-        public int stepsCount;
+        int stepsCount;
         List<Weapon> weapons;
         Random random;
         int points;
@@ -90,7 +90,7 @@ namespace PetZombie
         {
             int number;
             if (brain)
-                number = random.Next(0, 6);
+                number = random.Next(0, 7);
             else
                 number = random.Next(0, 5);
             BlockType type = (BlockType)BlockType.ToObject(typeof(BlockType), number);
@@ -175,6 +175,10 @@ namespace PetZombie
         {
             if (block1.Type == BlockType.Zombie || block2.Type == BlockType.Zombie)
                 return false;
+            if (block1.Type == BlockType.BrainInBank || block2.Type == BlockType.BrainInBank)
+                return false;
+            if (block1.Type == BlockType.BrainInCrackedBank || block2.Type == BlockType.BrainInCrackedBank)
+                return false;
             if (Math.Abs(block1.Position.RowIndex - block2.Position.RowIndex) == 1 &&
                 (block1.Position.ColumnIndex == block2.Position.ColumnIndex))
                 return true;
@@ -182,6 +186,21 @@ namespace PetZombie
                 (block1.Position.RowIndex == block2.Position.RowIndex))
                 return true;
             return false;
+        }
+            
+        private void CrashBank(List<Block> blocks)
+        {
+            foreach (Block block in blocks)
+            {
+                List<Block> neighbors = GetNeighbors(block);
+                foreach (Block b in neighbors)
+                {
+                    if (b.Type == BlockType.BrainInBank)
+                        this.blocks[b.Position.RowIndex][b.Position.ColumnIndex].Type = BlockType.BrainInCrackedBank;
+                    else if (b.Type == BlockType.BrainInCrackedBank)
+                        this.blocks[b.Position.RowIndex][b.Position.ColumnIndex].Type = BlockType.Brain;
+                }
+            }
         }
 
         private List<Tuple<List<Block>, int>> CheckDelete()
@@ -225,11 +244,13 @@ namespace PetZombie
                     }
                     if (!hasColumn && tmpColumn.Count > 2)
                     {
+                        this.CrashBank(tmpColumn);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpColumn, tmpColumn.Count));
                         hasColumn = true;
                     }
                     if (!hasRow && tmpRow.Count > 2)
                     {
+                        this.CrashBank(tmpRow);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpRow, 1));
                         hasRow = true;
                     }
@@ -237,18 +258,6 @@ namespace PetZombie
             }
 
             return delBlocks;
-        }
-
-        private Block GetBlockFromInitBlocks(Block block, Block repBlock1, Block repBlock2)
-        {
-            if (block.Position.RowIndex == repBlock1.Position.RowIndex && block.Position.ColumnIndex == repBlock1.Position.ColumnIndex)
-                return new Block(repBlock2.Type, repBlock2.Position);
-            else
-            {
-                if (block.Position.RowIndex == repBlock2.Position.RowIndex && block.Position.ColumnIndex == repBlock2.Position.ColumnIndex)
-                    return new Block(repBlock1.Type, repBlock1.Position);
-            }
-            return block;
         }
 
         private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete)
@@ -263,7 +272,19 @@ namespace PetZombie
             {
                 foreach (Block block in oneSet.Item1)
                 {
-                    delBlocks.Add(new Block(block));
+                    if (block is ZombieBlock)
+                        points += zombiePoints;
+                    else
+                        points += blockPoints;
+
+                    if (block.Cage)
+                    {
+                        this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Cage = false;
+                        continue;
+                    }
+                    else
+                        delBlocks.Add(new Block(block));
+
                     if (oneSet.Item2 == 1 || firstly)
                     {
                         firstly = false;
@@ -373,14 +394,19 @@ namespace PetZombie
             return false;
         }
 
-        /*private void ZombieEatBrain()
+        private void ZombieEatBrain()
         {
             foreach (List<Block> oneRow in this.blocks)
             {
-                List<ZombieBlock> zombies = oneRow.FindAll(delegate (Block b)
+                List<ZombieBlock> zombies = new List<ZombieBlock>();
+                foreach(Block b in oneRow)
                 {
-                    return b is ZombieBlock;
-                });
+                    if (b is ZombieBlock)
+                    {
+                        ZombieBlock z = b as ZombieBlock;
+                        zombies.Add(z);
+                    }
+                }
 
                 foreach (ZombieBlock zombie in zombies)
                 {
@@ -424,17 +450,21 @@ namespace PetZombie
                     if (allDelBlocks.Count > 0)
                     {
                         BlockGenerator generator = this.GenerateBlock;
-                        Operation.DeleteBlock(allDelBlocks, this.blocks, generator, this, this.Delete);
+                        DeleteBlocks(allDelBlocks);
                     }
 
                 }
             }
-        }*/
+        }
 
         public void UseWeapon(Weapon weapon, Block block)
         {
-            BlockGenerator generator = this.GenerateBlock;
-            this.blocks = new List<List<Block>>(weapon.Use(block, this.blocks, generator, this, this.Delete));
+            if (weapon is Soporific)
+            {
+                Soporific soporific = weapon as Soporific;
+                this.blocks = new List<List<Block>>(soporific.GetAsleepZombieInBlocks(block, this.blocks));
+            }
+            DeleteBlocks(weapon.Use(block));
         }
 
         protected List<Block> GetNeighbors(Block block)

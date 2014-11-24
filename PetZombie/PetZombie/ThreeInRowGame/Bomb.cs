@@ -17,8 +17,7 @@ namespace PetZombie
             this.count = count;
 		}
 
-        public List<List<Block>> Use(Block block, List<List<Block>> blocks, 
-            ThreeInRowGame.BlockGenerator GenerateBlocks, ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
+        public List<Tuple<List<Block>,int>> Use(Block block)
 		{
             this.count--;
             int row = block.Position.RowIndex;
@@ -42,7 +41,10 @@ namespace PetZombie
             blocksForDelete.Add(new Tuple<List<Block>, int>(row1, 1));
             blocksForDelete.Add(new Tuple<List<Block>, int>(row2, 1));
             blocksForDelete.Add(new Tuple<List<Block>, int>(row3, 1));
-            return Operation.DeleteBlock(blocksForDelete, blocks, GenerateBlocks, game, DeleteEvent);
+
+            return blocksForDelete;
+
+            //return Operation.DeleteBlock(blocksForDelete, blocks, GenerateBlocks, game, DeleteEvent);
 		}
 	}
 }

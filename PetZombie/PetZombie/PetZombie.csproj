@@ -40,7 +40,6 @@
     <Compile Include="ThreeInRowGame\GameCreator.cs" />
     <Compile Include="ThreeInRowGame\Gun.cs" />
     <Compile Include="ThreeInRowGame\IGame.cs" />
-    <Compile Include="ThreeInRowGame\Operation.cs" />
     <Compile Include="ThreeInRowGame\Position.cs" />
     <Compile Include="ThreeInRowGame\Soporific.cs" />
     <Compile Include="ThreeInRowGame\ThreeInRowGame.cs" />

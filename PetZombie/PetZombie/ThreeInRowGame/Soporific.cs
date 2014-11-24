@@ -17,14 +17,18 @@ namespace PetZombie
             this.count = count;
         }
 
-        public List<List<Block>> Use(Block block, List<List<Block>> blocks, ThreeInRowGame.BlockGenerator GenerateBlocks, 
-            ThreeInRowGame game, ThreeInRowGame.DeleteEventHandler DeleteEvent)
+        public List<List<Block>> GetAsleepZombieInBlocks(Block block, List<List<Block>> blocks)
         {
             ZombieBlock zombie = block as ZombieBlock;
             if (zombie == null)
                 return blocks;
             blocks[zombie.Position.RowIndex][zombie.Position.ColumnIndex] = new ZombieBlock(zombie.Position, false);
             return blocks;
+        }
+
+        public List<Tuple<List<Block>,int>> Use(Block block)
+        {
+            return new List<Tuple<List<Block>, int>>();
         }
     }
 }

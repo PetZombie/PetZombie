@@ -1,14 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\ThreeInRowGameLayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\ThreeInRowGame\ThreeInRowGame.cs">
     <Files>
-      <File FileName="PetZombieUI\Bomb.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\Soporific.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="63" Column="46" />
-      <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\Weapon.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\Gun.cs" Line="1" Column="1" />
-      <File FileName="PetZombieUI\AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="164" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -19,5 +13,5 @@
     <Watch file="PetZombieUI\ThreeInRowGameLayer.cs" line="192" offsetX="407" offsetY="2805" expression="neighbor" liveUpdate="False" />
     <Watch file="PetZombie\Logic\ThreeInRowGame.cs" line="305" offsetX="1086" offsetY="1887" expression="movingBlocks" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="HT3BJWL03591" />
+  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="4df123c8544b9f1f" />
 </Properties>
