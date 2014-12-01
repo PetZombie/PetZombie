@@ -3,7 +3,7 @@ using CocosSharp;
 
 namespace PetZombieUI
 {
-    public interface Weapon
+    public interface Weapon : PetZombie.Weapon
     {
         CCSprite Sprite
         {

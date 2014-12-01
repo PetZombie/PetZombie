@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombie\ThreeInRowGame\ThreeInRowGame.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\ThreeInRowGameLayer.cs">
     <Files>
-      <File FileName="PetZombieAndroid\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="PetZombieAndroid\FileWorker.cs" Line="1" Column="1" />
-      <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="51" Column="40" />
+      <File FileName="PetZombieUI\ThreeInRowGame.cs" Line="1" Column="1" />
+      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="332" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
