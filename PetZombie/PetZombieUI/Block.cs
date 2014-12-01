@@ -52,6 +52,12 @@ namespace PetZombieUI
                 case PetZombie.BlockType.Brain:
                     fileName = "Images/brain";
                     break;
+                case PetZombie.BlockType.BrainInBank:
+                    fileName = "Images/jar";
+                    break;
+                case PetZombie.BlockType.BrainInCrackedBank:
+                    fileName = "Images/cage";
+                    break;
             }
 
             Sprite = new CCSprite(fileName);

@@ -114,5 +114,7 @@
     <AndroidAsset Include="Assets\Content\Images\star_bar.png" />
     <AndroidAsset Include="Assets\Content\Images\trace_bar.png" />
     <AndroidAsset Include="Assets\Content\Fonts\AGCrownStyle Roman.ttf" />
+    <AndroidAsset Include="Assets\Content\Images\room background.png" />
+    <AndroidAsset Include="Assets\Content\Images\jar.png" />
   </ItemGroup>
 </Project>

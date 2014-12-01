@@ -44,6 +44,14 @@ namespace PetZombieUI
 
         private CCSprite background;
 
+        // Toolbar item count labels.
+        private CCLabelTtf pointCountLabel;
+        private CCLabelTtf stepCountLabel;
+        private CCLabelTtf brainCountLabel;
+        private CCLabelTtf soporificCountLabel;
+        private CCLabelTtf gunCountLabel;
+        private CCLabelTtf bombCountLabel;
+
         #endregion
 
         private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
@@ -65,6 +73,66 @@ namespace PetZombieUI
             listener.OnTouchBegan = OnTouchBegan;
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
+
+            pointCountLabel = new CCLabelTtf(game.Points.ToString(), "Fonts/AGCrownStyle", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
+
+            stepCountLabel = new CCLabelTtf(game.StepsCount.ToString(), "AGCrownStyle Roman", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
+
+            brainCountLabel = new CCLabelTtf(game.BrainCount.ToString(), "AGCrownStyle Roman", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
+
+            soporificCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
+
+            gunCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
+
+            bombCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+            {
+                Position = VisibleBoundsWorldspace.Center,
+                Color = CCColor3B.White,
+                HorizontalAlignment = CCTextAlignment.Center,
+                VerticalAlignment = CCVerticalTextAlignment.Center,
+                AnchorPoint = CCPoint.Zero,
+                Dimensions = ContentSize
+            };
 
             AddBackground();
             AddBlockGrid();
@@ -492,13 +560,24 @@ namespace PetZombieUI
                 new CCSprite("Images/bomb_bar")*/
             };
 
+            var toolbarItemCountLabels = new List<CCLabelTtf>();
+
+            toolbarItemCountLabels.Add(pointCountLabel);
+            toolbarItemCountLabels.Add(stepCountLabel);
+            toolbarItemCountLabels.Add(brainCountLabel);
+            toolbarItemCountLabels.Add(soporificCountLabel);
+            toolbarItemCountLabels.Add(gunCountLabel);
+            toolbarItemCountLabels.Add(bombCountLabel);
+
             for (var i = 0; i < toolbarItems.Length; i++)
             {
                 toolbarItems[i].ScaleTo(blockSize);
                 toolbarItems[i].Position = new CCPoint(i*blockWidth + blockSize.Width/2, blockSize.Height/2);
                 //toolbarItems[i].AnchorPoint = CCPoint.Zero;
 
+
                 toolbar.AddChild(toolbarItems[i]);
+                AddChild(toolbarItemCountLabels[i]);
             }
 
             AddChild(toolbar);
