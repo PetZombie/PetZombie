@@ -277,11 +277,11 @@ namespace PetZombieUI
                 _moveTo1Completed = false;
                 _moveTo2Completed = false;
 
-                var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
-                var moveTo2 = new CCMoveTo(0.2f, previousPosition);
+                //var moveTo1 = new CCMoveTo(0.2f, replacedBlock.Sprite.Position);
+                //var moveTo2 = new CCMoveTo(0.2f, previousPosition);
 
-                currentTouchedBlock.Sprite.RunAction(new CCSequence(moveTo1, new CCCallFunc(() => OnMove1Completed(args))));
-                replacedBlock.Sprite.RunAction(new CCSequence(moveTo2, new CCCallFunc(() => OnMove2Completed(args))));
+                RunAction(new CCSequence(new CCCallFunc(() => OnMove1Completed(args))));
+                RunAction(new CCSequence(new CCCallFunc(() => OnMove2Completed(args))));
 
                 /*var removeBlocks = new CCCallFunc(() => RemoveBlocks(args.DelBlocks));
                 removeBlocks.Duration = 0.2f;
