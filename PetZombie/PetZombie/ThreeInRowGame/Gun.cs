@@ -17,7 +17,7 @@ namespace PetZombie
             this.count = count;
 		}
 
-        public List<Tuple<List<Block>,int>> Use(Block block)
+        public List<Tuple<List<Block>,int>> Use(Block block, int rowCount, int columnCount)
 		{
             this.count--;
             List<Block> del = new List<Block>();

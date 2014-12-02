@@ -26,7 +26,7 @@ namespace PetZombie
             return blocks;
         }
 
-        public List<Tuple<List<Block>,int>> Use(Block block)
+        public List<Tuple<List<Block>,int>> Use(Block block, int rowCount, int columnCount)
         {
             return new List<Tuple<List<Block>, int>>();
         }

@@ -9,6 +9,7 @@ namespace PetZombieAndroid
         public string name;
         public string ext;
         public int memory;
+
         public FileWorker()
         {
             this.name = "myfile";
@@ -26,7 +27,6 @@ namespace PetZombieAndroid
             {
                 xml.Serialize(fStream, obj);
             }
-
         }
 
         public static Object GetDeserializeObject(Type type)

@@ -13,7 +13,7 @@ namespace PetZombie
 		//Использовать оружие
 		//Принимает блок и всю матрицу блоков, на которые применяется оружие
 		//Вовзращает матрицу, над которой применили оружие
-        List<Tuple<List<Block>,int>> Use (Block block);
+        List<Tuple<List<Block>,int>> Use (Block block, int rowCount, int columnCount);
 	}
 }
 

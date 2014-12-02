@@ -22,10 +22,9 @@ namespace PetZombieAndroid
 			var application = new CCApplication();
             application.ApplicationDelegate = new PetZombieUI.AppDelegate();
             SetContentView(application.AndroidContentView);
-            FileWorker f = new FileWorker();
-            //PetZombieUI.User user = new PetZombieUI.User(5, 3, new PetZombieUI.Pet("Petya"));
-            FileWorker.AddInfo(f);
-            Object o = FileWorker.GetDeserializeObject(f.GetType());
+            //FileWorker f = new FileWorker();
+            //FileWorker.AddInfo(f);
+            Object o = FileWorker.GetDeserializeObject(typeof(FileWorker));
             application.StartGame();
 		}
 	}
