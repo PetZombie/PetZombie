@@ -427,7 +427,7 @@ namespace PetZombieUI
 
         private void RemoveBlocks(PetZombie.BlocksDeletingEventArgs args)
         {
-            var scaleBy = new CCScaleBy(0.15f, 0.5f);
+            var scaleBy = new CCScaleBy(0.3f, 0.5f);
             var removedBlocksCount = 0;
 
             foreach (var block in args.DelBlocks)

@@ -165,9 +165,7 @@ namespace PetZombie
                 this.stepsCount--;
                 this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
                 this.ZombieEatBrain();
-                while (this.BrainDeleteChecking())
-                {
-                }
+                //this.BrainDeleteChecking();
                 return true;
             }
             else
@@ -186,9 +184,7 @@ namespace PetZombie
             {
                 this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
                 this.ZombieEatBrain();
-                while (this.BrainDeleteChecking())
-                {
-                }
+                //this.BrainDeleteChecking();
             }
 
             //return CheckDelete(); ???
@@ -278,15 +274,21 @@ namespace PetZombie
                     }
                     if (!hasColumn && tmpColumn.Count > 2)
                     {
-                        //this.CrashBank(tmpColumn);
+                        this.CrashBank(tmpColumn);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpColumn, tmpColumn.Count));
                         hasColumn = true;
                     }
                     if (!hasRow && tmpRow.Count > 2)
                     {
-                        //this.CrashBank(tmpRow);
+                        this.CrashBank(tmpRow);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpRow, 1));
                         hasRow = true;
+                    }
+                    if (i == 0 && this.blocks[i][j].Type == BlockType.Brain)
+                    {
+                        List<Block> brainForDelete = new List<Block>();
+                        brainForDelete.Add(this.blocks[i][j]);
+                        delBlocks.Add(new Tuple<List<Block>, int>(brainForDelete, 1));
                     }
                 }
             }
@@ -433,6 +435,7 @@ namespace PetZombie
 
         private int HasOtherBrain(Block brain)
         {
+            int brainCount = 0;
             foreach (List<Block> row in this.blocks)
             {
                 List<Block> brains = row.FindAll(delegate (Block b)
@@ -443,10 +446,10 @@ namespace PetZombie
                 {
                     if (brains.Contains(brain) && brains.Count == 1)
                         continue;
-                    return brains.Count;
+                    brainCount += brains.Count;
                 }
             }
-            return 0;
+            return brainCount;
         }
 
         private void ZombieEatBrain()
@@ -471,14 +474,14 @@ namespace PetZombie
                     int column = zombie.Position.ColumnIndex;
                     List<Tuple<List<Block>, int>> allDelBlocks = new List<Tuple<List<Block>, int>>();
 
-                    if (this.blocks[row - 1][column].Type == BlockType.Brain)
+                    if (row-1 > 0 && this.blocks[row - 1][column].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row - 1][column]));
                         Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
                         allDelBlocks.Add(delBlocks);
                     }
-                    if (this.blocks[row][column - 1].Type == BlockType.Brain)
+                    if (column-1 > 0 && this.blocks[row][column - 1].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row][column - 1]));
@@ -486,7 +489,7 @@ namespace PetZombie
                         allDelBlocks.Add(delBlocks);
                     }
 
-                    if (this.blocks[row][column + 1].Type == BlockType.Brain)
+                    if (column + 1 < blocks[0].Count && this.blocks[row][column + 1].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row][column + 1]));
@@ -494,7 +497,7 @@ namespace PetZombie
                         allDelBlocks.Add(delBlocks);
                     }
 
-                    if (this.blocks[row + 1][column].Type == BlockType.Brain)
+                    if (row+1 < blocks.Count && this.blocks[row + 1][column].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row + 1][column]));
