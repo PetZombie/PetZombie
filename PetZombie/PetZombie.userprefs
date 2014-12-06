@@ -1,12 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\GameMenuLayer.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieUI\ThreeInRowGameLayer.cs">
     <Files>
-      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="164" Column="65" />
-      <File FileName="c:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="155" Column="1" />
-      <File FileName="PetZombieUI\GameMenuLayer.cs" Line="55" Column="97" />
-      <File FileName="PetZombieUI\AppDelegate.cs" Line="21" Column="68" />
-      <File FileName="PetZombieAndroid\MainActivity.cs" Line="27" Column="15" />
+      <File FileName="PetZombieUI\ThreeInRowGameLayer.cs" Line="78" Column="14" />
+      <File FileName="c:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="1" Column="1" />
+      <File FileName="PetZombieUI\GameMenuLayer.cs" Line="55" Column="94" />
+      <File FileName="PetZombieUI\AppDelegate.cs" Line="1" Column="1" />
+      <File FileName="PetZombieAndroid\MainActivity.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -20,5 +20,4 @@
     <Watch file="PetZombieAndroid\FileWorker.cs" line="19" offsetX="393" offsetY="306" expression="obj" liveUpdate="False" />
     <Watch file="PetZombieAndroid\MainActivity.cs" line="27" offsetX="547" offsetY="442" expression="o" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="HT3BJWL03591" />
 </Properties>
