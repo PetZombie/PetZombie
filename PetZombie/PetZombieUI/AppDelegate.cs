@@ -18,7 +18,7 @@ namespace PetZombieUI
             Resolution.DesignResolution = mainWindow.DesignResolutionSize;
 
 			// Initialize the scene.
-            var scene = ThreeInRowGameLayer.ThreeInRowGameLayerScene(mainWindow);
+            var scene = GameMenuLayer.GameMenuLayerScene(mainWindow);
 
 			// Run the initial scene.
 			mainWindow.RunWithScene(scene);

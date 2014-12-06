@@ -74,7 +74,7 @@ namespace PetZombieUI
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
 
-            pointCountLabel = new CCLabelTtf(game.Points.ToString(), "Fonts/AGCrownStyle", 22)
+            pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
             {
                 Position = VisibleBoundsWorldspace.Center,
                 Color = CCColor3B.White,
@@ -135,7 +135,7 @@ namespace PetZombieUI
             };
 
             AddBackground();
-            AddBlockGrid();
+            //AddBlockGrid();
             AddToolbar();
         }
 

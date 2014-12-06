@@ -116,5 +116,6 @@
     <AndroidAsset Include="Assets\Content\Fonts\AGCrownStyle Roman.ttf" />
     <AndroidAsset Include="Assets\Content\Images\room background.png" />
     <AndroidAsset Include="Assets\Content\Images\jar.png" />
+    <AndroidAsset Include="Assets\Content\Images\heart.png" />
   </ItemGroup>
 </Project>
