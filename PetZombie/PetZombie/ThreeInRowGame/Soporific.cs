@@ -19,10 +19,9 @@ namespace PetZombie
 
         public List<List<Block>> GetAsleepZombieInBlocks(Block block, List<List<Block>> blocks)
         {
-            ZombieBlock zombie = block as ZombieBlock;
-            if (zombie == null)
+            if (block.Type != BlockType.Zombie)
                 return blocks;
-            blocks[zombie.Position.RowIndex][zombie.Position.ColumnIndex] = new ZombieBlock(zombie.Position, false);
+            blocks[block.Position.RowIndex][block.Position.ColumnIndex] = new ZombieBlock(block.Position, false);
             return blocks;
         }
 

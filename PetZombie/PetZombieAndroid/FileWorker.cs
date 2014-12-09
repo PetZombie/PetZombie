@@ -4,41 +4,38 @@ using System.Xml.Serialization;
 
 namespace PetZombieAndroid
 {
-    public class FileWorker
+    public class FileWorker: PetZombie.IDataService
     {
-        public string name;
-        public string ext;
-        public int memory;
+        public string filename;
 
         public FileWorker()
         {
-            this.name = "myfile";
-            this.ext = ".txt";
-            this.memory = 512;
+            this.filename = "myfile.xml";
         }
 
-        public static void AddInfo(Object obj)
+        public void Write(PetZombie.User obj)
         {
+            Type type = obj.GetType();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string filename = Path.Combine(path, "myfile.xml");
+            string fullpath = Path.Combine(path, filename);
 
-            XmlSerializer xml =  new XmlSerializer(obj.GetType());
-            using (var fStream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
+            XmlSerializer xml =  new XmlSerializer(type);
+            using (var fStream = new FileStream(fullpath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 xml.Serialize(fStream, obj);
             }
         }
 
-        public static Object GetDeserializeObject(Type type)
+        public PetZombie.User Read()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            string filename = Path.Combine(path, "myfile.xml");
+            string fullpath = Path.Combine(path, filename);
 
-            XmlSerializer xml =  new XmlSerializer(type);
-            FileStream fs = new FileStream(filename, FileMode.OpenOrCreate);
+            XmlSerializer xml =  new XmlSerializer(typeof(PetZombie.User));
+            FileStream fs = new FileStream(fullpath, FileMode.OpenOrCreate);
             TextReader reader = new StreamReader(fs);
 
-            Object obj = xml.Deserialize(reader);
+            PetZombie.User obj = xml.Deserialize(reader) as PetZombie.User;
 
             return obj;
         }

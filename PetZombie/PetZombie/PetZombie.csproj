@@ -48,11 +48,19 @@
     <Compile Include="ZombieRoom\ZombiePet.cs" />
     <Compile Include="User.cs" />
     <Compile Include="ZombieRoom\State.cs" />
+    <Compile Include="IDataService.cs" />
+    <Compile Include="DataServiceFactory.cs" />
+    <Compile Include="ThreeInRowGame\EndGameEventArgs.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />
   <ItemGroup>
     <Folder Include="ThreeInRowGame\" />
     <Folder Include="ZombieRoom\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml">
+      <HintPath>C:\Program Files %28x86%29\Reference Assemblies\Microsoft\Framework\MonoAndroid\v1.0\System.Xml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
