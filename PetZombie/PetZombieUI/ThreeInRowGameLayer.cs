@@ -135,7 +135,7 @@ namespace PetZombieUI
             };
 
             AddBackground();
-            //AddBlockGrid();
+            AddBlockGrid();
             AddToolbar();
         }
 
