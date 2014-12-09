@@ -305,7 +305,11 @@ namespace PetZombieUI
                 var block = game.FindBlockAt(currentTouchedWeapon.Sprite.PositionWorldspace);
 
                 if (block != null)
+                {
                     game.UseWeapon(currentTouchedWeapon, block);
+                    toolbar.RemoveChild(currentTouchedWeapon);
+                    currentTouchedWeapon = null;
+                }
             }
         }
 
