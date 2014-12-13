@@ -330,6 +330,9 @@ namespace PetZombie
                     else
                         points += blockPoints;
 
+                    if (block.Type == BlockType.Brain && block.Position.RowIndex==0)
+                        currentBrainCount++;
+
                     if (block.Cage)
                     {
                         this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Cage = false;
@@ -396,7 +399,7 @@ namespace PetZombie
                 handler(this, e);
         }
 
-        private bool BrainDeleteChecking()
+        /*private bool BrainDeleteChecking()
         {
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
@@ -452,7 +455,7 @@ namespace PetZombie
             }
             return hasDelete;
         }
-
+*/
         private int HasOtherBrain(Block brain)
         {
             int brainCount = 0;
@@ -562,7 +565,7 @@ namespace PetZombie
 
         private void CheckEndGame()
         {
-            if (currentBrainCount == target)
+            if (currentBrainCount >= target)
             {
                 points += stepPoints * stepsCount;
                 gold = points / 20;
