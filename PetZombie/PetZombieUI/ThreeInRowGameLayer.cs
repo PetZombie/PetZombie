@@ -52,6 +52,8 @@ namespace PetZombieUI
         private CCLabelTtf gunCountLabel;
         private CCLabelTtf bombCountLabel;
 
+        private CCSprite popUpWindow;
+
         #endregion
 
         private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
@@ -64,6 +66,7 @@ namespace PetZombieUI
 
             game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
             game.Delete += OnDelete;
+            game.EndGame += OnEndGame;
 
             //resumeListeners = new CCCallFunc(() => ResumeListeners(true));
 
@@ -74,6 +77,8 @@ namespace PetZombieUI
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
 
+            popUpWindow = new CCSprite("Images/window_background");
+
             pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
             {
                 Position = VisibleBoundsWorldspace.Center,
@@ -81,7 +86,7 @@ namespace PetZombieUI
                 HorizontalAlignment = CCTextAlignment.Center,
                 VerticalAlignment = CCVerticalTextAlignment.Center,
                 AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
+                //Dimensions = ContentSize
             };
 
             stepCountLabel = new CCLabelTtf(game.StepsCount.ToString(), "AGCrownStyle Roman", 22)
@@ -147,6 +152,7 @@ namespace PetZombieUI
 
             background.Position = VisibleBoundsWorldspace.Center;
             toolbar.Position = new CCPoint(blockGridMargin, Resolution.DesignResolution.Height - blockGridMargin - blockSize.Height);
+            popUpWindow.Position = VisibleBoundsWorldspace.Center;
         }
 
         public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
@@ -318,6 +324,8 @@ namespace PetZombieUI
         private bool _moveTo1Completed;
         private bool _moveTo2Completed;
 
+
+
         private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
             if (currentTouchedBlock != null)
@@ -366,6 +374,18 @@ namespace PetZombieUI
                 var action = new CCSequence(removeBlocks, moveBlocks, updateBlockGrid, nextDelete);
 
                 RunAction(action);*/
+            }
+        }
+
+        private void OnEndGame(object sender, PetZombie.EndGameEventArgs args)
+        {
+            if (args.win)
+            {
+                AddChild(popUpWindow);
+            }
+            else
+            {
+                AddChild(popUpWindow);
             }
         }
 
@@ -431,7 +451,7 @@ namespace PetZombieUI
 
         private void RemoveBlocks(PetZombie.BlocksDeletingEventArgs args)
         {
-            var scaleBy = new CCScaleBy(0.15f, 0.5f);
+            var scaleBy = new CCScaleBy(0.2f, 0.5f);
             var removedBlocksCount = 0;
 
             foreach (var block in args.DelBlocks)

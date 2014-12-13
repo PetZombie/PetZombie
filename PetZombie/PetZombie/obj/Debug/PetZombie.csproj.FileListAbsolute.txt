@@ -1,15 +1,7 @@
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\mscorlib.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\System.Xml.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\System.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\Mono.Security.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\ru\mscorlib.resources.dll
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normidna.nlp
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfc.nlp
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfd.nlp
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkc.nlp
-E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkd.nlp
-E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
-E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
-E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\PetZombie.pdb
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\System.Xml.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\System.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Debug\Mono.Security.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
+C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
