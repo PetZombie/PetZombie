@@ -2,11 +2,12 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="PetZombieAndroid\FileWorker.cs">
     <Files>
-      <File FileName="PetZombieAndroid\MainActivity.cs" Line="18" Column="51" />
-      <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="103" Column="1" />
-      <File FileName="PetZombieAndroid\FileWorker.cs" Line="52" Column="16" />
-      <File FileName="e:\Study\PetZombie\PetZombie\PetZombie\User.cs" Line="38" Column="1" />
-      <File FileName="e:\Study\PetZombie\PetZombie\PetZombieUI\ThreeInRowGame.cs" Line="33" Column="1" />
+      <File FileName="PetZombieAndroid\MainActivity.cs" Line="12" Column="1" />
+      <File FileName="PetZombie\ThreeInRowGame\ThreeInRowGame.cs" Line="54" Column="44" />
+      <File FileName="PetZombieAndroid\FileWorker.cs" Line="66" Column="74" />
+      <File FileName="PetZombie\ThreeInRowGame\Gun.cs" Line="9" Column="9" />
+      <File FileName="PetZombie\ThreeInRowGame\Bomb.cs" Line="24" Column="28" />
+      <File FileName="PetZombie\User.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -18,5 +19,5 @@
     <Watch file="PetZombie\Logic\ThreeInRowGame.cs" line="305" offsetX="1086" offsetY="1887" expression="movingBlocks" liveUpdate="False" />
     <Watch file="PetZombieAndroid\MainActivity.cs" line="27" offsetX="547" offsetY="442" expression="o" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
-  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid AndroidDeviceId-Debug="4df123c8544b9f1f" />
+  <MonoDevelop.Ide.ItemProperties.PetZombieAndroid />
 </Properties>

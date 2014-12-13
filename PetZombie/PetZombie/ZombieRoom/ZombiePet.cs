@@ -33,7 +33,7 @@ namespace PetZombie
             }
         }
 
-        public ZombiePet(string name, int satietyIncrement=20, int maxSat=100, int satiety=100, State state=State.Happy)
+        public ZombiePet(string name, int satiety=100, int satietyIncrement=20, int maxSat=100, State state=State.Happy)
         {
             this.satiety = satiety;
             this.maxSat = maxSat;

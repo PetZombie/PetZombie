@@ -5,10 +5,23 @@ namespace PetZombie
 {
     public class Soporific: Weapon
     {
-        public int count;
+        int cost;
+        int count;
+
+        public int Cost
+        {
+            get { return this.cost; }
+        }
+
+        public int Count
+        {
+            get { return this.count; }
+        }
+
         public Soporific(int count)
         {
             this.count = count;
+            this.cost = 20;
         }
 
         public List<List<Block>> GetAsleepZombieInBlocks(Block block, List<List<Block>> blocks)

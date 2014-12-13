@@ -51,6 +51,7 @@
     <Compile Include="IDataService.cs" />
     <Compile Include="DataServiceFactory.cs" />
     <Compile Include="ThreeInRowGame\EndGameEventArgs.cs" />
+    <Compile Include="Shop.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup />

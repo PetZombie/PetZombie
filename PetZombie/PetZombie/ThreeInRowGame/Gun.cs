@@ -5,10 +5,23 @@ namespace PetZombie
 {
 	public class Gun : Weapon
 	{
-        public int count;
+        int cost;
+        int count;
+
+        public int Cost
+        {
+            get { return this.cost; }
+        }
+
+        public int Count
+        {
+            get { return this.count; }
+        }
+
 		public Gun (int count)
 		{
             this.count = count;
+            this.cost = 35;
 		}
 
         public List<Tuple<List<Block>,int>> Use(Block block, int rowCount, int columnCount)
