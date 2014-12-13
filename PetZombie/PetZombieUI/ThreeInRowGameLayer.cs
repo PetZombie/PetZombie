@@ -52,6 +52,7 @@ namespace PetZombieUI
         private CCLabelTtf gunCountLabel;
         private CCLabelTtf bombCountLabel;
 
+        private CCLayerColor darkBackgroundLayer;
         private CCSprite popUpWindow;
 
         #endregion
@@ -77,7 +78,10 @@ namespace PetZombieUI
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
 
+
+            darkBackgroundLayer = new CCLayerColor();
             popUpWindow = new CCSprite("Images/window_background");
+            //popUpWindow.AddChild();
 
             pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
             {
@@ -153,6 +157,15 @@ namespace PetZombieUI
             background.Position = VisibleBoundsWorldspace.Center;
             toolbar.Position = new CCPoint(blockGridMargin, Resolution.DesignResolution.Height - blockGridMargin - blockSize.Height);
             popUpWindow.Position = VisibleBoundsWorldspace.Center;
+
+            var width = Resolution.DesignResolution.Width * 0.7f;
+            var scale = popUpWindow.ContentSize.Width / width;
+            var height = popUpWindow.ContentSize.Height / scale;
+
+            darkBackgroundLayer.Color = CCColor3B.Black;
+            darkBackgroundLayer.Opacity = 100;
+            popUpWindow.ScaleTo(new CCSize(width, height));
+            popUpWindow.Opacity = 200;
         }
 
         public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
@@ -379,13 +392,29 @@ namespace PetZombieUI
 
         private void OnEndGame(object sender, PetZombie.EndGameEventArgs args)
         {
+            AddChild(darkBackgroundLayer);
+            AddChild(popUpWindow);
+
             if (args.win)
             {
-                AddChild(popUpWindow);
+
             }
             else
             {
-                AddChild(popUpWindow);
+                var marginFactor = 0.1f;
+
+                var backButton = new CCSprite("Images/back_button");
+                var retryButton = new CCSprite("Images/retry_button");
+
+                //backButton.ScaleTo(blockSize);
+                //retryButton.ScaleTo(blockSize);
+
+                backButton.Position = new CCPoint(popUpWindow.ScaledContentSize.Width*marginFactor, popUpWindow.ScaledContentSize.Width*marginFactor);
+                retryButton.Position = new CCPoint(popUpWindow.ScaledContentSize.Width - popUpWindow.ScaledContentSize.Width*marginFactor,
+                    popUpWindow.ScaledContentSize.Width*marginFactor);
+
+                popUpWindow.AddChild(backButton);
+                popUpWindow.AddChild(retryButton);
             }
         }
 

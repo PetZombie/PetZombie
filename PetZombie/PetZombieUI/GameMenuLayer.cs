@@ -5,7 +5,7 @@ namespace PetZombieUI
 {
     public class GameMenuLayer : CCLayerColor
     {
-        private const float scaleRatio = 0.2f;
+        private const float scaleRatio = 0.18f;
         private const float marginPortion = 0.1f;
         private float margin = Resolution.DesignResolution.Width*marginPortion/2;
 
@@ -14,6 +14,8 @@ namespace PetZombieUI
         private CCNode toolbar;
 
         private CCEventListenerTouchOneByOne listener;
+
+        private CCSprite petZombie;
 
         public GameMenuLayer()
         {
@@ -26,8 +28,11 @@ namespace PetZombieUI
             //listener.OnTouchEnded = OnTouchEnded;
             //listener.OnTouchMoved = OnTouchMoved;
 
+            petZombie = new CCSprite("Images/pet_zombie");
+
             AddBackground();
             AddToolbar();
+            AddPetZombie();
         }
 
         protected override void AddedToScene()
@@ -37,7 +42,17 @@ namespace PetZombieUI
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
 
             background.Position = VisibleBoundsWorldspace.Center;
-            toolbar.Position = new CCPoint(margin, Resolution.DesignResolution.Height - margin);
+            toolbar.Position = new CCPoint(margin + 0.5f*iconSize.Width, Resolution.DesignResolution.Height - margin - 0.5f*iconSize.Height);
+
+            var width = Resolution.DesignResolution.Width*1.1f;
+            var scale = petZombie.ContentSize.Width / width;
+            var height = petZombie.ContentSize.Height / scale;
+
+
+            petZombie.AnchorPoint = new CCPoint(1, 0);
+            petZombie.ScaleTo(new CCSize(width, height));
+            petZombie.Position = new CCPoint(Resolution.DesignResolution.Width + petZombie.ScaledContentSize.Width*0.2f, 
+                -petZombie.ScaledContentSize.Height*0.3f);
         }
 
         public static CCScene GameMenuLayerScene(CCWindow mainWindow)
@@ -78,10 +93,27 @@ namespace PetZombieUI
             toolbar = new CCNode();
 
             var heartIcon = new CCSprite("Images/heart");
+            var timerIcon = new CCSprite("Images/timer's_back");
+            var brainIcon = new CCSprite("Images/brain_bar");
+
             heartIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            timerIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            brainIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+
+            timerIcon.Position = new CCPoint(0, -iconSize.Height);
+
+            brainIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*margin - brainIcon.ScaledContentSize.Width, 0);
+
             toolbar.AddChild(heartIcon);
+            toolbar.AddChild(timerIcon);
+            toolbar.AddChild(brainIcon);
 
             AddChild(toolbar);
+        }
+
+        private void AddPetZombie()
+        {
+            AddChild(petZombie);
         }
     }
 }

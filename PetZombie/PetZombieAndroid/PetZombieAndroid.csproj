@@ -124,5 +124,10 @@
     <AndroidAsset Include="Assets\Content\Images\room background.png" />
     <AndroidAsset Include="Assets\Content\Images\jar.png" />
     <AndroidAsset Include="Assets\Content\Images\heart.png" />
+    <AndroidAsset Include="Assets\Content\Images\window_background.png" />
+    <AndroidAsset Include="Assets\Content\Images\timer%27s_back.png" />
+    <AndroidAsset Include="Assets\Content\Images\back_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\retry_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\pet_zombie.png" />
   </ItemGroup>
 </Project>
