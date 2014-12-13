@@ -5,13 +5,7 @@ namespace PetZombie
 {
     public class Soporific: Weapon
     {
-        int count;
-
-        public int Count
-        {
-            get{ return this.count; }
-        }
-
+        public int count;
         public Soporific(int count)
         {
             this.count = count;

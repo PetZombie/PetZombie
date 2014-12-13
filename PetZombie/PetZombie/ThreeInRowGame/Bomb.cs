@@ -5,13 +5,7 @@ namespace PetZombie
 {
 	public class Bomb : Weapon
 	{
-        int count;
-
-        public int Count 
-        {
-            get{return this.count; }
-        }
-
+        public int count;
 		public Bomb (int count)
 		{
             this.count = count;

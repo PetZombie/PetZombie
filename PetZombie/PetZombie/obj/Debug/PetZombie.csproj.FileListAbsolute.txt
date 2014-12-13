@@ -12,3 +12,4 @@ E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkc.nlp
 E:\Study\PetZombie\PetZombie\PetZombie\bin\Debug\normnfkd.nlp
 E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.dll
 E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.pdb
+E:\Study\PetZombie\PetZombie\PetZombie\obj\Debug\PetZombie.csprojResolveAssemblyReference.cache

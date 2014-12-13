@@ -5,14 +5,12 @@ namespace PetZombie
 {
     public interface Weapon
 	{
-        int Count
-        {
-            get;
-        }
+        //protected int count;
+        //int Count
+        //{
+        //  get;// { return this.count; }
+        //}
 
-		//Использовать оружие
-		//Принимает блок и всю матрицу блоков, на которые применяется оружие
-		//Вовзращает матрицу, над которой применили оружие
         List<Tuple<List<Block>,int>> Use (Block block, int rowCount, int columnCount);
 	}
 }

@@ -50,9 +50,9 @@ namespace PetZombie
 
         public ThreeInRowGame(int rowsCount, int columnsCount, int target, int steps, int level)
         {
-            //IDataService data = DataServiceFactory.DataService();
-            //data.Write(new User(2, 3, new ZombiePet("Bob"), 1));
-            //User user = data.Read();
+            IDataService data = DataServiceFactory.DataService();
+            data.Write(new User(2, 3, new ZombiePet("Bob"), 1));
+
             this.random = new Random();
             do
             {
@@ -100,6 +100,7 @@ namespace PetZombie
             this.zombiePoints = 50;
             this.brainPoints = 70;
             this.stepPoints = 10;
+            User user = data.Read();
         }
 
         /// <summary>

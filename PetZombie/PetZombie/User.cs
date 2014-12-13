@@ -8,7 +8,7 @@ namespace PetZombie
         int livesCount;
         int brainsCount;
         ZombiePet zombie;
-        List<Weapon> weapons;
+        //List<Weapon> weapons;
         int lastLevel;
 
         public int LivesCount
@@ -26,12 +26,16 @@ namespace PetZombie
             get{ return this.zombie; }
         }
 
-        public List<Weapon> Weapon
+        /*public List<Weapon> Weapon
         {
             get{ return this.weapons; }
-        }
+        }*/
 
         public int LastLevel{ get { return lastLevel; } }
+
+        public User()
+        {
+        }
 
         public User(int livesCount, int brainsCount, ZombiePet zombie, int lastLevel=0)
         {
@@ -39,10 +43,10 @@ namespace PetZombie
             this.brainsCount = brainsCount;
             this.zombie = zombie;
             this.lastLevel = lastLevel;
-            weapons = new List<PetZombie.Weapon>();
-            weapons.Add(new Soporific(2));
-            weapons.Add(new Bomb(2));
-            weapons.Add(new Gun(3));
+            //weapons = new List<PetZombie.Weapon>();
+            //weapons.Add(new Soporific(2));
+            //weapons.Add(new Bomb(2));
+            //weapons.Add(new Gun(3));
         }
 
         public User(int livesCount, int brainsCount, ZombiePet zombie, List<Weapon> weapons, int lastLevel)
@@ -51,7 +55,7 @@ namespace PetZombie
             this.brainsCount = brainsCount;
             this.zombie = zombie;
             this.lastLevel = lastLevel;
-            weapons = new List<Weapon>(weapons);
+            //weapons = new List<Weapon>(weapons);
         }
 
         public bool CanFeed()

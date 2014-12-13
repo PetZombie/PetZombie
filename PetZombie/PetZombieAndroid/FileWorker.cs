@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Xml.Serialization;
+using Polenter.Serialization;
 
 namespace PetZombieAndroid
 {
@@ -15,29 +15,41 @@ namespace PetZombieAndroid
 
         public void Write(PetZombie.User obj)
         {
-            Type type = obj.GetType();
+            var serializer = new SharpSerializer();
+
+
+            //Type type = obj.GetType();
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string fullpath = Path.Combine(path, filename);
-
+            /*
             XmlSerializer xml =  new XmlSerializer(type);
+
             using (var fStream = new FileStream(fullpath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 xml.Serialize(fStream, obj);
             }
+            */
+            serializer.Serialize(obj, fullpath);
         }
 
         public PetZombie.User Read()
         {
+
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string fullpath = Path.Combine(path, filename);
-
+            /*
             XmlSerializer xml =  new XmlSerializer(typeof(PetZombie.User));
             FileStream fs = new FileStream(fullpath, FileMode.OpenOrCreate);
             TextReader reader = new StreamReader(fs);
 
-            PetZombie.User obj = xml.Deserialize(reader) as PetZombie.User;
+            PetZombie.User user = (PetZombie.User)xml.Deserialize(reader);
+            fs.Close();
 
-            return obj;
+            return user;
+*/
+            var serializer = new SharpSerializer();
+            var user = serializer.Deserialize(fullpath);
+            return (PetZombie.User)user;
         }
     }
 }
