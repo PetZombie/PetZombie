@@ -87,9 +87,9 @@ namespace PetZombie
                 }
             } while (this.CheckDelete().Count > 0 || !this.CheckBrainAndZombieAreNotNear());
 
-            this.target = target;
-            this.stepsCount = steps;
-            this.level = level;
+            this.target = 2;//target;
+            this.stepsCount = 20;//steps;
+            this.level = 1;//level;
             this.gold = 0;
 
             this.weapons = new List<Weapon>();
@@ -318,7 +318,6 @@ namespace PetZombie
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
             List<Block> movingBlocks = new List<Block>();
-
             bool firstly = true;
 
             foreach (Tuple<List<Block>,int> oneSet in blocksForDelete)
@@ -328,7 +327,12 @@ namespace PetZombie
                     if (block is ZombieBlock)
                         points += zombiePoints;
                     else
-                        points += blockPoints;
+                    {
+                        if (block.Type == BlockType.Brain)
+                            points += brainPoints;
+                        else
+                            points += blockPoints;
+                    }
 
                     if (block.Type == BlockType.Brain && block.Position.RowIndex==0)
                         currentBrainCount++;
@@ -343,7 +347,7 @@ namespace PetZombie
                         if (!ContainsBlock(delBlocks, block))
                             delBlocks.Add(new Block(block));
                     }
-
+                        
                     if (oneSet.Item2 == 1 || firstly)
                     {
                         firstly = false;
@@ -544,7 +548,18 @@ namespace PetZombie
                 Soporific soporific = weapon as Soporific;
                 this.blocks = new List<List<Block>>(soporific.GetAsleepZombieInBlocks(block, this.blocks));
             }
-            DeleteBlocks(weapon.Use(block, blocks.Count, blocks[0].Count), true);
+            var delBlocks = weapon.Use(block, blocks.Count, blocks[0].Count);
+            bool hasZombie = false;
+            foreach (var oneSet in delBlocks)
+            {
+                Block z = oneSet.Item1.Find(delegate(Block tb)
+                {
+                    return blocks[tb.Position.RowIndex][tb.Position.ColumnIndex].Type == BlockType.Zombie;
+                });
+                if (z != null)
+                    hasZombie = true;
+            }
+            DeleteBlocks(delBlocks, hasZombie);
         }
 
         protected List<Block> GetNeighbors(Block block)

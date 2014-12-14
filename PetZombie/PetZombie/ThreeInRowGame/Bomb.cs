@@ -30,9 +30,9 @@ namespace PetZombie
             int row = block.Position.RowIndex;
             int column = block.Position.ColumnIndex;
             List<Block> row1 = new List<Block>();
-            if (row - 1 > 0)
+            if (row - 1 > -1)
             {
-                if (column - 1 > 0)
+                if (column - 1 > -1)
                     row1.Add(new Block(new Position(row - 1, column - 1)));
                 row1.Add(new Block(new Position(row - 1, column)));
                 if (column + 1 < columnCount)
@@ -40,7 +40,7 @@ namespace PetZombie
             }
 
             List<Block> row2 = new List<Block>();
-            if (column - 1 > 0)
+            if (column - 1 > -1)
                 row2.Add(new Block(new Position(row, column-1)));
             row2.Add(new Block(new Position(row, column)));
             if (column + 1 < columnCount)
@@ -49,7 +49,7 @@ namespace PetZombie
             List<Block> row3 = new List<Block>();
             if (row + 1 < rowCount)
             {
-                if (column - 1 > 0)
+                if (column - 1 > -1)
                     row3.Add(new Block(new Position(row + 1, column - 1)));
                 row3.Add(new Block(new Position(row + 1, column)));
                 if (column + 1 < columnCount)
