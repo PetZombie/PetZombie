@@ -171,8 +171,6 @@ namespace PetZombie
             {
                 this.stepsCount--;
                 this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
-                this.ZombieEatBrain();
-                //this.BrainDeleteChecking();
                 return true;
             }
             else
@@ -190,8 +188,6 @@ namespace PetZombie
             if (delBlocks.Count > 0)
             {
                 this.DeleteBlocks(new List<Tuple<List<Block>, int>>(delBlocks));
-                this.ZombieEatBrain();
-                //this.BrainDeleteChecking();
             }
             else
                 CheckEndGame();
@@ -299,6 +295,8 @@ namespace PetZombie
                     }
                 }
             }
+
+            delBlocks.AddRange(ZombieEatBrain());
 
             return delBlocks;
         }
@@ -479,8 +477,10 @@ namespace PetZombie
             return brainCount;
         }
 
-        private void ZombieEatBrain()
+        private List<Tuple<List<Block>, int>> ZombieEatBrain()
         {
+            List<Tuple<List<Block>, int>> allDelBlocks = new List<Tuple<List<Block>, int>>();
+
             foreach (List<Block> oneRow in this.blocks)
             {
                 List<ZombieBlock> zombies = new List<ZombieBlock>();
@@ -499,16 +499,15 @@ namespace PetZombie
                         continue;
                     int row = zombie.Position.RowIndex;
                     int column = zombie.Position.ColumnIndex;
-                    List<Tuple<List<Block>, int>> allDelBlocks = new List<Tuple<List<Block>, int>>();
 
-                    if (row-1 > 0 && this.blocks[row - 1][column].Type == BlockType.Brain)
+                    if (row > 0 && this.blocks[row - 1][column].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row - 1][column]));
                         Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
                         allDelBlocks.Add(delBlocks);
                     }
-                    if (column-1 > 0 && this.blocks[row][column - 1].Type == BlockType.Brain)
+                    if (column > 0 && this.blocks[row][column - 1].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row][column - 1]));
@@ -531,14 +530,9 @@ namespace PetZombie
                         Tuple<List<Block>, int> delBlocks = new Tuple<List<Block>, int>(brain, 1);
                         allDelBlocks.Add(delBlocks);
                     }
-
-                    if (allDelBlocks.Count > 0)
-                    {
-                        DeleteBlocks(allDelBlocks);
-                    }
-
                 }
             }
+            return allDelBlocks;
         }
 
         public void UseWeapon(Weapon weapon, Block block)
