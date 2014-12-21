@@ -44,6 +44,7 @@
     <Compile Include="Soporific.cs" />
     <Compile Include="Gun.cs" />
     <Compile Include="Weapon.cs" />
+    <Compile Include="ShopLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

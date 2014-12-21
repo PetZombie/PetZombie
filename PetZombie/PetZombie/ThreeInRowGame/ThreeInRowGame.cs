@@ -56,7 +56,7 @@ namespace PetZombie
             data.Write(new User(2, 3, new ZombiePet("Fred", 50), 2));
             this.user = data.Read();
             this.random = new Random();
-            this.level = 1;//level;
+            this.level = level;
             do
             {
                 this.blocks = new List<List<Block>>();
@@ -93,8 +93,8 @@ namespace PetZombie
 //                }
             } while (this.CheckDelete().Count > 0 || !this.CheckBrainAndZombieAreNotNear());
 
-            this.target = 2;//target;
-            this.stepsCount = 20;//steps;
+            this.target = target;
+            this.stepsCount = steps;
 
             this.gold = 0;
 
@@ -535,34 +535,28 @@ namespace PetZombie
 
         private void CheckEndGame()
         {
-            EndGameEventArgs e = new EndGameEventArgs(false, this.user);
-            EndGameEventHandler handler = EndGame;
-            if (handler != null)
-                handler(this, e);
+            if (currentBrainCount >= target)
+            {
+                points += stepPoints * stepsCount;
+                gold = points / 20;
+                user.Money += gold;
+                EndGameEventArgs e = new EndGameEventArgs(true, this.user);
 
-
-//            if (currentBrainCount >= target)
-//            {
-//                points += stepPoints * stepsCount;
-//                gold = points / 20;
-//                user.Money += gold;
-//                EndGameEventArgs e = new EndGameEventArgs(true, this.user);
-//
-//                data.Write(this.user);
-//                EndGameEventHandler handler = EndGame;
-//                if (handler != null)
-//                    handler(this, e);
-//            }
-//            else {if (stepsCount == 0)
-//            {
-//                this.user.LivesCount--;
-//                EndGameEventArgs e = new EndGameEventArgs(false, this.user);
-//                data.Write(this.user);
-//                EndGameEventHandler handler = EndGame;
-//                if (handler != null)
-//                    handler(this, e);
-//            }
-//            }
+                data.Write(this.user);
+                EndGameEventHandler handler = EndGame;
+                if (handler != null)
+                    handler(this, e);
+            }
+            else {if (stepsCount == 0)
+            {
+                this.user.LivesCount--;
+                EndGameEventArgs e = new EndGameEventArgs(false, this.user);
+                data.Write(this.user);
+                EndGameEventHandler handler = EndGame;
+                if (handler != null)
+                    handler(this, e);
+            }
+            }
         }
     }
 }

@@ -103,7 +103,7 @@
     <Folder Include="Assets\Content\Images\" />
     <Folder Include="Assets\Content\Sounds\" />
     <Folder Include="Resources\values-ru\" />
-    <Folder Include="Assets\Content\Fonts\" />
+    <Folder Include="Assets\Content\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\Content\Images\blue_ellipse_block.png" />
@@ -120,7 +120,6 @@
     <AndroidAsset Include="Assets\Content\Images\soporific_bar.png" />
     <AndroidAsset Include="Assets\Content\Images\star_bar.png" />
     <AndroidAsset Include="Assets\Content\Images\trace_bar.png" />
-    <AndroidAsset Include="Assets\Content\Fonts\AGCrownStyle Roman.ttf" />
     <AndroidAsset Include="Assets\Content\Images\room background.png" />
     <AndroidAsset Include="Assets\Content\Images\jar.png" />
     <AndroidAsset Include="Assets\Content\Images\heart.png" />
@@ -129,5 +128,6 @@
     <AndroidAsset Include="Assets\Content\Images\back_button.png" />
     <AndroidAsset Include="Assets\Content\Images\retry_button.png" />
     <AndroidAsset Include="Assets\Content\Images\pet_zombie.png" />
+    <AndroidAsset Include="Assets\Content\fonts\AGCrownStyle Roman.ttf" />
   </ItemGroup>
 </Project>
