@@ -73,6 +73,7 @@ namespace PetZombie
         public void FeedZombie()
         {
             this.brainsCount--;
+            this.zombie.Eat();
         }
     }
 }
