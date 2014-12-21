@@ -57,6 +57,12 @@ namespace PetZombieUI
 
         private bool isGameEnded;
 
+        private CCSize popUpWindowSize;
+
+        private CCSprite retryButton;
+        private CCSprite backButton;
+        private CCSprite nextButton;
+
         #endregion
 
         private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
@@ -84,6 +90,7 @@ namespace PetZombieUI
             darkBackgroundLayer = new CCLayerColor();
             popUpWindow = new CCSprite("Images/window_background");
             //popUpWindow.AddChild();
+            popUpWindowSize = popUpWindow.ScaledContentSize;
 
             isGameEnded = false;
 
@@ -187,7 +194,12 @@ namespace PetZombieUI
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
             if (isGameEnded)
-                return false;
+            {
+                if (GetWorldRectangle(retryButton).ContainsPoint(touch.Location))
+                    ;
+                else if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
+                    ;
+            }
 
             // We need to be not able to handle any touches while handling particular one.
             if (currentTouchedBlock == null)
@@ -399,31 +411,71 @@ namespace PetZombieUI
 
         private void OnEndGame(object sender, PetZombie.EndGameEventArgs args)
         {
+            var marginFactor = 0.1f;
+
             AddChild(darkBackgroundLayer);
             AddChild(popUpWindow);
+
             isGameEnded = true;
+
+            var stringBackground1 = new CCSprite("Images/string_background");
+            var stringBackground2 = new CCSprite("Images/string_background");
+            var stringBackground3 = new CCSprite("Images/string_background");
+
+            backButton = new CCSprite("Images/back_button");
+            retryButton = new CCSprite("Images/retry_button");
+            nextButton = new CCSprite("Images/next_button");
+
+            //backButton.ScaleTo(blockSize);
+            //retryButton.ScaleTo(blockSize);
+
+
+
+            backButton.Position = new CCPoint(popUpWindowSize.Width*marginFactor + backButton.ScaledContentSize.Width*0.5f, 
+                popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
+
+            var stringBackgroundSize = stringBackground1.ScaledContentSize;
+
+            args.win = true;
 
             if (args.win)
             {
+                retryButton.Position = new CCPoint(popUpWindowSize.Width*0.5f,
+                    popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
+                nextButton.Position = new CCPoint(popUpWindowSize.Width - 
+                    popUpWindowSize.Width*marginFactor - nextButton.ScaledContentSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor + nextButton.ScaledContentSize.Width*0.5f);
 
+                stringBackground1.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*2 + backButton.ScaledContentSize.Height +
+                    stringBackground1.ScaledContentSize.Height*0.5f);
+
+                stringBackground2.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*3 + backButton.ScaledContentSize.Height + 
+                    stringBackground1.ScaledContentSize.Height);
+
+                stringBackground3.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*4 + backButton.ScaledContentSize.Height + 
+                    stringBackground1.ScaledContentSize.Height*1.5f);
+
+                popUpWindow.AddChild(stringBackground1);
+                popUpWindow.AddChild(stringBackground2);
+                popUpWindow.AddChild(stringBackground3);
+
+                popUpWindow.AddChild(nextButton);
             }
             else
             {
-                var marginFactor = 0.1f;
+                retryButton.Position = new CCPoint(popUpWindowSize.Width - popUpWindowSize.Width*marginFactor - retryButton.ScaledContentSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
 
-                var backButton = new CCSprite("Images/back_button");
-                var retryButton = new CCSprite("Images/retry_button");
 
-                //backButton.ScaleTo(blockSize);
-                //retryButton.ScaleTo(blockSize);
 
-                backButton.Position = new CCPoint(popUpWindow.ScaledContentSize.Width*marginFactor, popUpWindow.ScaledContentSize.Width*marginFactor);
-                retryButton.Position = new CCPoint(popUpWindow.ScaledContentSize.Width - popUpWindow.ScaledContentSize.Width*marginFactor,
-                    popUpWindow.ScaledContentSize.Width*marginFactor);
 
-                popUpWindow.AddChild(backButton);
-                popUpWindow.AddChild(retryButton);
             }
+
+            popUpWindow.AddChild(backButton);
+            popUpWindow.AddChild(retryButton);
         }
 
         private void OnMove1Completed(PetZombie.BlocksDeletingEventArgs args)
@@ -642,6 +694,14 @@ namespace PetZombieUI
             }
 
             AddChild(toolbar);
+        }
+
+        private CCRect GetWorldRectangle(CCSprite sprite)
+        {
+            var x = sprite.PositionWorldspace.X - sprite.ScaledContentSize.Width*sprite.AnchorPoint.X;
+            var y = sprite.PositionWorldspace.Y - sprite.ScaledContentSize.Height*sprite.AnchorPoint.Y;
+
+            return new CCRect(x, y, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
         }
 
         #endregion

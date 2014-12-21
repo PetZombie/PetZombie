@@ -132,5 +132,7 @@
     <AndroidAsset Include="Assets\Content\Images\patrons.png" />
     <AndroidAsset Include="Assets\Content\Images\shop_background.png" />
     <AndroidAsset Include="Assets\Content\Images\back_arrow.png" />
+    <AndroidAsset Include="Assets\Content\Images\next_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\string_background.png" />
   </ItemGroup>
 </Project>
