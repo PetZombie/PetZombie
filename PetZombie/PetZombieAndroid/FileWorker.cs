@@ -19,7 +19,7 @@ namespace PetZombieAndroid
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string fullpath = Path.Combine(path, filename);
 
-            string[] lines = new string[9];
+            string[] lines = new string[11];
             lines[0] = Convert.ToString(obj.LivesCount);
             lines[1] = Convert.ToString(obj.BrainsCount);
             lines[2] = Convert.ToString(obj.LastLevel);
@@ -30,6 +30,8 @@ namespace PetZombieAndroid
             lines[6] = Convert.ToString(obj.Weapon[0].Count);
             lines[7] = Convert.ToString(obj.Weapon[1].Count);
             lines[8] = Convert.ToString(obj.Weapon[2].Count);
+            lines[9] = obj.Time;
+            lines[10] = obj.Timer;
 
             File.WriteAllLines(fullpath, lines);
             //File.WriteAllText(fullpath, "Nemo");
@@ -69,7 +71,7 @@ namespace PetZombieAndroid
             weapon.Add(new PetZombie.Gun(Convert.ToInt32(text[8])));
 
             PetZombie.User user = new PetZombie.User(Convert.ToInt32(text[0]), Convert.ToInt32(text[1]), new PetZombie.ZombiePet(text[3],
-                Convert.ToInt32(text[4])), weapon, Convert.ToInt32(text[5]), Convert.ToInt32(text[2]));
+                Convert.ToInt32(text[4])), weapon, Convert.ToInt32(text[5]), Convert.ToInt32(text[2]), text[9], text[10]);
              
             return user;
             /*
