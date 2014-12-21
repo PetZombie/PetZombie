@@ -67,8 +67,25 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
+            foreach (var sprite in toolbar)
+            {
+                if (GetWorldRectangle(sprite))
+                {
+
+                }
+            }
+
+
             Window.DefaultDirector.ReplaceScene (ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
             return true;
+        }
+
+        private CCRect GetWorldRectangle(CCSprite sprite)
+        {
+            var x = sprite.PositionWorldspace.X - iconSize.Width*sprite.AnchorPoint.X;
+            var y = sprite.PositionWorldspace.Y - iconSize.Height*sprite.AnchorPoint.Y;
+
+            return new CCRect(x, y, iconSize.Width, iconSize.Height);
         }
 
         private void AddBackground()
