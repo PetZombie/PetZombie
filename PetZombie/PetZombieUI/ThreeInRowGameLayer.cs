@@ -55,6 +55,8 @@ namespace PetZombieUI
         private CCLayerColor darkBackgroundLayer;
         private CCSprite popUpWindow;
 
+        private bool isGameEnded;
+
         #endregion
 
         private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
@@ -82,6 +84,8 @@ namespace PetZombieUI
             darkBackgroundLayer = new CCLayerColor();
             popUpWindow = new CCSprite("Images/window_background");
             //popUpWindow.AddChild();
+
+            isGameEnded = false;
 
             pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
             {
@@ -182,6 +186,9 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
+            if (isGameEnded)
+                return false;
+
             // We need to be not able to handle any touches while handling particular one.
             if (currentTouchedBlock == null)
             {
@@ -394,6 +401,7 @@ namespace PetZombieUI
         {
             AddChild(darkBackgroundLayer);
             AddChild(popUpWindow);
+            isGameEnded = true;
 
             if (args.win)
             {

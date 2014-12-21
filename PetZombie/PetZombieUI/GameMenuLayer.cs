@@ -67,13 +67,13 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            foreach (var sprite in toolbar)
+            /*foreach (var sprite in toolbar)
             {
                 if (GetWorldRectangle(sprite))
                 {
 
                 }
-            }
+            }*/
 
 
             Window.DefaultDirector.ReplaceScene (ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
