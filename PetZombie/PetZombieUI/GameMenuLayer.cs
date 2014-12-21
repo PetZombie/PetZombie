@@ -76,7 +76,7 @@ namespace PetZombieUI
             }*/
 
 
-            Window.DefaultDirector.ReplaceScene (ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
+            Window.DefaultDirector.ReplaceScene(ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window)); //ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
             return true;
         }
 

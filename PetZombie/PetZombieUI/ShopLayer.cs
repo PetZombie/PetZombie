@@ -5,7 +5,7 @@ namespace PetZombieUI
 {
     public class ShopLayer : CCLayerColor
     {
-        private const float scaleRatio = 0.18f;
+        private const float scaleRatio = 0.15f;
         private const float marginPortion = 0.1f;
         private float margin = Resolution.DesignResolution.Width*marginPortion/2;
 
@@ -13,9 +13,9 @@ namespace PetZombieUI
         private CCSprite background;
         private CCNode toolbar;
 
-        private CCEventListenerTouchOneByOne listener;
+        private CCSprite backButton;
 
-        private CCSprite petZombie;
+        private CCEventListenerTouchOneByOne listener;
 
         public ShopLayer()
         {
@@ -28,11 +28,9 @@ namespace PetZombieUI
             //listener.OnTouchEnded = OnTouchEnded;
             //listener.OnTouchMoved = OnTouchMoved;
 
-            petZombie = new CCSprite("Images/pet_zombie");
-
             AddBackground();
             AddToolbar();
-            AddPetZombie();
+            AddBackButton();
         }
 
         protected override void AddedToScene()
@@ -45,8 +43,8 @@ namespace PetZombieUI
             toolbar.Position = new CCPoint(margin + 0.5f*iconSize.Width, Resolution.DesignResolution.Height - margin - 0.5f*iconSize.Height);
 
             var width = Resolution.DesignResolution.Width*1.1f;
-            var scale = petZombie.ContentSize.Width / width;
-            var height = petZombie.ContentSize.Height / scale;
+            //var scale = petZombie.ContentSize.Width / width;
+            //var height = petZombie.ContentSize.Height / scale;
 
 
             //petZombie.AnchorPoint = new CCPoint(1, 0);
@@ -56,10 +54,10 @@ namespace PetZombieUI
                 */
         }
 
-        public static CCScene GameMenuLayerScene(CCWindow mainWindow)
+        public static CCScene ShopLayerScene(CCWindow mainWindow)
         {
             var scene = new CCScene(mainWindow);
-            var layer = new GameMenuLayer();
+            var layer = new ShopLayer();
 
             scene.AddChild(layer);
 
@@ -119,9 +117,12 @@ namespace PetZombieUI
             bombIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             soporificIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
 
-            patronsIcon.Position = new CCPoint(0, -iconSize.Height);
+            bombIcon.Position = new CCPoint(0, margin);
 
-            bombIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*margin - bombIcon.ScaledContentSize.Width, 0);
+            patronsIcon.Position = new CCPoint((Resolution.DesignResolution.Width/2 - margin)/2, margin);
+
+            soporificIcon.Position = new CCPoint(Resolution.DesignResolution.Width/2 - margin, margin);
+            //bombIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*margin - bombIcon.ScaledContentSize.Width, 0);
 
             toolbar.AddChild(patronsIcon);
             toolbar.AddChild(bombIcon);
@@ -129,10 +130,16 @@ namespace PetZombieUI
 
             AddChild(toolbar);
         }
-
-        private void AddPetZombie()
+            
+        private void AddBackButton()
         {
-            AddChild(petZombie);
+            float scale = 0.17f;
+            var backButtonSize = new CCSize(Resolution.DesignResolution.Width*scale, Resolution.DesignResolution.Width*scale);
+            backButton = new CCSprite("Images/back_arrow");
+            backButton.ScaleTo(new CCSize(backButtonSize.Width, backButtonSize.Height+5));
+            backButton.Position = new CCPoint(backButton.ScaledContentSize.Width - margin - margin/2, backButton.ScaledContentSize.Height - margin);
+
+            AddChild(backButton);
         }
     }
 }

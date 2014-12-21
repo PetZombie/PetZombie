@@ -129,5 +129,8 @@
     <AndroidAsset Include="Assets\Content\Images\retry_button.png" />
     <AndroidAsset Include="Assets\Content\Images\pet_zombie.png" />
     <AndroidAsset Include="Assets\Content\fonts\AGCrownStyle Roman.ttf" />
+    <AndroidAsset Include="Assets\Content\Images\patrons.png" />
+    <AndroidAsset Include="Assets\Content\Images\shop_background.png" />
+    <AndroidAsset Include="Assets\Content\Images\back_arrow.png" />
   </ItemGroup>
 </Project>
