@@ -45,6 +45,7 @@
     <Compile Include="ShopLayer.cs" />
     <Compile Include="ThreeInRowGame.cs" />
     <Compile Include="ThreeInRowGameLayer.cs" />
+    <Compile Include="LevelsLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

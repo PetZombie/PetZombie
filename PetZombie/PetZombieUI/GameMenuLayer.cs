@@ -17,6 +17,10 @@ namespace PetZombieUI
 
         private CCSprite petZombie;
 
+        CCSprite brainIcon;
+        CCSprite shopIcon;
+        CCSprite levelIcon;
+
         public GameMenuLayer()
         {
             iconSize = new CCSize(Resolution.DesignResolution.Width*scaleRatio, Resolution.DesignResolution.Width*scaleRatio);
@@ -31,8 +35,8 @@ namespace PetZombieUI
             petZombie = new CCSprite("Images/pet_zombie");
 
             AddBackground();
-            AddToolbar();
             AddPetZombie();
+            AddToolbar();
         }
 
         protected override void AddedToScene()
@@ -67,17 +71,18 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            /*foreach (var sprite in toolbar)
+            if (GetWorldRectangle(shopIcon).ContainsPoint(touch.Location))
             {
-                if (GetWorldRectangle(sprite))
-                {
+                Director.ReplaceScene(ShopLayer.ShopLayerScene(Window));
+                return true;
+            }
+            else if (GetWorldRectangle(levelIcon).ContainsPoint(touch.Location))
+            {
+                Director.ReplaceScene(LevelsLayer.LevelsLayerScene(Window));
+                return true;
+            }
 
-                }
-            }*/
-
-
-            Window.DefaultDirector.ReplaceScene(ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window)); //ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
-            return true;
+            return false;
         }
 
         private CCRect GetWorldRectangle(CCSprite sprite)
@@ -111,19 +116,29 @@ namespace PetZombieUI
 
             var heartIcon = new CCSprite("Images/heart");
             var timerIcon = new CCSprite("Images/timer's_back");
-            var brainIcon = new CCSprite("Images/brain_bar");
+            brainIcon = new CCSprite("Images/brain_bar");
+            shopIcon = new CCSprite("Images/shop_button");
+            levelIcon = new CCSprite("Images/levels_button");
 
             heartIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
-            timerIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            timerIcon.ScaleTo(new CCSize(iconSize.Width, timerIcon.ContentSize.Height/(timerIcon.ContentSize.Width/iconSize.Width)));
             brainIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            shopIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            levelIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
 
-            timerIcon.Position = new CCPoint(0, -iconSize.Height);
-
+            timerIcon.Position = new CCPoint(0, -timerIcon.ScaledContentSize.Height*1.5f);
             brainIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*margin - brainIcon.ScaledContentSize.Width, 0);
+            shopIcon.Position = new CCPoint(margin + shopIcon.ScaledContentSize.Width*0.5f, 
+                margin + shopIcon.ScaledContentSize.Height*0.5f);
+            levelIcon.Position = new CCPoint(Resolution.DesignResolution.Width - margin - levelIcon.ScaledContentSize.Width*0.5f,
+                margin + levelIcon.ScaledContentSize.Height*0.5f);
 
             toolbar.AddChild(heartIcon);
             toolbar.AddChild(timerIcon);
             toolbar.AddChild(brainIcon);
+
+            AddChild(shopIcon);
+            AddChild(levelIcon);
 
             AddChild(toolbar);
         }

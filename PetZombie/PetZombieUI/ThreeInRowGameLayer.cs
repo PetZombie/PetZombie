@@ -198,11 +198,11 @@ namespace PetZombieUI
                 if (GetWorldRectangle(retryButton).ContainsPoint(touch.Location))
                     ;
                 else if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
-                    ;
+                    Director.ReplaceScene(GameMenuLayer.GameMenuLayerScene(Window));
             }
 
             // We need to be not able to handle any touches while handling particular one.
-            if (currentTouchedBlock == null)
+            if (currentTouchedBlock == null && !isGameEnded)
             {
                 isTouchEnded = false;
 
@@ -422,14 +422,24 @@ namespace PetZombieUI
             var stringBackground2 = new CCSprite("Images/string_background");
             var stringBackground3 = new CCSprite("Images/string_background");
 
-            backButton = new CCSprite("Images/back_button");
-            retryButton = new CCSprite("Images/retry_button");
-            nextButton = new CCSprite("Images/next_button");
+            backButton = new CCSprite("Images/back2");
+            retryButton = new CCSprite("Images/retry2");
+            nextButton = new CCSprite("Images/next2");
+
+            var brain = new CCSprite("Images/brain_small");
+            var star = new CCSprite("Images/star_small");
+            var money = new CCSprite("Images/money_small");
 
             //backButton.ScaleTo(blockSize);
             //retryButton.ScaleTo(blockSize);
 
+            brain.Position = new CCPoint(popUpWindowSize.Width * marginFactor*1.5f, brain.ScaledContentSize.Height * 0.5f);
+            star.Position = new CCPoint(popUpWindowSize.Width*marginFactor*1.5f, star.ScaledContentSize.Height * 0.5f);
+            money.Position = new CCPoint(popUpWindowSize.Width*marginFactor*1.5f, money.ScaledContentSize.Height * 0.5f);
 
+            stringBackground3.AddChild(brain);
+            stringBackground2.AddChild(star);
+            stringBackground1.AddChild(money);
 
             backButton.Position = new CCPoint(popUpWindowSize.Width*marginFactor + backButton.ScaledContentSize.Width*0.5f, 
                 popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);

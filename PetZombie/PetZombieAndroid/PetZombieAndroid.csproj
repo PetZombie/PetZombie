@@ -122,17 +122,25 @@
     <AndroidAsset Include="Assets\Content\Images\trace_bar.png" />
     <AndroidAsset Include="Assets\Content\Images\room background.png" />
     <AndroidAsset Include="Assets\Content\Images\jar.png" />
-    <AndroidAsset Include="Assets\Content\Images\heart.png" />
     <AndroidAsset Include="Assets\Content\Images\window_background.png" />
-    <AndroidAsset Include="Assets\Content\Images\timer%27s_back.png" />
-    <AndroidAsset Include="Assets\Content\Images\back_button.png" />
-    <AndroidAsset Include="Assets\Content\Images\retry_button.png" />
     <AndroidAsset Include="Assets\Content\Images\pet_zombie.png" />
     <AndroidAsset Include="Assets\Content\fonts\AGCrownStyle Roman.ttf" />
     <AndroidAsset Include="Assets\Content\Images\patrons.png" />
     <AndroidAsset Include="Assets\Content\Images\shop_background.png" />
     <AndroidAsset Include="Assets\Content\Images\back_arrow.png" />
-    <AndroidAsset Include="Assets\Content\Images\next_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\back2.png" />
+    <AndroidAsset Include="Assets\Content\Images\continue2.png" />
+    <AndroidAsset Include="Assets\Content\Images\next2.png" />
+    <AndroidAsset Include="Assets\Content\Images\retry2.png" />
     <AndroidAsset Include="Assets\Content\Images\string_background.png" />
+    <AndroidAsset Include="Assets\Content\Images\money.png" />
+    <AndroidAsset Include="Assets\Content\Images\brain_small.png" />
+    <AndroidAsset Include="Assets\Content\Images\money_small.png" />
+    <AndroidAsset Include="Assets\Content\Images\heart.png" />
+    <AndroidAsset Include="Assets\Content\Images\levels_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\shop_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\timer%27s_back.png" />
+    <AndroidAsset Include="Assets\Content\Images\star_small.png" />
+    <AndroidAsset Include="Assets\Content\Images\level%27s_background.png" />
   </ItemGroup>
 </Project>
