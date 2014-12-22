@@ -15,6 +15,8 @@ namespace PetZombieUI
 
         private CCSprite backButton;
 
+        private CCSprite backForWeapon1, backForWeapon2, backForWeapon3;
+
         private CCEventListenerTouchOneByOne listener;
 
         public ShopLayer()
@@ -31,6 +33,8 @@ namespace PetZombieUI
             AddBackground();
             AddToolbar();
             AddBackButton();
+            AddBackForWeapon();
+            AddWeaponItem();
         }
 
         protected override void AddedToScene()
@@ -139,6 +143,91 @@ namespace PetZombieUI
             backButton.Position = new CCPoint(backButton.ScaledContentSize.Width - margin - margin/2, backButton.ScaledContentSize.Height - margin);
 
             AddChild(backButton);
+        }
+
+        private void AddBackForWeapon()
+        {
+            //float scale = 0.17f;
+            //var backWeaponSize = new CCSize(Resolution.DesignResolution.Width, Resolution.DesignResolution.Height);
+            backForWeapon1 = new CCSprite("Images/back_for_weapon");
+            //backForWeapon.ScaledContentSize
+            var size = new CCSize(backForWeapon1.ScaledContentSize.Width*0.5f, backForWeapon1.ScaledContentSize.Height*0.5f);
+            backForWeapon1.ScaleTo(size);
+            backForWeapon1.Position = new CCPoint(Resolution.DesignResolution.Width/2, Resolution.DesignResolution.Height*0.75f);
+
+            backForWeapon2 = new CCSprite("Images/back_for_weapon");
+            //backForWeapon.ScaledContentSize
+            backForWeapon2.ScaleTo(size);
+            backForWeapon2.Position = new CCPoint(Resolution.DesignResolution.Width/2, Resolution.DesignResolution.Height*0.55f);
+
+            backForWeapon3 = new CCSprite("Images/back_for_weapon");
+            //backForWeapon.ScaledContentSize
+            backForWeapon3.ScaleTo(size);
+            backForWeapon3.Position = new CCPoint(Resolution.DesignResolution.Width/2, Resolution.DesignResolution.Height*0.35f);
+
+            AddChild(backForWeapon1);
+            AddChild(backForWeapon2);
+            AddChild(backForWeapon3);
+        }
+
+        private void AddWeaponItem()
+        {
+            var soporificItem = new CCSprite("Images/soporific_bar");
+            //backForWeapon.ScaledContentSize
+            soporificItem.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            soporificItem.Position = new CCPoint(Resolution.DesignResolution.Width/5, Resolution.DesignResolution.Height*0.75f);
+
+            var goldItem = new CCSprite("Images/money");
+            //backForWeapon.ScaledContentSize
+            goldItem.ScaleTo(new CCSize(iconSize.Width*0.75f, iconSize.Height*0.75f));
+            goldItem.Position = new CCPoint(Resolution.DesignResolution.Width/2 - 1.5f*margin, Resolution.DesignResolution.Height*0.75f);
+
+            var buyButton = new CCSprite("Images/buy_button");
+            //backForWeapon.ScaledContentSize
+            buyButton.ScaleTo(new CCSize(buyButton.ScaledContentSize.Width*0.5f, buyButton.ScaledContentSize.Height*0.5f));
+            buyButton.Position = new CCPoint(Resolution.DesignResolution.Width*0.8f, Resolution.DesignResolution.Height*0.75f);
+
+            AddChild(goldItem);
+            AddChild(soporificItem);
+            AddChild(buyButton);
+
+            var soporificItem2 = new CCSprite("Images/bomb_bar");
+            //backForWeapon.ScaledContentSize
+            soporificItem2.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            soporificItem2.Position = new CCPoint(Resolution.DesignResolution.Width/5, Resolution.DesignResolution.Height*0.55f);
+
+            var goldItem2 = new CCSprite("Images/money");
+            //backForWeapon.ScaledContentSize
+            goldItem2.ScaleTo(new CCSize(iconSize.Width*0.75f, iconSize.Height*0.75f));
+            goldItem2.Position = new CCPoint(Resolution.DesignResolution.Width/2 - 1.5f*margin, Resolution.DesignResolution.Height*0.55f);
+
+            var buyButton2 = new CCSprite("Images/buy_button");
+            //backForWeapon.ScaledContentSize
+            buyButton2.ScaleTo(new CCSize(buyButton2.ScaledContentSize.Width*0.5f, buyButton2.ScaledContentSize.Height*0.5f));
+            buyButton2.Position = new CCPoint(Resolution.DesignResolution.Width*0.8f, Resolution.DesignResolution.Height*0.55f);
+        
+            AddChild(goldItem2);
+            AddChild(soporificItem2);
+            AddChild(buyButton2);
+
+            var soporificItem3 = new CCSprite("Images/patrons");
+            //backForWeapon.ScaledContentSize
+            soporificItem3.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            soporificItem3.Position = new CCPoint(Resolution.DesignResolution.Width/5, Resolution.DesignResolution.Height*0.35f);
+
+            var goldItem3 = new CCSprite("Images/money");
+            //backForWeapon.ScaledContentSize
+            goldItem3.ScaleTo(new CCSize(iconSize.Width*0.75f, iconSize.Height*0.75f));
+            goldItem3.Position = new CCPoint(Resolution.DesignResolution.Width/2 - 1.5f*margin, Resolution.DesignResolution.Height*0.35f);
+
+            var buyButton3 = new CCSprite("Images/buy_button");
+            //backForWeapon.ScaledContentSize
+            buyButton3.ScaleTo(new CCSize(buyButton3.ScaledContentSize.Width*0.5f, buyButton3.ScaledContentSize.Height*0.5f));
+            buyButton3.Position = new CCPoint(Resolution.DesignResolution.Width*0.8f, Resolution.DesignResolution.Height*0.35f);
+
+            AddChild(goldItem3);
+            AddChild(soporificItem3);
+            AddChild(buyButton3);
         }
     }
 }

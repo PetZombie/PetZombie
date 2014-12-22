@@ -2,3 +2,18 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Rele
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\bin\Release\PetZombie.pdb
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.pdb
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\PetZombie.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\PetZombie.pdb
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\mscorlib.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\System.Xml.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\System.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\Mono.Security.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\ru\mscorlib.resources.dll
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\normidna.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\normnfc.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\normnfd.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\normnfkc.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\bin\Release\normnfkd.nlp
+E:\Study\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.csprojResolveAssemblyReference.cache
+E:\Study\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.dll
+E:\Study\PetZombie\PetZombie\PetZombie\obj\Release\PetZombie.pdb

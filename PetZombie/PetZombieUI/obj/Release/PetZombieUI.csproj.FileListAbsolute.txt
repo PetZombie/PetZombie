@@ -7,3 +7,19 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\bin\Re
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.csprojResolveAssemblyReference.cache
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.dll
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.pdb
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\PetZombieUI.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\PetZombieUI.pdb
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\CocosSharp.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\MonoGame.Framework.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\mscorlib.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\PetZombie.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\PetZombie.pdb
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\ru\mscorlib.resources.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\normidna.nlp
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\normnfc.nlp
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\normnfd.nlp
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\normnfkc.nlp
+E:\Study\PetZombie\PetZombie\PetZombieUI\bin\Release\normnfkd.nlp
+E:\Study\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.csprojResolveAssemblyReference.cache
+E:\Study\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.dll
+E:\Study\PetZombie\PetZombie\PetZombieUI\obj\Release\PetZombieUI.pdb

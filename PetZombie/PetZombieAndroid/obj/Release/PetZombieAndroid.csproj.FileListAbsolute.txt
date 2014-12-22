@@ -22,3 +22,31 @@ C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\o
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Release\R.cs.flag
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\obj\Release\uploadflags.txt
 C:\Users\Almaz Kharrasov\Documents\GitHub\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieUI.dll.mdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieAndroid.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieAndroid.pdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieAndroid.PetZombieAndroid.apk
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieAndroid.PetZombieAndroid-Signed.apk
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\box2d.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\CocosSharp.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\ICSharpCode.SharpZipLib.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\Lidgren.Network.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\MonoGame.Framework.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\MonoGame.Framework.Net.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombie.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieUI.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\SharpSerializer.Android.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\System.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieUI.pdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombieUI.dll.mdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombie.pdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\PetZombieAndroid.csprojResolveAssemblyReference.cache
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\PetZombieAndroid.dll
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\PetZombieAndroid.pdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\android\bin\PetZombieAndroid.PetZombieAndroid.apk
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\layout\main.xml
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\values\strings.xml
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\drawable\icon.png
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\values-ru\strings.xml
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\R.cs.flag
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\uploadflags.txt
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombie.dll.mdb

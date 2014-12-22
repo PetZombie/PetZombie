@@ -73,8 +73,9 @@ class MonoPackageManager_Resources {
 		"Lidgren.Network.dll",
 		"MonoGame.Framework.dll",
 		"MonoGame.Framework.Net.dll",
-		"PetZombieUI.dll",
 		"PetZombie.dll",
+		"PetZombieUI.dll",
+		"SharpSerializer.Android.dll",
 	};
 	public static final String[] Dependencies = new String[]{
 	};

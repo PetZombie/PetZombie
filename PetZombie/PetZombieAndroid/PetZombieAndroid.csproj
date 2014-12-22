@@ -142,5 +142,7 @@
     <AndroidAsset Include="Assets\Content\Images\timer%27s_back.png" />
     <AndroidAsset Include="Assets\Content\Images\star_small.png" />
     <AndroidAsset Include="Assets\Content\Images\level%27s_background.png" />
+    <AndroidAsset Include="Assets\Content\Images\back_for_weapon.png" />
+    <AndroidAsset Include="Assets\Content\Images\buy_button.png" />
   </ItemGroup>
 </Project>
