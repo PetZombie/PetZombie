@@ -24,7 +24,7 @@ namespace PetZombieUI
             listener = new CCEventListenerTouchOneByOne();
             AddEventListener(listener, this);
             listener.IsSwallowTouches = true;
-            //listener.OnTouchBegan = OnTouchBegan;
+            listener.OnTouchBegan = OnTouchBegan;
             //listener.OnTouchEnded = OnTouchEnded;
             //listener.OnTouchMoved = OnTouchMoved;
 
@@ -66,18 +66,15 @@ namespace PetZombieUI
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
-            /*foreach (var sprite in toolbar)
+            if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
             {
-                if (GetWorldRectangle(sprite))
-                {
+                //var scaleDown = new CCScaleBy(0.1f, 0.8f);
+                //backButton.RunAction(scaleDown);
 
-                }
-            }*/
-
-
-            //Window.DefaultDirector.ReplaceScene (ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
-            //return true;
-            return true;
+                Director.ReplaceScene(GameMenuLayer.GameMenuLayerScene(Window));
+                return true;
+            }
+            return false;
         }
 
         private CCRect GetWorldRectangle(CCSprite sprite)
@@ -112,21 +109,23 @@ namespace PetZombieUI
             var patronsIcon = new CCSprite("Images/patrons");
             var bombIcon = new CCSprite("Images/bomb_bar");
             var soporificIcon = new CCSprite("Images/soporific_bar");
+            var moneyIcon = new CCSprite("Images/money");
 
             patronsIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             bombIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             soporificIcon.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
+            moneyIcon.ScaleTo(new CCSize(iconSize.Width*0.75f, iconSize.Height*0.75f));
 
-            bombIcon.Position = new CCPoint(0, margin);
-
-            patronsIcon.Position = new CCPoint((Resolution.DesignResolution.Width/2 - margin)/2, margin);
-
-            soporificIcon.Position = new CCPoint(Resolution.DesignResolution.Width/2 - margin, margin);
+            bombIcon.Position = new CCPoint(0, margin*0.8f);
+            patronsIcon.Position = new CCPoint((Resolution.DesignResolution.Width/2 - 2*margin)/2, margin*0.7f);
+            soporificIcon.Position = new CCPoint(Resolution.DesignResolution.Width/2 - 2*margin, margin*0.8f);
+            moneyIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*moneyIcon.ScaledContentSize.Width - 3.5f*margin, margin*0.8f);
             //bombIcon.Position = new CCPoint(Resolution.DesignResolution.Width - 2*margin - bombIcon.ScaledContentSize.Width, 0);
 
             toolbar.AddChild(patronsIcon);
             toolbar.AddChild(bombIcon);
             toolbar.AddChild(soporificIcon);
+            toolbar.AddChild(moneyIcon);
 
             AddChild(toolbar);
         }
