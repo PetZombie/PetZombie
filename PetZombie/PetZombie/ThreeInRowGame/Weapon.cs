@@ -8,6 +8,7 @@ namespace PetZombie
         int Count
         {
             get;
+            set;
         }
 
         int Cost

@@ -78,6 +78,7 @@ namespace PetZombie
             this.livesCount = livesCount;
             this.brainsCount = brainsCount;
             this.zombie = zombie;
+            this.money = money;
             this.lastLevel = lastLevel;
             weapons = new List<PetZombie.Weapon>();
             weapons.Add(new Soporific(2));
@@ -95,6 +96,7 @@ namespace PetZombie
             this.zombie = zombie;
             this.lastLevel = lastLevel;
             this.weapons = new List<Weapon>(weapons);
+            this.money = money;
             this.time = (DateTime.UtcNow - DateTime.Parse(time)).ToString();
             this.timer = timer;
             this.maxLivesCount = 5;

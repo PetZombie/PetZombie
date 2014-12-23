@@ -16,6 +16,13 @@ namespace PetZombie
         public int Count
         {
             get { return this.count; }
+            set{ this.count = value;}
+        }
+
+        public Soporific()
+        {
+            this.count = 0;
+            this.cost = 20;
         }
 
         public Soporific(int count)

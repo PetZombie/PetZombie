@@ -16,6 +16,13 @@ namespace PetZombie
         public int Count
         {
             get { return this.count; }
+            set{ this.count = value;}
+        }
+
+        public Gun()
+        {
+            this.count = 0;
+            this.cost = 35;
         }
 
 		public Gun (int count)
