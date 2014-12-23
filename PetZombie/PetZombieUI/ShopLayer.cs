@@ -86,6 +86,8 @@ namespace PetZombieUI
             return scene;
         }
 
+        float scaled;
+
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
             if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
@@ -94,9 +96,10 @@ namespace PetZombieUI
                 return true;
             }
 
-            if (GetWorldRectangle(buySoporificButton).ContainsPoint(touch.Location))
+            if (buySoporificButton.Tag == 1 && GetWorldRectangle(buySoporificButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buySoporificButton;
+                scaled = buySoporificButton.ScaledContentSize.Width;
                 var scaleDown = new CCScaleBy(0.1f, 0.8f);
                 buySoporificButton.RunAction(scaleDown);
 
@@ -105,9 +108,10 @@ namespace PetZombieUI
                 return true;
             }
 
-            if (GetWorldRectangle(buyBombButton).ContainsPoint(touch.Location))
+            if (buyBombButton.Tag == 1 &&GetWorldRectangle(buyBombButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buyBombButton;
+                scaled = buyBombButton.ScaledContentSize.Width;
                 var scaleDown = new CCScaleBy(0.1f, 0.8f);
                 buyBombButton.RunAction(scaleDown);
 
@@ -116,9 +120,10 @@ namespace PetZombieUI
                 return true;
             }
 
-            if (GetWorldRectangle(buyPatronsButton).ContainsPoint(touch.Location))
+            if (buyPatronsButton.Tag == 1 && GetWorldRectangle(buyPatronsButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buyPatronsButton;
+                scaled = buyPatronsButton.ScaledContentSize.Width;
                 var scaleDown = new CCScaleBy(0.1f, 0.8f);
                 buyPatronsButton.RunAction(scaleDown);
 
@@ -135,9 +140,8 @@ namespace PetZombieUI
 
             if (currentPressedSprite != null)
             {
-                //var scale = currentPressedSprite.Size.Width / 
-                //  currentPressedSprite.Sprite.ScaledContentSize.Width;
-                var scaleUp = new CCScaleBy(0.1f, 1.22f);
+                var scale = scaled / currentPressedSprite.ScaledContentSize.Width;
+                var scaleUp = new CCScaleBy(0.1f, scale);
 
                 currentPressedSprite.RunAction(scaleUp);
                 currentPressedSprite = null;
@@ -313,6 +317,7 @@ namespace PetZombieUI
             buttonSize = new CCSize(buySoporificButton.ScaledContentSize.Width * 0.5f, buySoporificButton.ScaledContentSize.Height * 0.5f);
             buySoporificButton.ScaleTo(buttonSize);
             buySoporificButton.Position = new CCPoint(Resolution.DesignResolution.Width * 0.8f, Resolution.DesignResolution.Height * 0.75f);
+            buySoporificButton.Tag = 1;
 
             AddChild(goldItem);
             AddChild(soporificItem);
@@ -332,7 +337,8 @@ namespace PetZombieUI
             //backForWeapon.ScaledContentSize
             buyBombButton.ScaleTo(new CCSize(buyBombButton.ScaledContentSize.Width * 0.5f, buyBombButton.ScaledContentSize.Height * 0.5f));
             buyBombButton.Position = new CCPoint(Resolution.DesignResolution.Width * 0.8f, Resolution.DesignResolution.Height * 0.55f);
-        
+            buyBombButton.Tag = 1;
+
             AddChild(goldItem2);
             AddChild(bombItem);
             AddChild(buyBombButton);
@@ -351,6 +357,7 @@ namespace PetZombieUI
             //backForWeapon.ScaledContentSize
             buyPatronsButton.ScaleTo(new CCSize(buyPatronsButton.ScaledContentSize.Width * 0.5f, buyPatronsButton.ScaledContentSize.Height * 0.5f));
             buyPatronsButton.Position = new CCPoint(Resolution.DesignResolution.Width * 0.8f, Resolution.DesignResolution.Height * 0.35f);
+            buyPatronsButton.Tag = 1;
 
             AddChild(goldItem3);
             AddChild(patronsItem);
@@ -360,8 +367,6 @@ namespace PetZombieUI
 
         private void CheckButtonAble()
         {
-            if (user == null)
-                return;
             if (user.Money < user.Weapon[0].Cost)
             {
                 var button = buySoporificButton;
@@ -369,6 +374,7 @@ namespace PetZombieUI
                 buySoporificButton = new CCSprite("Images/disable_buy_button");
                 buySoporificButton.ScaleTo(button.ScaledContentSize);
                 buySoporificButton.Position = new CCPoint(button.Position);
+                buySoporificButton.Tag = 0;
                 AddChild(buySoporificButton);
             }
             if (user.Money < user.Weapon[1].Cost)
@@ -378,6 +384,7 @@ namespace PetZombieUI
                 buyBombButton = new CCSprite("Images/disable_buy_button");
                 buyBombButton.ScaleTo(button.ScaledContentSize);
                 buyBombButton.Position = new CCPoint(button.Position);
+                buyBombButton.Tag = 0;
                 AddChild(buyBombButton);
             }
             if (user.Money < user.Weapon[2].Cost)
@@ -387,6 +394,7 @@ namespace PetZombieUI
                 buyPatronsButton = new CCSprite("Images/disable_buy_button");
                 buyPatronsButton.ScaleTo(button.ScaledContentSize);
                 buyPatronsButton.Position = new CCPoint(button.Position);
+                buyPatronsButton.Tag = 0;
                 AddChild(buyPatronsButton);
             }
         }
