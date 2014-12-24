@@ -21,16 +21,22 @@ namespace PetZombieUI
         CCSprite shopIcon;
         CCSprite levelIcon;
 
+        private bool isBrainTouched = false;
+
+        private PetZombie.ZombiePet zombie;
+
         public GameMenuLayer()
         {
+            zombie = new PetZombie.ZombiePet("Almaz");
+
             iconSize = new CCSize(Resolution.DesignResolution.Width*scaleRatio, Resolution.DesignResolution.Width*scaleRatio);
 
             listener = new CCEventListenerTouchOneByOne();
             AddEventListener(listener, this);
             listener.IsSwallowTouches = true;
             listener.OnTouchBegan = OnTouchBegan;
-            //listener.OnTouchEnded = OnTouchEnded;
-            //listener.OnTouchMoved = OnTouchMoved;
+            listener.OnTouchEnded = OnTouchEnded;
+            listener.OnTouchMoved = OnTouchMoved;
 
             petZombie = new CCSprite("Images/pet_zombie");
 
@@ -81,16 +87,39 @@ namespace PetZombieUI
                 Director.ReplaceScene(LevelsLayer.LevelsLayerScene(Window));
                 return true;
             }
+            else if (GetWorldRectangle(brainIcon).ContainsPoint(touch.Location))
+            {
+                isBrainTouched = true;
+                return true;
+            }
 
             return false;
         }
 
+        private void OnTouchMoved(CCTouch touch, CCEvent ccevent)
+        {
+            if (isBrainTouched)
+            {
+                brainIcon.Position += touch.Delta;
+            }
+        }
+
+        private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
+        {
+            var test = GetWorldRectangle(petZombie);
+            if (isBrainTouched && GetWorldRectangle(petZombie).ContainsPoint(brainIcon.PositionWorldspace))
+            {
+                zombie.Eat();
+                isBrainTouched = false;
+            }
+        }
+
         private CCRect GetWorldRectangle(CCSprite sprite)
         {
-            var x = sprite.PositionWorldspace.X - iconSize.Width*sprite.AnchorPoint.X;
-            var y = sprite.PositionWorldspace.Y - iconSize.Height*sprite.AnchorPoint.Y;
+            var x = sprite.PositionWorldspace.X - sprite.ScaledContentSize.Width*sprite.AnchorPoint.X;
+            var y = sprite.PositionWorldspace.Y - sprite.ScaledContentSize.Height*sprite.AnchorPoint.Y;
 
-            return new CCRect(x, y, iconSize.Width, iconSize.Height);
+            return new CCRect(x, y, sprite.ScaledContentSize.Width, sprite.ScaledContentSize.Height);
         }
 
         private void AddBackground()
