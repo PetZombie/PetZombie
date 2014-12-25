@@ -106,9 +106,9 @@ namespace PetZombieUI
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
         {
-            var test = GetWorldRectangle(petZombie);
             if (isBrainTouched && GetWorldRectangle(petZombie).ContainsPoint(brainIcon.PositionWorldspace))
             {
+                toolbar.RemoveChild(brainIcon);
                 zombie.Eat();
                 isBrainTouched = false;
             }
