@@ -44,14 +44,6 @@ namespace PetZombieUI
 
         private CCSprite background;
 
-        // Toolbar item count labels.
-        private CCLabelTtf pointCountLabel;
-        private CCLabelTtf stepCountLabel;
-        private CCLabelTtf brainCountLabel;
-        private CCLabelTtf soporificCountLabel;
-        private CCLabelTtf gunCountLabel;
-        private CCLabelTtf bombCountLabel;
-
         private CCLayerColor darkBackgroundLayer;
         private CCSprite popUpWindow;
 
@@ -63,10 +55,17 @@ namespace PetZombieUI
         private CCSprite backButton;
         private CCSprite nextButton;
 
+        PetZombie.User user;
+
+        CCLabel pointsLabel, stepsLabel, brainsLabel, soporificLabel, gunLabel, bombLabel;
+
         #endregion
 
-        private ThreeInRowGameLayer(int rowsCount, int columnsCount) : base()
+        private ThreeInRowGameLayer(int rowsCount, int columnsCount, PetZombie.User user) : base()
         {
+            this.user = user;
+            if (this.user == null)
+                this.user = new PetZombie.User(3, 2, new PetZombie.ZombiePet("Brad"), 100);
             freeSpace = Resolution.DesignResolution.Width * marginPortion;
             blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
@@ -94,69 +93,114 @@ namespace PetZombieUI
 
             isGameEnded = false;
 
-            pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                //Dimensions = ContentSize
-            };
-
-            stepCountLabel = new CCLabelTtf(game.StepsCount.ToString(), "AGCrownStyle Roman", 22)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
-            };
-
-            brainCountLabel = new CCLabelTtf(game.BrainCount.ToString(), "AGCrownStyle Roman", 22)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
-            };
-
-            soporificCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
-            };
-
-            gunCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
-            };
-
-            bombCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-            {
-                Position = VisibleBoundsWorldspace.Center,
-                Color = CCColor3B.White,
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.Zero,
-                Dimensions = ContentSize
-            };
+//            pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                //Dimensions = ContentSize
+//            };
+//
+//            stepCountLabel = new CCLabelTtf(game.StepsCount.ToString(), "AGCrownStyle Roman", 22)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                Dimensions = ContentSize
+//            };
+//
+//            brainCountLabel = new CCLabelTtf(game.BrainCount.ToString(), "AGCrownStyle Roman", 22)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                Dimensions = ContentSize
+//            };
+//
+//            soporificCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                Dimensions = ContentSize
+//            };
+//
+//            gunCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                Dimensions = ContentSize
+//            };
+//
+//            bombCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
+//            {
+//                Position = VisibleBoundsWorldspace.Center,
+//                Color = CCColor3B.White,
+//                HorizontalAlignment = CCTextAlignment.Center,
+//                VerticalAlignment = CCVerticalTextAlignment.Center,
+//                AnchorPoint = CCPoint.Zero,
+//                Dimensions = ContentSize
+//            };
 
             AddBackground();
             AddBlockGrid();
             AddToolbar();
+            AddLabels();
+        }
+
+        private void AddLabels()
+        {
+            pointsLabel = new CCLabel(game.Points.ToString(), "arial", 50);
+            pointsLabel.Color = new CCColor3B(0, 0, 0);
+            pointsLabel.Position = new CCPoint(90, Resolution.DesignResolution.Height - 180);
+            AddChild(pointsLabel);
+
+            stepsLabel = new CCLabel(game.StepsCount.ToString(), "arial", 50);
+            stepsLabel.Color = new CCColor3B(0, 0, 0);
+            stepsLabel.Position = new CCPoint(200, Resolution.DesignResolution.Height - 180);
+            AddChild(stepsLabel);
+
+            brainsLabel = new CCLabel(game.BrainCount.ToString()+"/"+game.target, "arial", 50);
+            brainsLabel.Color = new CCColor3B(0, 0, 0);
+            brainsLabel.Position = new CCPoint(310, Resolution.DesignResolution.Height - 180);
+            AddChild(brainsLabel);
+
+            soporificLabel = new CCLabel(game.user.Weapon[0].Count.ToString(), "arial", 50);
+            soporificLabel.Color = new CCColor3B(0, 0, 0);
+            soporificLabel.Position = new CCPoint(420, Resolution.DesignResolution.Height - 180);
+            AddChild(soporificLabel);
+
+            gunLabel = new CCLabel(game.user.Weapon[2].Count.ToString(), "arial", 50);
+            gunLabel.Color = new CCColor3B(0, 0, 0);
+            gunLabel.Position = new CCPoint(530, Resolution.DesignResolution.Height - 180);
+            AddChild(gunLabel);
+
+            bombLabel = new CCLabel(game.user.Weapon[1].Count.ToString(), "arial", 50);
+            bombLabel.Color = new CCColor3B(0, 0, 0);
+            bombLabel.Position = new CCPoint(630, Resolution.DesignResolution.Height - 180);
+            AddChild(bombLabel);
+        }
+
+        private void UpdateLabels()
+        {
+            pointsLabel.Text = game.Points.ToString();
+            stepsLabel.Text = game.StepsCount.ToString();
+            brainsLabel.Text = game.BrainCount.ToString() + "/" + game.target;
+
+            soporificLabel.Text = game.user.Weapon[0].Count.ToString();
+            bombLabel.Text = game.user.Weapon[1].Count.ToString();
+            gunLabel.Text = game.user.Weapon[2].Count.ToString();
         }
 
         protected override void AddedToScene()
@@ -179,10 +223,10 @@ namespace PetZombieUI
             popUpWindow.Opacity = 200;
         }
 
-        public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow)
+        public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow, PetZombie.User user=null)
         {
             var scene = new CCScene(mainWindow);
-            var layer = new ThreeInRowGameLayer(9, 6);
+            var layer = new ThreeInRowGameLayer(9, 6, user);
 
             scene.AddChild(layer);
 
@@ -319,6 +363,7 @@ namespace PetZombieUI
             {
                 currentTouchedWeapon.Sprite.Position += touch.Delta;
             }
+            UpdateLabels();
         }
 
         private void OnTouchEnded(CCTouch touch, CCEvent ccevent)
@@ -349,14 +394,13 @@ namespace PetZombieUI
                     currentTouchedWeapon = null;
                 }
             }
+            UpdateLabels();
         }
 
         #endregion
 
         private bool _moveTo1Completed;
         private bool _moveTo2Completed;
-
-
 
         private void OnDelete(object sender, PetZombie.BlocksDeletingEventArgs args)
         {
@@ -407,10 +451,12 @@ namespace PetZombieUI
 
                 RunAction(action);*/
             }
+            UpdateLabels();
         }
 
         private void OnEndGame(object sender, PetZombie.EndGameEventArgs args)
         {
+            UpdateLabels();
             var marginFactor = 0.1f;
 
             AddChild(darkBackgroundLayer);
@@ -570,6 +616,8 @@ namespace PetZombieUI
                 });
                 sprite.RunAction(new CCSequence(scaleBy, remove));
             }
+            if (args.DelBlocks.Count == 0)
+                UpdateBlockGrid();
         }
 
         private void NextDelete()
@@ -683,24 +731,24 @@ namespace PetZombieUI
                 new CCSprite("Images/bomb_bar")*/
             };
 
-            var toolbarItemCountLabels = new List<CCLabelTtf>();
-
-            toolbarItemCountLabels.Add(pointCountLabel);
-            toolbarItemCountLabels.Add(stepCountLabel);
-            toolbarItemCountLabels.Add(brainCountLabel);
-            toolbarItemCountLabels.Add(soporificCountLabel);
-            toolbarItemCountLabels.Add(gunCountLabel);
-            toolbarItemCountLabels.Add(bombCountLabel);
+            //var toolbarItemCountLabels = new List<CCLabelTtf>();
+           //            toolbarItemCountLabels.Add(pointCountLabel);
+//            toolbarItemCountLabels.Add(stepCountLabel);
+//            toolbarItemCountLabels.Add(brainCountLabel);
+//            toolbarItemCountLabels.Add(soporificCountLabel);
+//            toolbarItemCountLabels.Add(gunCountLabel);
+//            toolbarItemCountLabels.Add(bombCountLabel);
 
             for (var i = 0; i < toolbarItems.Length; i++)
             {
                 toolbarItems[i].ScaleTo(blockSize);
                 toolbarItems[i].Position = new CCPoint(i*blockWidth + blockSize.Width/2, blockSize.Height/2);
+                //menu.Children[i].Position = new CCPoint(i*blockWidth + blockSize.Width/2 + 5, blockSize.Height/2 - 5);
                 //toolbarItems[i].AnchorPoint = CCPoint.Zero;
 
 
                 toolbar.AddChild(toolbarItems[i]);
-                AddChild(toolbarItemCountLabels[i]);
+                //AddChild(toolbarItemCountLabels[i]);
             }
 
             AddChild(toolbar);

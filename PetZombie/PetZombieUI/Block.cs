@@ -25,26 +25,26 @@ namespace PetZombieUI
             private set;
         }
 
-        public Block(PetZombie.Block block, CCSize size) : base(block.Type, block.Position)
+        public Block(PetZombie.Block block, CCSize size) : base(block.Type, block.Position, block.Cage)
         {
             string fileName = "";
 
             switch (block.Type)
             {
                 case PetZombie.BlockType.Blue:
-                    fileName = "Images/blue_ellipse_block";
+                    fileName = "Images/blue";
                     break;
                 case PetZombie.BlockType.Green:
-                    fileName = "Images/green_ellipse_block";
+                    fileName = "Images/green";
                     break;
                 case PetZombie.BlockType.Orange:
-                    fileName = "Images/orange_ellipse_block";
+                    fileName = "Images/orange";
                     break;
                 case PetZombie.BlockType.Red:
-                    fileName = "Images/red_ellipse_block";
+                    fileName = "Images/red";
                     break;
                 case PetZombie.BlockType.Violet:
-                    fileName = "Images/violet_ellipse_block";
+                    fileName = "Images/violet";
                     break;
                 case PetZombie.BlockType.Zombie:
                     fileName = "Images/zombie_block";
@@ -56,9 +56,12 @@ namespace PetZombieUI
                     fileName = "Images/jar";
                     break;
                 case PetZombie.BlockType.BrainInCrackedBank:
-                    fileName = "Images/cage";
+                    fileName = "Images/cracked_bank";
                     break;
             }
+
+            if (block.Cage)
+                fileName += "_cage";
 
             Sprite = new CCSprite(fileName);
 

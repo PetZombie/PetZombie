@@ -5,6 +5,8 @@ namespace PetZombie
 {
     public class ThreeInRowGame : IGame
     {
+        #region Fields
+
         List<List<Block>> blocks;
         public int target;
         int stepsCount;
@@ -12,18 +14,26 @@ namespace PetZombie
         Random random;
         int points, level, currentBrainCount, gold;
         int blockPoints, brainPoints, zombiePoints, stepPoints;
-        User user;
+        public User user;
         IDataService data;
 
-        public delegate void DeleteEventHandler(object sender, BlocksDeletingEventArgs e);
+        #endregion
+
+        #region Delegates
+
+        public delegate void DeleteEventHandler(object sender,BlocksDeletingEventArgs e);
 
         public event DeleteEventHandler Delete;
 
-        public delegate void EndGameEventHandler(object sender, EndGameEventArgs e);
+        public delegate void EndGameEventHandler(object sender,EndGameEventArgs e);
 
         public event EndGameEventHandler EndGame;
 
-        public delegate Block BlockGenerator(bool brain,int rowIndex = 0,int columnIndex = 0, bool brainInBank=false);
+        public delegate Block BlockGenerator(bool brain,int rowIndex = 0,int columnIndex = 0,bool brainInBank = false);
+
+        #endregion
+
+        #region Properties
 
         public List<List<Block>> Blocks
         {
@@ -50,11 +60,14 @@ namespace PetZombie
             get { return this.currentBrainCount; }
         }
 
-        public ThreeInRowGame(int rowsCount, int columnsCount, int target, int steps, int level)
+        #endregion
+
+        public ThreeInRowGame(int rowsCount, int columnsCount, int target, int steps, int level, User user=null)
         {
             data = DataServiceFactory.DataService();
-            data.Write(new User(2, 3, new ZombiePet("Fred", 50), 2));
-            this.user = data.Read();
+            //data.Write(new User(2, 3, new ZombiePet("Fred", 50), 2));
+            //this.user = data.Read();
+            this.user = new User(2, 3, new ZombiePet("Fred", 50), 2);
             this.random = new Random();
             this.level = level;
             do
@@ -69,36 +82,36 @@ namespace PetZombie
                     }
                     this.blocks.Add(row);
                 }
-                if (this.level > 1)
-                    this.GenerateZombie();
-                if (this.level > 4)
-                    GenerateZombie();
+
                 if (this.level == 3 || this.level == 5)
                     this.GenerateBrain(true);
                 else
                     this.GenerateBrain();
-
-//                if (this.level > 3)
-//                {
-//                    int k = 0;
-//                    for (int i = 0; i < blocks[0].Count; i++)
-//                    {
-//                        blocks[0][i].Cage = true;
-//                        if (this.level > 4 && k < blocks[0].Count)
-//                        {
-//                            blocks[1][k].Cage = true;
-//                            k += 2;
-//                        }
-//                    }
-//                }
+                if (this.level > 3)
+                {
+                    int k = 0;
+                    for (int i = 0; i < blocks[0].Count; i++)
+                    {
+                        blocks[0][i].Cage = true;
+                        if (this.level > 4 && k < blocks[0].Count)
+                        {
+                            blocks[1][k].Cage = true;
+                            k += 2;
+                        }
+                    }
+                }
+                if (this.level > 1)
+                    this.GenerateZombie();
+                if (this.level > 4)
+                    GenerateZombie();
             } while (this.CheckDelete().Count > 0 || !this.CheckBrainAndZombieAreNotNear());
 
-            this.target = target;
-            this.stepsCount = steps;
+            this.target = 2;//target;
+            this.stepsCount = 20;//steps;
 
             this.gold = 0;
 
-            this.weapons = new List<Weapon>(user.Weapon);
+            //this.weapons = new List<Weapon>(user.Weapon);
             this.points = 0;
             this.currentBrainCount = 0;
 
@@ -129,6 +142,7 @@ namespace PetZombie
             Block block = new Block(type, position);
             return block;
         }
+
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateZombie()
         {
@@ -136,6 +150,7 @@ namespace PetZombie
             int randomColumn = random.Next(0, this.blocks[randomRow].Count);
             this.blocks[randomRow][randomColumn] = new ZombieBlock(new Position(randomRow, randomColumn));
         }
+
         //Генерация одного блока зомби, путем замещения типа случайного блока на поле.
         private void GenerateBrain(bool brainIBank = false)
         {
@@ -189,7 +204,7 @@ namespace PetZombie
 
         public void NextDelete()
         {
-            List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete();
+            List<Tuple<List<Block>, int>> delBlocks = this.CheckDelete(true);
 
             if (delBlocks.Count > 0)
             {
@@ -235,17 +250,17 @@ namespace PetZombie
                     if (b.Type == BlockType.BrainInBank)
                         this.blocks[b.Position.RowIndex][b.Position.ColumnIndex] = new Block(BlockType.BrainInCrackedBank, b.Position, b.Cage);
                     else if (b.Type == BlockType.BrainInCrackedBank)
-                        this.blocks[b.Position.RowIndex][b.Position.ColumnIndex] = new Block(BlockType.BrainInBank, b.Position, b.Cage);
+                        this.blocks[b.Position.RowIndex][b.Position.ColumnIndex] = new Block(BlockType.Brain, b.Position, b.Cage);
                 }
             }
         }
 
-        private List<Tuple<List<Block>, int>> CheckDelete()
+        private List<Tuple<List<Block>, int>> CheckDelete(bool nextDelete=false)
         {
             List<Tuple<List<Block>, int>> delBlocks = new List<Tuple<List<Block>, int>>();
             int rowsCount = this.blocks.Count;
             int columnsCount;
-            bool hasRow = false, hasColumn = false;
+            bool hasRow = false, hasColumn = false, hasBlockOtherBrain = nextDelete;
             for (int i = 0; i < rowsCount; i++)
             {
                 columnsCount = this.blocks[i].Count;
@@ -288,12 +303,14 @@ namespace PetZombie
                         this.CrashBank(tmpColumn);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpColumn, tmpColumn.Count));
                         hasColumn = true;
+                        hasBlockOtherBrain = true;
                     }
                     if (!hasRow && tmpRow.Count > 2)
                     {
                         this.CrashBank(tmpRow);
                         delBlocks.Add(new Tuple<List<Block>, int>(tmpRow, 1));
                         hasRow = true;
+                        hasBlockOtherBrain = true;
                     }
                     if (i == 0 && this.blocks[i][j].Type == BlockType.Brain)
                     {
@@ -304,9 +321,17 @@ namespace PetZombie
                 }
             }
 
-            delBlocks.AddRange(ZombieEatBrain());
+            var zombieEated = ZombieEatBrain();
+            if (zombieEated.Count > 0)
+            {
+                delBlocks.AddRange(zombieEated);
+                hasBlockOtherBrain = true;
+            }
 
-            return delBlocks;
+            if (hasBlockOtherBrain)
+                return delBlocks;
+            else
+                return new List<Tuple<List<Block>, int>>();
         }
 
         private bool ContainsBlock(List<Block> blocks, Block block)
@@ -319,7 +344,7 @@ namespace PetZombie
             return false;
         }
 
-        private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete, bool deleteZombie=false)
+        private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete, bool deleteZombie = false)
         {
             List<Block> delBlocks = new List<Block>();
             List<Block> prevMovBlocks = new List<Block>();
@@ -340,12 +365,12 @@ namespace PetZombie
                             points += blockPoints;
                     }
 
-                    if (block.Type == BlockType.Brain && block.Position.RowIndex==0)
+                    if (block.Type == BlockType.Brain && block.Position.RowIndex == 0)
                         currentBrainCount++;
 
-                    if (block.Cage)
+                    if (this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Cage)
                     {
-                        this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Cage = false;
+                        this.blocks[block.Position.RowIndex][block.Position.ColumnIndex] = new Block(this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Type, this.blocks[block.Position.RowIndex][block.Position.ColumnIndex].Position, false);
                         continue;
                     }
                     else
@@ -388,7 +413,7 @@ namespace PetZombie
                                 {
                                     if (currentBrains > 0)
                                     {
-                                        if(level == 3 || level == 5)
+                                        if (level == 3 || level == 5)
                                             newBlock = this.GenerateBlock(true, true);
                                         else
                                             newBlock = this.GenerateBlock(true);
@@ -396,7 +421,7 @@ namespace PetZombie
                                     else
                                     {
                                         if (level == 3 || level == 5)
-                                            newBlock = new Block(BlockType.BrainInBank); 
+                                            newBlock = new Block(BlockType.BrainInBank);
                                         else
                                             newBlock = new Block(BlockType.Brain);
                                     }
@@ -484,7 +509,7 @@ namespace PetZombie
                         allDelBlocks.Add(delBlocks);
                     }
 
-                    if (row+1 < blocks.Count && this.blocks[row + 1][column].Type == BlockType.Brain)
+                    if (row + 1 < blocks.Count && this.blocks[row + 1][column].Type == BlockType.Brain)
                     {
                         List<Block> brain = new List<Block>();
                         brain.Add(new Block(this.blocks[row + 1][column]));
@@ -502,6 +527,17 @@ namespace PetZombie
             {
                 Soporific soporific = weapon as Soporific;
                 this.blocks = new List<List<Block>>(soporific.GetAsleepZombieInBlocks(block, this.blocks));
+                user.Weapon[0].Count--;
+            }
+            else
+            {
+                if (weapon is Bomb)
+                    user.Weapon[1].Count--;
+                else
+                {
+                    if (weapon is Gun)
+                        user.Weapon[2].Count--;
+                }
             }
             var delBlocks = weapon.Use(block, blocks.Count, blocks[0].Count);
             bool hasZombie = false;
@@ -547,15 +583,17 @@ namespace PetZombie
                 if (handler != null)
                     handler(this, e);
             }
-            else {if (stepsCount == 0)
+            else
             {
-                this.user.LivesCount--;
-                EndGameEventArgs e = new EndGameEventArgs(false, this.user);
-                data.Write(this.user);
-                EndGameEventHandler handler = EndGame;
-                if (handler != null)
-                    handler(this, e);
-            }
+                if (stepsCount == 0)
+                {
+                    this.user.LivesCount--;
+                    EndGameEventArgs e = new EndGameEventArgs(false, this.user);
+                    data.Write(this.user);
+                    EndGameEventHandler handler = EndGame;
+                    if (handler != null)
+                        handler(this, e);
+                }
             }
         }
     }

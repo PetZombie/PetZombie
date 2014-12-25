@@ -106,11 +106,6 @@
     <Folder Include="Assets\Content\fonts\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\Content\Images\blue_ellipse_block.png" />
-    <AndroidAsset Include="Assets\Content\Images\green_ellipse_block.png" />
-    <AndroidAsset Include="Assets\Content\Images\orange_ellipse_block.png" />
-    <AndroidAsset Include="Assets\Content\Images\red_ellipse_block.png" />
-    <AndroidAsset Include="Assets\Content\Images\violet_ellipse_block.png" />
     <AndroidAsset Include="Assets\Content\Images\zombie_block.png" />
     <AndroidAsset Include="Assets\Content\Images\brain.png" />
     <AndroidAsset Include="Assets\Content\Images\new background.png" />
@@ -145,5 +140,16 @@
     <AndroidAsset Include="Assets\Content\Images\back_for_weapon.png" />
     <AndroidAsset Include="Assets\Content\Images\disable_buy_button.png" />
     <AndroidAsset Include="Assets\Content\Images\enable_buy_button.png" />
+    <AndroidAsset Include="Assets\Content\Images\cracked_bank.png" />
+    <AndroidAsset Include="Assets\Content\Images\blue.png" />
+    <AndroidAsset Include="Assets\Content\Images\blue_cage.png" />
+    <AndroidAsset Include="Assets\Content\Images\green.png" />
+    <AndroidAsset Include="Assets\Content\Images\green_cage.png" />
+    <AndroidAsset Include="Assets\Content\Images\orange.png" />
+    <AndroidAsset Include="Assets\Content\Images\orange_cage.png" />
+    <AndroidAsset Include="Assets\Content\Images\red.png" />
+    <AndroidAsset Include="Assets\Content\Images\red_cage.png" />
+    <AndroidAsset Include="Assets\Content\Images\violet.png" />
+    <AndroidAsset Include="Assets\Content\Images\violet_cage.png" />
   </ItemGroup>
 </Project>

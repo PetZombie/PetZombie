@@ -34,7 +34,7 @@ namespace PetZombieUI
         {
             this.user = user;
             if (this.user == null)
-                this.user = new PetZombie.User(3, 2, new PetZombie.ZombiePet("Brad"), 300);
+                this.user = new PetZombie.User(3, 2, new PetZombie.ZombiePet("Brad"), 100);
             shop = new PetZombie.Shop(this.user);
             iconSize = new CCSize(Resolution.DesignResolution.Width * scaleRatio, Resolution.DesignResolution.Width * scaleRatio);
 
@@ -50,7 +50,10 @@ namespace PetZombieUI
             AddToolBarLabels();
             AddBackButton();
             AddBackForWeapon();
-            AddWeaponItem();
+            AddSoporificItem();
+            AddBombItem();
+            AddPatronsItem();
+            CheckButtonAble();
             AddWeaponCostLabels();
         }
 
@@ -59,17 +62,6 @@ namespace PetZombieUI
             base.AddedToScene();
 
             Scene.SceneResolutionPolicy = CCSceneResolutionPolicy.ShowAll;
-
-            var scoreLabel = new CCLabelTtf("User money", "Helvetica", 22)
-            {
-                Position = new CCPoint(VisibleBoundsWorldspace.Size.Center.X, VisibleBoundsWorldspace.Size.Center.Y + 50),
-                Color = new CCColor3B(CCColor4B.Yellow),
-                HorizontalAlignment = CCTextAlignment.Center,
-                VerticalAlignment = CCVerticalTextAlignment.Center,
-                AnchorPoint = CCPoint.AnchorMiddle
-            };
-
-            AddChild(scoreLabel);
 
             background.Position = VisibleBoundsWorldspace.Center;
             toolbar.Position = new CCPoint(margin + 0.5f * iconSize.Width, Resolution.DesignResolution.Height - margin - 0.5f * iconSize.Height);
@@ -92,16 +84,17 @@ namespace PetZombieUI
         {
             if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
             {
-                Director.ReplaceScene(GameMenuLayer.GameMenuLayerScene(Window));
+                Director.ReplaceScene(ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window));
+                //Director.ReplaceScene(GameMenuLayer.GameMenuLayerScene(Window));
                 return true;
             }
 
             if (buySoporificButton.Tag == 1 && GetWorldRectangle(buySoporificButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buySoporificButton;
-                scaled = buySoporificButton.ScaledContentSize.Width;
-                var scaleDown = new CCScaleBy(0.1f, 0.8f);
-                buySoporificButton.RunAction(scaleDown);
+                //scaled = buySoporificButton.ScaledContentSize.Width;
+                //var scaleDown = new CCScaleBy(0.1f, 0.8f);
+                //buySoporificButton.RunAction(scaleDown);
 
                 shop.Buy(new PetZombie.Soporific());
                 this.user = shop.User;
@@ -111,9 +104,9 @@ namespace PetZombieUI
             if (buyBombButton.Tag == 1 &&GetWorldRectangle(buyBombButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buyBombButton;
-                scaled = buyBombButton.ScaledContentSize.Width;
-                var scaleDown = new CCScaleBy(0.1f, 0.8f);
-                buyBombButton.RunAction(scaleDown);
+                //scaled = buyBombButton.ScaledContentSize.Width;
+                //var scaleDown = new CCScaleBy(0.1f, 0.8f);
+                //buyBombButton.RunAction(scaleDown);
 
                 shop.Buy(new PetZombie.Bomb());
                 this.user = shop.User;
@@ -123,9 +116,9 @@ namespace PetZombieUI
             if (buyPatronsButton.Tag == 1 && GetWorldRectangle(buyPatronsButton).ContainsPoint(touch.Location))
             {
                 currentPressedSprite = buyPatronsButton;
-                scaled = buyPatronsButton.ScaledContentSize.Width;
-                var scaleDown = new CCScaleBy(0.1f, 0.8f);
-                buyPatronsButton.RunAction(scaleDown);
+                //scaled = buyPatronsButton.ScaledContentSize.Width;
+                //var scaleDown = new CCScaleBy(0.1f, 0.8f);
+                //buyPatronsButton.RunAction(scaleDown);
 
                 shop.Buy(new PetZombie.Gun());
                 this.user = shop.User;
@@ -140,10 +133,10 @@ namespace PetZombieUI
 
             if (currentPressedSprite != null)
             {
-                var scale = scaled / currentPressedSprite.ScaledContentSize.Width;
-                var scaleUp = new CCScaleBy(0.1f, scale);
+                //var scale = scaled / currentPressedSprite.ScaledContentSize.Width;
+                //var scaleUp = new CCScaleBy(0.1f, scale);
 
-                currentPressedSprite.RunAction(scaleUp);
+                //currentPressedSprite.RunAction(scaleUp);
                 currentPressedSprite = null;
                 CheckButtonAble();
                 UpdateLabelText();
@@ -301,15 +294,13 @@ namespace PetZombieUI
 
         CCSize buttonSize;
 
-        private void AddWeaponItem()
+        private void AddSoporificItem()
         {
             var soporificItem = new CCSprite("Images/soporific_bar");
-            //backForWeapon.ScaledContentSize
             soporificItem.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             soporificItem.Position = new CCPoint(Resolution.DesignResolution.Width / 5, Resolution.DesignResolution.Height * 0.75f);
 
             var goldItem = new CCSprite("Images/money");
-            //backForWeapon.ScaledContentSize
             goldItem.ScaleTo(new CCSize(iconSize.Width * 0.75f, iconSize.Height * 0.75f));
             goldItem.Position = new CCPoint(Resolution.DesignResolution.Width / 2 - 1.5f * margin, Resolution.DesignResolution.Height * 0.75f);
 
@@ -322,19 +313,19 @@ namespace PetZombieUI
             AddChild(goldItem);
             AddChild(soporificItem);
             AddChild(buySoporificButton);
+        }
 
+        private void AddBombItem()
+        {
             var bombItem = new CCSprite("Images/bomb_bar");
-            //backForWeapon.ScaledContentSize
             bombItem.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             bombItem.Position = new CCPoint(Resolution.DesignResolution.Width / 5, Resolution.DesignResolution.Height * 0.55f);
 
             var goldItem2 = new CCSprite("Images/money");
-            //backForWeapon.ScaledContentSize
             goldItem2.ScaleTo(new CCSize(iconSize.Width * 0.75f, iconSize.Height * 0.75f));
             goldItem2.Position = new CCPoint(Resolution.DesignResolution.Width / 2 - 1.5f * margin, Resolution.DesignResolution.Height * 0.55f);
 
             buyBombButton = new CCSprite("Images/enable_buy_button");
-            //backForWeapon.ScaledContentSize
             buyBombButton.ScaleTo(new CCSize(buyBombButton.ScaledContentSize.Width * 0.5f, buyBombButton.ScaledContentSize.Height * 0.5f));
             buyBombButton.Position = new CCPoint(Resolution.DesignResolution.Width * 0.8f, Resolution.DesignResolution.Height * 0.55f);
             buyBombButton.Tag = 1;
@@ -342,19 +333,19 @@ namespace PetZombieUI
             AddChild(goldItem2);
             AddChild(bombItem);
             AddChild(buyBombButton);
+        }
 
+        private void AddPatronsItem()
+        {
             var patronsItem = new CCSprite("Images/patrons");
-            //backForWeapon.ScaledContentSize
             patronsItem.ScaleTo(new CCSize(iconSize.Width, iconSize.Height));
             patronsItem.Position = new CCPoint(Resolution.DesignResolution.Width / 5, Resolution.DesignResolution.Height * 0.35f);
 
             var goldItem3 = new CCSprite("Images/money");
-            //backForWeapon.ScaledContentSize
             goldItem3.ScaleTo(new CCSize(iconSize.Width * 0.75f, iconSize.Height * 0.75f));
             goldItem3.Position = new CCPoint(Resolution.DesignResolution.Width / 2 - 1.5f * margin, Resolution.DesignResolution.Height * 0.35f);
 
             buyPatronsButton = new CCSprite("Images/enable_buy_button");
-            //backForWeapon.ScaledContentSize
             buyPatronsButton.ScaleTo(new CCSize(buyPatronsButton.ScaledContentSize.Width * 0.5f, buyPatronsButton.ScaledContentSize.Height * 0.5f));
             buyPatronsButton.Position = new CCPoint(Resolution.DesignResolution.Width * 0.8f, Resolution.DesignResolution.Height * 0.35f);
             buyPatronsButton.Tag = 1;
@@ -362,7 +353,6 @@ namespace PetZombieUI
             AddChild(goldItem3);
             AddChild(patronsItem);
             AddChild(buyPatronsButton);
-            CheckButtonAble();
         }
 
         private void CheckButtonAble()
