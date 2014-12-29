@@ -10,7 +10,7 @@ namespace PetZombie
         List<List<Block>> blocks;
         public int target;
         int stepsCount;
-        List<Weapon> weapons;
+        //List<Weapon> weapons;
         Random random;
         int points, level, currentBrainCount, gold;
         int blockPoints, brainPoints, zombiePoints, stepPoints;
@@ -50,6 +50,11 @@ namespace PetZombie
             get { return this.level; }
         }
 
+        public int Gold
+        {
+            get { return this.gold; }
+        }
+
         public int StepsCount
         {
             get { return this.stepsCount; }
@@ -62,12 +67,12 @@ namespace PetZombie
 
         #endregion
 
-        public ThreeInRowGame(int rowsCount, int columnsCount, int target, int steps, int level, User user=null)
+        public ThreeInRowGame(int rowsCount, int columnsCount, int level, User user)
         {
             data = DataServiceFactory.DataService();
             //data.Write(new User(2, 3, new ZombiePet("Fred", 50), 2));
             //this.user = data.Read();
-            this.user = new User(2, 3, new ZombiePet("Fred", 50), 2);
+            this.user = user;//new User(2, 3, new ZombiePet("Fred", 50), 2);
             this.random = new Random();
             this.level = level;
             do
@@ -83,7 +88,7 @@ namespace PetZombie
                     this.blocks.Add(row);
                 }
 
-                if (this.level == 3 || this.level == 5)
+                if (this.level == 3 || this.level == 6 || this.level == 9)
                     this.GenerateBrain(true);
                 else
                     this.GenerateBrain();
@@ -104,14 +109,15 @@ namespace PetZombie
                     this.GenerateZombie();
                 if (this.level > 4)
                     GenerateZombie();
+                if (this.level > 9)
+                    GenerateZombie();
             } while (this.CheckDelete().Count > 0 || !this.CheckBrainAndZombieAreNotNear());
 
-            this.target = 2;//target;
-            this.stepsCount = 20;//steps;
+            this.target = 2+level/3;//target;
+            this.stepsCount = 20 + level;//steps;
 
             this.gold = 0;
 
-            //this.weapons = new List<Weapon>(user.Weapon);
             this.points = 0;
             this.currentBrainCount = 0;
 
@@ -344,6 +350,8 @@ namespace PetZombie
             return false;
         }
 
+        //bool useWeapon = false;
+
         private void DeleteBlocks(List<Tuple<List<Block>, int>> blocksForDelete, bool deleteZombie = false)
         {
             List<Block> delBlocks = new List<Block>();
@@ -438,7 +446,7 @@ namespace PetZombie
             }
 
             BlocksDeletingEventArgs e = new BlocksDeletingEventArgs(delBlocks, prevMovBlocks, movingBlocks);
-         
+            //useWeapon = false;
             DeleteEventHandler handler = Delete;
             if (handler != null)
                 handler(this, e);
@@ -523,6 +531,7 @@ namespace PetZombie
 
         public void UseWeapon(Weapon weapon, Block block)
         {
+            //useWeapon = true;
             if (weapon is Soporific)
             {
                 Soporific soporific = weapon as Soporific;
@@ -576,6 +585,8 @@ namespace PetZombie
                 points += stepPoints * stepsCount;
                 gold = points / 20;
                 user.Money += gold;
+                user.BrainsCount += this.BrainCount;
+                user.LastLevel = this.Level;
                 EndGameEventArgs e = new EndGameEventArgs(true, this.user);
 
                 data.Write(this.user);
@@ -587,7 +598,8 @@ namespace PetZombie
             {
                 if (stepsCount == 0)
                 {
-                    this.user.LivesCount--;
+                    if (this.user.LivesCount > 0)
+                        this.user.LivesCount--;
                     EndGameEventArgs e = new EndGameEventArgs(false, this.user);
                     data.Write(this.user);
                     EndGameEventHandler handler = EndGame;

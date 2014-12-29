@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework;
 
 namespace PetZombieAndroid
 {
-    [Activity (Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity (Label = "@string/app_name", MainLauncher = true, Icon = "@drawable/MainIcon")]
 	public class MainActivity : AndroidGameActivity
 	{
 		protected override void OnCreate (Bundle bundle)

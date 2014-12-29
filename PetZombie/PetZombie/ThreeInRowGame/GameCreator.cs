@@ -8,9 +8,9 @@ namespace PetZombie
 		{
 		}
 
-		static public IGame CreateGame(int rowsCount, int columnsCount, int target, int steps, int level)
+        static public IGame CreateGame(int rowsCount, int columnsCount, int level, User user)
         {
-			return new ThreeInRowGame(rowsCount, columnsCount, target, steps, level);
+            return new ThreeInRowGame(rowsCount, columnsCount, level, user);
         }
 	}
 }

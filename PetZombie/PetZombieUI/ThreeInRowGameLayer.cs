@@ -41,6 +41,7 @@ namespace PetZombieUI
 
         // Touch fields.
         CCEventListenerTouchOneByOne listener;
+        private CCEventListenerKeyboard keyboard;
 
         private CCSprite background;
 
@@ -54,25 +55,36 @@ namespace PetZombieUI
         private CCSprite retryButton;
         private CCSprite backButton;
         private CCSprite nextButton;
+        private CCSprite resumeButton;
 
         PetZombie.User user;
+        int level;
+        int rowsCount, columnsCount;
 
         CCLabel pointsLabel, stepsLabel, brainsLabel, soporificLabel, gunLabel, bombLabel;
 
+        CCSprite tempWeapon;
+        Weapon currentWeapon;
+        bool touched;
+
+        bool isPaused = false;
         #endregion
 
-        private ThreeInRowGameLayer(int rowsCount, int columnsCount, PetZombie.User user) : base()
+        private ThreeInRowGameLayer(int rowsCount, int columnsCount, int level, PetZombie.User user) : base()
         {
+            this.rowsCount = rowsCount;
+            this.columnsCount = columnsCount;
+            this.level = level;
             this.user = user;
-            if (this.user == null)
-                this.user = new PetZombie.User(3, 2, new PetZombie.ZombiePet("Brad"), 100);
+            //if (this.user == null)
+            //  this.user = new PetZombie.User(3, 2, new PetZombie.ZombiePet("Brad"), 100);
             freeSpace = Resolution.DesignResolution.Width * marginPortion;
             blockGridWidth = Resolution.DesignResolution.Width - freeSpace;
             blockWidth = blockGridWidth / 6;
             blockSize = new CCSize(blockWidth, blockWidth);
             blockGridMargin = freeSpace / 2;
 
-            game = new ThreeInRowGame(rowsCount, columnsCount, blockSize);
+            game = new ThreeInRowGame(rowsCount, columnsCount, blockSize, level, user);
             game.Delete += OnDelete;
             game.EndGame += OnEndGame;
 
@@ -85,6 +97,9 @@ namespace PetZombieUI
             listener.OnTouchEnded = OnTouchEnded;
             listener.OnTouchMoved = OnTouchMoved;
 
+            keyboard = new CCEventListenerKeyboard();
+            AddEventListener(keyboard);
+            //keyboard.OnKeyPressed = OnKeyPressed;
 
             darkBackgroundLayer = new CCLayerColor();
             popUpWindow = new CCSprite("Images/window_background");
@@ -92,66 +107,6 @@ namespace PetZombieUI
             popUpWindowSize = popUpWindow.ScaledContentSize;
 
             isGameEnded = false;
-
-//            pointCountLabel = new CCLabelTtf("Almaz", "Fonts/AGCrownStyle", 30)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                //Dimensions = ContentSize
-//            };
-//
-//            stepCountLabel = new CCLabelTtf(game.StepsCount.ToString(), "AGCrownStyle Roman", 22)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                Dimensions = ContentSize
-//            };
-//
-//            brainCountLabel = new CCLabelTtf(game.BrainCount.ToString(), "AGCrownStyle Roman", 22)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                Dimensions = ContentSize
-//            };
-//
-//            soporificCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                Dimensions = ContentSize
-//            };
-//
-//            gunCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                Dimensions = ContentSize
-//            };
-//
-//            bombCountLabel = new CCLabelTtf("0", "AGCrownStyle Roman", 22)
-//            {
-//                Position = VisibleBoundsWorldspace.Center,
-//                Color = CCColor3B.White,
-//                HorizontalAlignment = CCTextAlignment.Center,
-//                VerticalAlignment = CCVerticalTextAlignment.Center,
-//                AnchorPoint = CCPoint.Zero,
-//                Dimensions = ContentSize
-//            };
 
             AddBackground();
             AddBlockGrid();
@@ -223,26 +178,166 @@ namespace PetZombieUI
             popUpWindow.Opacity = 200;
         }
 
-        public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow, PetZombie.User user=null)
+        public static CCScene ThreeInRowGameLayerScene(CCWindow mainWindow,int level, PetZombie.User user)
         {
             var scene = new CCScene(mainWindow);
-            var layer = new ThreeInRowGameLayer(9, 6, user);
+            var layer = new ThreeInRowGameLayer(9, 6,level, user);
 
             scene.AddChild(layer);
 
             return scene;
         }
 
+        private int DetermWeaponCount(Weapon w)
+        {
+            foreach (PetZombie.Weapon uw in game.user.Weapon)
+            {
+                if (uw is PetZombie.Soporific && w is PetZombie.Soporific)
+                    return uw.Count;
+                if (uw is PetZombie.Bomb && w is PetZombie.Bomb)
+                    return uw.Count;
+                if (uw is PetZombie.Gun && w is PetZombie.Gun)
+                    return uw.Count;
+            }
+            return 0;
+        }
+
         #region Touch handlers
+
+        /*private void OnKeyPressed(CCEventKeyboard keyboard)
+        {
+            if (!isPaused && keyboard.Keys == CCKeys.Back)
+            {
+                AddChild(darkBackgroundLayer);
+                AddChild(popUpWindow);
+
+                var marginFactor = 0.1f;
+
+                backButton = new CCSprite("Images/back2");
+                retryButton = new CCSprite("Images/retry2");
+                resumeButton = new CCSprite("Images/continue2");
+
+                var stringBackground1 = new CCSprite("Images/string_background");
+                var stringBackground2 = new CCSprite("Images/string_background");
+                var stringBackground3 = new CCSprite("Images/string_background");
+
+                var brain = new CCSprite("Images/brain_small");
+                var star = new CCSprite("Images/star_small");
+                var money = new CCSprite("Images/money_small");
+
+                brain.Position = new CCPoint(popUpWindowSize.Width * marginFactor*1.5f, brain.ScaledContentSize.Height * 0.5f);
+                star.Position = new CCPoint(popUpWindowSize.Width*marginFactor*1.5f, star.ScaledContentSize.Height * 0.5f);
+                money.Position = new CCPoint(popUpWindowSize.Width*marginFactor*1.5f, money.ScaledContentSize.Height * 0.5f);
+
+                stringBackground3.AddChild(brain);
+                stringBackground2.AddChild(star);
+                stringBackground1.AddChild(money);
+
+                var stringBackgroundSize = stringBackground1.ScaledContentSize;
+
+                backButton.Position = new CCPoint(popUpWindowSize.Width*marginFactor + backButton.ScaledContentSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
+                retryButton.Position = new CCPoint(popUpWindowSize.Width*0.5f,
+                    popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
+                resumeButton.Position = new CCPoint(popUpWindowSize.Width - 
+                    popUpWindowSize.Width*marginFactor - resumeButton.ScaledContentSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor + resumeButton.ScaledContentSize.Width*0.5f);
+
+                stringBackground1.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*2 + backButton.ScaledContentSize.Height +
+                    stringBackground1.ScaledContentSize.Height*0.5f);
+
+                stringBackground2.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*3 + backButton.ScaledContentSize.Height + 
+                    stringBackground1.ScaledContentSize.Height);
+
+                stringBackground3.Position = new CCPoint(popUpWindowSize.Width*0.5f, 
+                    popUpWindowSize.Width*marginFactor*4 + backButton.ScaledContentSize.Height + 
+                    stringBackground1.ScaledContentSize.Height*1.5f);
+
+                popUpWindow.AddChild(stringBackground1);
+                popUpWindow.AddChild(stringBackground2);
+                popUpWindow.AddChild(stringBackground3);
+
+                popUpWindow.AddChild(resumeButton);
+                popUpWindow.AddChild(backButton);
+                popUpWindow.AddChild(retryButton);
+
+                CCLabel messageLabel3 = new CCLabel("Y o u   c o l l e c t e  d :", "arial", 100);
+                messageLabel3.Position = new CCPoint(popUpWindowSize.Width * 0.62f, popUpWindowSize.Height * 0.68f);// - 2*star.ScaledContentSize.Height);
+                popUpWindow.AddChild(messageLabel3);
+
+                string p = "";
+                foreach(char c in game.Points.ToString())
+                    p+=c + "  ";
+                CCLabel pointsEndLabel = new CCLabel(p, "arial", 100);
+                pointsEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.305f);
+                popUpWindow.AddChild(pointsEndLabel);
+
+                CCLabel brainsEndLabel = new CCLabel(game.BrainCount.ToString(), "arial", 100);
+                brainsEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.43f);
+                popUpWindow.AddChild(brainsEndLabel);
+
+                string m = "";
+                foreach(char c in game.Gold.ToString())
+                    m += c + "  ";
+                CCLabel moneyEndLabel = new CCLabel(m, "arial", 100);
+                moneyEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.17f);
+                popUpWindow.AddChild(moneyEndLabel);
+
+                isPaused = true;
+            }
+            else
+            {
+                RemoveChild(darkBackgroundLayer);
+                RemoveChild(popUpWindow);
+                isPaused = false;
+            }
+        }
+*/
 
         private bool OnTouchBegan(CCTouch touch, CCEvent ccevent)
         {
+            if (isPaused && !isGameEnded)
+            {
+                if (GetWorldRectangle(retryButton).ContainsPoint(touch.Location))
+                {
+                    Director.ReplaceScene(ThreeInRowGameLayerScene(Window, game.Level, game.user));
+                }
+                else if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
+                {
+                    Director.ReplaceScene(LevelsLayer.LevelsLayerScene(Window, game.user));
+                }
+                else if (GetWorldRectangle(resumeButton).ContainsPoint(touch.Location))
+                {
+                    RemoveChild(darkBackgroundLayer);
+                    RemoveChild(popUpWindow);
+                    isPaused = false;
+                }
+                isPaused = false;
+                return true;
+            }
+
+
             if (isGameEnded)
             {
                 if (GetWorldRectangle(retryButton).ContainsPoint(touch.Location))
-                    ;
-                else if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
-                    Director.ReplaceScene(GameMenuLayer.GameMenuLayerScene(Window));
+                {
+                    Director.ReplaceScene(ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window, game.Level, game.user));
+                }
+                else
+                {
+                    if (GetWorldRectangle(backButton).ContainsPoint(touch.Location))
+                        Director.ReplaceScene(LevelsLayer.LevelsLayerScene(Window, game.user));
+                    else if (GetWorldRectangle(nextButton).ContainsPoint(touch.Location))
+                    {
+                        Director.ReplaceScene(ThreeInRowGameLayer.ThreeInRowGameLayerScene(Window, game.Level+1, game.user));
+                        // RemoveChild(darkBackgroundLayer);
+                        //RemoveChild(popUpWindow);
+                        //game = new ThreeInRowGame(rowsCount, columnsCount, blockSize, level+1, user);
+                        //UpdateBlockGrid();
+                    }
+                }
             }
 
             // We need to be not able to handle any touches while handling particular one.
@@ -268,13 +363,28 @@ namespace PetZombieUI
                     {
                         if (weapon.WorldRectangle.ContainsPoint(touch.Location))
                         {
-                            var weaponSprite = new CCSprite(weapon.Sprite.Texture);
-                            weaponSprite.ScaleTo(weapon.Sprite.ScaledContentSize);
-                            weaponSprite.Position = weapon.Sprite.Position;
+                            if (DetermWeaponCount(weapon) > 0)
+                            {
+                                tempWeapon = new CCSprite(weapon.Sprite.Texture);
+                                tempWeapon.ScaleTo(weapon.Sprite.ScaledContentSize);
+                                tempWeapon.Position = weapon.Sprite.Position + toolbar.Position;
+                                weapon.Sprite.ZOrder++;
 
-                            toolbar.AddChild(weaponSprite);
-                            weapon.Sprite.ZOrder++;
-                            currentTouchedWeapon = weapon;
+                                AddChild(tempWeapon);
+                                currentWeapon = weapon;
+                                touched = true;
+
+                                /*
+
+                                var weaponSprite = new CCSprite(weapon.Sprite.Texture);
+                                weaponSprite.ScaleTo(weapon.Sprite.ScaledContentSize);
+                                weaponSprite.Position = weapon.Sprite.Position;
+
+                                toolbar.AddChild(weaponSprite);
+                                weapon.Sprite.ZOrder++;
+                                currentTouchedWeapon = weapon;
+                                */
+                            }
 
                             return true;
                         }
@@ -359,9 +469,10 @@ namespace PetZombieUI
                         OnTouchEnded(touch, ccevent);
                 }
             }
-            else if (currentTouchedWeapon != null)
+            else if (touched)
             {
-                currentTouchedWeapon.Sprite.Position += touch.Delta;
+                tempWeapon.Position += touch.Delta;
+                //currentTouchedWeapon.Sprite.Position += touch.Delta;
             }
             UpdateLabels();
         }
@@ -383,16 +494,17 @@ namespace PetZombieUI
                 isCurrentTouchedBlockMoved = false;
                 isTouchEnded = true;
             }
-            else if (currentTouchedWeapon != null)
+            else if (touched)
             {
-                var block = game.FindBlockAt(currentTouchedWeapon.Sprite.PositionWorldspace);
+                touched = false;
+                var block = game.FindBlockAt(tempWeapon.PositionWorldspace);
 
                 if (block != null)
                 {
-                    game.UseWeapon(currentTouchedWeapon, block);
-                    toolbar.RemoveChild(currentTouchedWeapon.Sprite);
-                    currentTouchedWeapon = null;
+                    game.UseWeapon(currentWeapon, block);
                 }
+                RemoveChild(tempWeapon);
+                currentWeapon = null;
             }
             UpdateLabels();
         }
@@ -456,6 +568,10 @@ namespace PetZombieUI
 
         private void OnEndGame(object sender, PetZombie.EndGameEventArgs args)
         {
+            RemoveChild(darkBackgroundLayer);
+            RemoveChild(popUpWindow);
+
+            this.user = game.user;
             UpdateLabels();
             var marginFactor = 0.1f;
 
@@ -492,11 +608,23 @@ namespace PetZombieUI
 
             var stringBackgroundSize = stringBackground1.ScaledContentSize;
 
-            args.win = true;
+            //args.win = true;
 
             if (args.win)
             {
-                retryButton.Position = new CCPoint(popUpWindowSize.Width*0.5f,
+                CCLabel messageLabel = new CCLabel("L e v e l   i s", "arial", 100);
+                messageLabel.Position = new CCPoint(popUpWindowSize.Width/2, popUpWindowSize.Height*0.75f);
+                popUpWindow.AddChild(messageLabel);
+
+                CCLabel messageLabel2 = new CCLabel("c o  m  p l e t e d", "arial", 100);
+                messageLabel2.Position = new CCPoint(popUpWindowSize.Width*0.55f, popUpWindowSize.Height*0.75f - star.ScaledContentSize.Height*0.7f);
+                popUpWindow.AddChild(messageLabel2);
+
+                CCLabel messageLabel3 = new CCLabel("Y o u   c o l l e c t e  d :", "arial", 100);
+                messageLabel3.Position = new CCPoint(popUpWindowSize.Width*0.62f, popUpWindowSize.Height*0.75f - 2*star.ScaledContentSize.Height*0.7f);
+                popUpWindow.AddChild(messageLabel3);
+
+                                retryButton.Position = new CCPoint(popUpWindowSize.Width*0.5f,
                     popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
                 nextButton.Position = new CCPoint(popUpWindowSize.Width - 
                     popUpWindowSize.Width*marginFactor - nextButton.ScaledContentSize.Width*0.5f, 
@@ -518,16 +646,38 @@ namespace PetZombieUI
                 popUpWindow.AddChild(stringBackground2);
                 popUpWindow.AddChild(stringBackground3);
 
+                string p = "";
+                foreach(char c in game.Points.ToString())
+                    p+=c + "  ";
+                CCLabel pointsEndLabel = new CCLabel(p, "arial", 100);
+                pointsEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.305f);
+                popUpWindow.AddChild(pointsEndLabel);
+
+                CCLabel brainsEndLabel = new CCLabel(game.BrainCount.ToString(), "arial", 100);
+                brainsEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.43f);
+                popUpWindow.AddChild(brainsEndLabel);
+
+                string m = "";
+                foreach(char c in game.Gold.ToString())
+                    m += c + "  ";
+                CCLabel moneyEndLabel = new CCLabel(m, "arial", 100);
+                moneyEndLabel.Position = new CCPoint(popUpWindowSize.Width*0.73f, popUpWindowSize.Height*0.17f);
+                popUpWindow.AddChild(moneyEndLabel);
+
                 popUpWindow.AddChild(nextButton);
             }
             else
             {
+                CCLabel message1Label = new CCLabel("L e v e l   i s n ' t", "arial", 150);
+                message1Label.Position = new CCPoint(popUpWindowSize.Width*0.6f, popUpWindowSize.Height*0.52f);
+                popUpWindow.AddChild(message1Label);
+
+                CCLabel message2Label = new CCLabel("c o  m  p l e t e d", "arial", 150);
+                message2Label.Position = new CCPoint(popUpWindowSize.Width*0.6f, popUpWindowSize.Height*0.5f - star.ScaledContentSize.Height*1.5f);
+                popUpWindow.AddChild(message2Label);
+
                 retryButton.Position = new CCPoint(popUpWindowSize.Width - popUpWindowSize.Width*marginFactor - retryButton.ScaledContentSize.Width*0.5f, 
                     popUpWindowSize.Width*marginFactor + retryButton.ScaledContentSize.Width*0.5f);
-
-
-
-
             }
 
             popUpWindow.AddChild(backButton);

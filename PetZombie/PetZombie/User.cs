@@ -12,23 +12,47 @@ namespace PetZombie
         List<Weapon> weapons;
         int lastLevel;
         int money;
-        string timer;
-        string time;
+        public string timer;
+        public string time;
 
-        public String Timer 
+        public string GetTimer()
+        {
+            return timer;
+        }
+
+        public string Timer
         {
             get
             {
-//                if (timer == "")
-//                    return timer;
-//                if (DateTime.Parse(this.timer) > (DateTime.UtcNow - DateTime.Parse(time)))
-//                {
-//                    timer = (DateTime.Parse(this.timer) - (DateTime.UtcNow - DateTime.Parse(time))).ToString();
-//                }
-//                else
-//                    timer = "";
-//                this.time = DateTime.UtcNow.ToString();
+                if (timer == "" && livesCount < maxLivesCount)
+                {
+                    time = DateTime.UtcNow.ToString();
+                    this.timer = new DateTime(1,1,1,0,5,0).ToString();
+                    return timer;
+                }
+                if (timer == "")
+                {
+                    time = DateTime.UtcNow.ToString();
+                    return timer;
+                }
+                DateTime now = DateTime.UtcNow;
+                try
+                {
+                var dt = DateTime.Parse(this.timer) - (now - DateTime.Parse(time));
+                timer = dt.ToString();
+                time = DateTime.UtcNow.ToString();
                 return timer; 
+                }
+                catch
+                {
+                    time = DateTime.UtcNow.ToString();
+                    this.timer = new DateTime(1,1,1,0,5,0).ToString();
+                    return timer;
+                }
+            }
+            set
+            {
+                time = DateTime.UtcNow.ToString();
             }
         }
 
@@ -37,17 +61,23 @@ namespace PetZombie
             get{ return this.livesCount; }
             set
             {
+                if (value < this.livesCount)
+                {
+                    //time = DateTime.UtcNow.ToString();
+                    //DateTime now = DateTime.UtcNow;
+                    //now.AddMinutes(1);
+                    if (this.timer == "")
+                        this.timer = new DateTime(1,1,1,0,5,0).ToString();
+                    //this.timer = now.ToString();
+                }
                 this.livesCount = value;
-                DateTime now = DateTime.UtcNow;
-                now.AddMinutes(60);
-                if (this.timer == "")
-                    this.timer = now.ToString();
             }
         }
 
         public int BrainsCount
         { 
             get { return this.brainsCount; }
+            set {this.brainsCount = value; }
         }
 
         public ZombiePet Zombie
@@ -60,7 +90,17 @@ namespace PetZombie
             get{ return this.weapons; }
         }
 
-        public int LastLevel{ get { return lastLevel; } }
+        public int LastLevel
+        { 
+            get
+            {
+                return lastLevel;
+            }
+            set
+            {
+                this.lastLevel = value;
+            }
+        }
 
         public int Money
         {
@@ -81,15 +121,15 @@ namespace PetZombie
             this.money = money;
             this.lastLevel = lastLevel;
             weapons = new List<PetZombie.Weapon>();
-            weapons.Add(new Soporific(2));
-            weapons.Add(new Bomb(2));
-            weapons.Add(new Gun(3));
+            weapons.Add(new Soporific(5));
+            weapons.Add(new Bomb(5));
+            weapons.Add(new Gun(5));
             this.time = DateTime.UtcNow.ToString();// + DateTime.UtcNow.Hour.ToString() + DateTime.UtcNow.Minute.ToString();
             this.timer = "";
             this.maxLivesCount = 5;
         }
 
-        public User(int livesCount, int brainsCount, ZombiePet zombie, List<Weapon> weapons, int money, int lastLevel, string time, string timer)
+        public User(int livesCount, int brainsCount, ZombiePet zombie, List<Weapon> weapons, int money, int lastLevel,string time, string timer)
         {
             this.livesCount = livesCount;
             this.brainsCount = brainsCount;
@@ -97,7 +137,7 @@ namespace PetZombie
             this.lastLevel = lastLevel;
             this.weapons = new List<Weapon>(weapons);
             this.money = money;
-            this.time = (DateTime.UtcNow - DateTime.Parse(time)).ToString();
+            this.time = time;
             this.timer = timer;
             this.maxLivesCount = 5;
         }

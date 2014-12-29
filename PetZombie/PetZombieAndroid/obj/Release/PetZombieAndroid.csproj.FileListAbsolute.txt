@@ -50,3 +50,4 @@ E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\values-ru\strings.
 E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\R.cs.flag
 E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\uploadflags.txt
 E:\Study\PetZombie\PetZombie\PetZombieAndroid\bin\Release\PetZombie.dll.mdb
+E:\Study\PetZombie\PetZombie\PetZombieAndroid\obj\Release\res\drawable\mainicon.png
