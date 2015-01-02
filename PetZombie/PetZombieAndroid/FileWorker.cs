@@ -64,7 +64,7 @@ namespace PetZombieAndroid
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
             string fullpath = Path.Combine(path, filename);
 
-            //try{
+            try{
             var text = System.IO.File.ReadAllLines(fullpath);
             List<PetZombie.Weapon> weapon = new List<PetZombie.Weapon>();
             weapon.Add(new PetZombie.Soporific(Convert.ToInt32(text[6])));
@@ -75,11 +75,11 @@ namespace PetZombieAndroid
                 Convert.ToSingle(text[4])), weapon, Convert.ToInt32(text[5]), Convert.ToInt32(text[2]), text[9], text[10]);
              
             return user;
-            //}
-            //catch
-            //{
-            //  return null;
-            //}
+            }
+            catch
+            {
+              return null;
+            }
             /*
             var serializer = new XmlSerializer(typeof(PetZombie.User));
             FileStream fs = new FileStream(fullpath, FileMode.Open);
